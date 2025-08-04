@@ -36,7 +36,7 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, currentRoleIndex, roles]);
   return (
-    <section id="hero" className="min-h-screen bg-gradient-to-br from-teal-900 via-teal-800 to-emerald-900 flex items-center justify-center relative overflow-hidden">
+    <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 left-20 w-72 h-72 bg-teal-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -131,24 +131,15 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Profile image */}
-          <div className="flex justify-center lg:justify-end mt-8 lg:mt-0">
-            <div className="relative">
-              {/* Gradient background */}
-              <div className="w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full p-2">
-                {/* Image placeholder */}
-                <div className="w-full h-full bg-gray-800 rounded-full flex items-center justify-center">
-                  <span className="text-gray-400 text-lg lg:text-xl font-medium">Your Photo</span>
-                </div>
-              </div>
+          {/* Profile image on right side */}
+          <div className="flex justify-center lg:justify-end order-1 lg:order-2">
+            <div className="w-80 h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden shadow-2xl">
+              <img 
+                src="/images/2P2A3560.png" 
+                alt="Mohamed Jirac" 
+                className="w-full h-full object-cover object-center"
+              />
             </div>
-          </div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-teal-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-teal-400 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
       </div>

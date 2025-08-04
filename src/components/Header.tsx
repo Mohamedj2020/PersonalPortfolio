@@ -11,7 +11,7 @@ const Header = () => {
             Mohamed Jirac
           </div>
           
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-8 mr-8">
             <a href="#hero" className="hover:text-teal-400 transition-colors font-medium">
               Home
             </a>
