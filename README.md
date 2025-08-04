@@ -8,7 +8,7 @@ This is where I showcase my projects and skills. Built it from scratch to learn 
 
 ## Tech I'm Using
 
-- React & TypeScript, HTML5
+- React & TypeScript, JavaScript, HTML5
 - Tailwind CSS for styling
 - Create React App (because it just works)
 - Deployed on [coming soon]
