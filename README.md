@@ -68,11 +68,24 @@ Open your browser and navigate to `localhost:3000` to view the site.
 
 ## Architecture
 
-The project follows a component-based architecture with:
-- Modular React components in `src/components/`
-- TypeScript for type safety
-- Tailwind CSS for utility-first styling
-- Jest and React Testing Library for testing
+The project follows a modern component-based architecture:
+
+- **Components**: Located in `src/components/`, these are modular, reusable, and styled using utility classes from Tailwind CSS.
+  - Components like `Hero`, `About`, `Projects` encapsulate related logic and UI.
+- **State Management**: Utilizes React's built-in state management with hooks to track and handle UI state efficiently.
+- **Styling**: Tailwind CSS is used for a utility-first approach, ensuring consistency and flexibility.
+- **TypeScript Configuration**: Configured with strict settings in `tsconfig.json` to promote robustness and type safety in development.
+
+## Developer Experience
+
+- **TypeScript**: Ensure correct typings and prevent bugs with strict type-checking rules.
+  - With settings like `noImplicitAny`, the project avoids unexpected errors by enforcing explicit types.
+- **Tailwind CSS**: Extensible and easily configurable according to `tailwind.config.js`.
+  - The `content` array ensures that all components using Tailwind styles are covered.
+
+## Contributions
+
+This project is open-source and contributions are always welcome! If you're interested in collaborating or have ideas to improve the project, feel free to open an issue or submit a pull request.
 
 ## Contributing
 
@@ -80,9 +93,11 @@ This is a personal project, but feedback and suggestions are always welcome! Fee
 
 ## Contact
 
-- **Email**: [Your email]
-- **LinkedIn**: [Your LinkedIn]
-- **GitHub**: [Your GitHub]
+Stay connected with me through the following channels:
+
+- **Email**: jirac.1@buckeyemail.osu.edu
+- **LinkedIn**: [Mohamed Jirac on LinkedIn](https://www.linkedin.com/in/mohamed-jirac)
+- **GitHub**: [Mohamedj2020 on GitHub](https://github.com/Mohamedj2020)
 
 ## License
 
