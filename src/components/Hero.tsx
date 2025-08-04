@@ -84,10 +84,10 @@ const Hero = () => {
                 href="#contact"
                 className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-center"
               >
-                Work with me
+                Get in touch
               </a>
               <a
-                href="/cv.pdf"
+                href="/images/mlt_july_resume.pdf"
                 download
                 className="border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 text-center"
               >
@@ -98,7 +98,7 @@ const Hero = () => {
             {/* Social links */}
             <div className="flex gap-6 mt-12 justify-center lg:justify-start">
               <a
-                href="https://github.com/yourusername"
+                href="https://github.com/Mohamedj2020"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit my GitHub profile"
@@ -109,7 +109,7 @@ const Hero = () => {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/in/yourprofile"
+                href="https://www.linkedin.com/in/mohamed-jirac"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Visit my LinkedIn profile"
@@ -120,7 +120,7 @@ const Hero = () => {
                 </svg>
               </a>
               <a
-                href="mailto:your.email@example.com"
+                href="mailto:jirac.1@buckeyemail.osu.edu"
                 aria-label="Send me an email"
                 className="w-12 h-12 bg-gray-800/50 backdrop-blur-sm border border-gray-700 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:border-teal-400 transition-all duration-300"
               >

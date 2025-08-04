@@ -10,17 +10,17 @@ const About = () => {
         
         <div className="max-w-6xl mx-auto">
           {/* Main content with photo on left and cards on right */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center mb-12">
+          <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
             {/* Profile image */}
-            <div className="flex justify-center items-center min-h-screen bg-gray-">
-  <div className="w-200 h-90 rounded-full overflow-hidden shadow-2xl">
-    <img 
-      src="/images/IMG_6403-2-2.png" 
-      alt="Mohamed Jirac Profile" 
-      className="w-full h-full object-cover object-center" 
-    />
-  </div>
-</div>
+            <div className="flex justify-center lg:justify-start">
+              <div className="w-72 h-[450px] sm:w-80 sm:h-[500px] lg:w-96 lg:h-[550px] rounded-full overflow-hidden shadow-2xl">
+                <img 
+                  src="/images/IMG_6403-2-2.png" 
+                  alt="Mohamed Jirac Profile" 
+                  className="w-full h-full object-cover object-top" 
+                />
+              </div>
+            </div>
 
 
             {/* Experience and Education Cards */}
