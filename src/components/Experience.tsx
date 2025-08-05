@@ -130,12 +130,19 @@ const Experience = () => {
                   {/* Content */}
                   <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:ml-auto md:pl-8'}`}>
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-teal-400/50 transition-all duration-300">
+                    <div className="mb-4">
+  <div className="flex justify-between items-center flex-wrap gap-y-1">
+    <div>
+      <h4 className="text-xl font-bold text-white">{exp.title}</h4>
+      <p className="text-teal-400 font-medium">{exp.organization}</p>
+    </div>
+    <span className="text-gray-400 text-sm whitespace-nowrap">{exp.period}</span>
+  </div>
+</div>
+
                       <div className="mb-4">
-                        <h4 className="text-xl font-bold text-white mb-2">{exp.title}</h4>
-                        <p className="text-teal-400 font-semibold mb-1">{exp.organization}</p>
-                        <span className="text-gray-400 text-sm">{exp.period}</span>
+                        <p className="text-gray-300 text-sm leading-relaxed">{exp.description}</p>
                       </div>
-                      <p className="text-gray-300 text-sm leading-relaxed">{exp.description}</p>
                     </div>
                   </div>
                 </div>
