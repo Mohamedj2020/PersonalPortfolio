@@ -2,22 +2,26 @@
 
 A modern, responsive portfolio website showcasing my journey as a Computer Science student and aspiring Software Engineer. Built with React, TypeScript, and Tailwind CSS, featuring smooth animations and a professional design.
 
+🌐 **Live Website**: [https://mohamedjirac.dev](https://mohamedjirac.dev)
+
 ## 🌟 Overview
 
 This portfolio represents my technical skills, academic projects, and professional experience. As a junior at The Ohio State University studying Computer Science, I've designed this site to demonstrate both my development capabilities and my growth in the field of software engineering.
 
+You can view the live version here: **[mohamedjirac.dev](https://mohamedjirac.dev)**
+
 ## Features
 
-- **Responsive Design**: Built with Tailwind CSS for a seamless experience across devices
-- **Interactive Components**: Leverages the power of React to create engaging user interactions
-- **TypeScript Integration**: Ensures robust type-checking and improved developer experience
+- **Responsive Design**: Built with Tailwind CSS for a seamless experience across devices  
+- **Interactive Components**: Leverages the power of React to create engaging user interactions  
+- **TypeScript Integration**: Ensures robust type-checking and improved developer experience  
 
 ## Technologies Used
 
-- **Frontend**: React 19.1.1, TypeScript 4.9.5
-- **Styling**: Tailwind CSS 3.4.15
-- **Build Tool**: Create React App
-- **Testing**: Jest, React Testing Library
+- **Frontend**: React 19.1.1, TypeScript 4.9.5  
+- **Styling**: Tailwind CSS 3.4.15  
+- **Build Tool**: Create React App  
+- **Testing**: Jest, React Testing Library  
 
 ## Getting Started
 
@@ -33,6 +37,7 @@ npm install
 
 # Run the development server
 npm start
+
 ```
 
 Open your browser and navigate to `localhost:3000` to view the site.
