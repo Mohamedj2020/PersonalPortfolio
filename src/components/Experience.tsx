@@ -55,7 +55,7 @@ const Experience = () => {
   ];
 
   // Function to get skill level styling
-  const getSkillLevelStyle = (skill) => {
+  const getSkillLevelStyle = (skill: string) => {
     // Advanced skills (default/green tint)
     // Intermediate skills (yellow)
     const intermediateSkills = ['Java', 'Python', 'React', 'Node.js', 'C++', 'Flask', 'Pandas', 'Numpy', 'HTML', 'CSS', 'C'];
