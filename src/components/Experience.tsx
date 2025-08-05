@@ -114,21 +114,20 @@ const Experience = () => {
               ))}
             </div>
           </div>
-
           {/* Experience Timeline */}
           <div>
             <h3 className="text-3xl font-bold text-white text-center mb-12">Experience Timeline</h3>
             <div className="relative">
-              {/* Timeline line */}
-              <div className="absolute left-1/2 transform -translate-x-px h-full w-0.5 bg-gradient-to-b from-teal-500 to-cyan-500"></div>
+              {/* Timeline line - left-aligned on mobile, center on desktop */}
+              <div className="absolute left-8 md:left-1/2 md:transform md:-translate-x-px h-full w-0.5 bg-gradient-to-b from-teal-500 to-cyan-500"></div>
               
               {experiences.map((exp, index) => (
                 <div key={index} className="relative mb-12 last:mb-0">
-                  {/* Timeline dot */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full border-4 border-gray-900 z-10"></div>
+                  {/* Timeline dot - left-aligned on mobile, center on desktop */}
+                  <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full border-4 border-gray-900 z-10"></div>
                   
-                  {/* Content */}
-                  <div className={`w-full md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:ml-auto md:pl-8'}`}>
+                  {/* Content - always to the right on mobile, alternating on desktop */}
+                  <div className={`w-full pl-20 md:pl-0 md:w-5/12 ${index % 2 === 0 ? 'md:pr-8 md:text-right' : 'md:ml-auto md:pl-8'}`}>
                     <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-teal-400/50 transition-all duration-300">
                     <div className="mb-4">
   <div className="flex justify-between items-center flex-wrap gap-y-1">
