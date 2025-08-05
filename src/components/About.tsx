@@ -32,7 +32,7 @@ const About = () => {
                   <span className="text-3xl">💼</span>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Experience</h3>
-                <p className="text-teal-400 font-semibold mb-2">3+ years</p>
+                <p className="text-teal-400 font-semibold mb-2">4+ years</p>
                 <p className="text-gray-300 text-sm mb-2">Software Development</p>
                 <p className="text-gray-400 text-sm">Internships & Projects</p>
               </div>
