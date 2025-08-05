@@ -1,33 +1,7 @@
 import React from 'react';
+import { projectsData } from '../data';
 
 const Projects = () => {
-  const projects = [
-    {
-      title: "Portfolio Website",
-      description: "A responsive portfolio website built with React and TypeScript. Features a modern design with smooth animations and mobile-first approach.",
-      technologies: ["React", "TypeScript", "Tailwind CSS"],
-      liveUrl: "#",
-      githubUrl: "#",
-      image: "project1.jpg" // placeholder
-    },
-    {
-      title: "Task Management App",
-      description: "A full-stack task management application with user authentication, real-time updates, and drag-and-drop functionality.",
-      technologies: ["React", "Node.js", "MongoDB"],
-      liveUrl: "#",
-      githubUrl: "#",
-      image: "project2.jpg" // placeholder
-    },
-    {
-      title: "Weather Dashboard",
-      description: "A weather application that displays current conditions and forecasts using external APIs. Clean interface with location search.",
-      technologies: ["JavaScript", "API Integration", "CSS"],
-      liveUrl: "#",
-      githubUrl: "#",
-      image: "project3.jpg" // placeholder
-    }
-  ];
-
   return (
     <section id="projects" className="py-20">
       <div className="container mx-auto px-6">
@@ -36,7 +10,7 @@ const Projects = () => {
         </h2>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {projects.map((project, index) => (
+          {projectsData.map((project, index) => (
             <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-teal-400/30 hover:border-teal-400 transition-colors shadow-lg hover:shadow-xl">
               {/* Project image placeholder */}
               <div className="h-48 bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center">

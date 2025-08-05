@@ -47,7 +47,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-20">
           {/* Text content */}
-          <div className="text-center lg:text-left">
+          <div className="text-center">
             {/* Small intro */}
             <div className="inline-block bg-teal-600/20 backdrop-blur-sm border border-teal-400/30 rounded-full px-4 sm:px-6 py-2 mb-6 sm:mb-8">
               <span className="text-teal-300 text-xs sm:text-sm font-medium">👋 Welcome to my portfolio</span>
@@ -73,13 +73,13 @@ const Hero = () => {
             </div>
 
             {/* Description */}
-            <p className="text-xl text-gray-400 mb-10 max-w-lg lg:max-w-none">
+            <p className="text-xl text-gray-400 mb-10 max-w-lg mx-auto">
               Passionate about creating beautiful, functional, and user-centered digital experiences. 
               Currently learning and building amazing things with code.
             </p>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start max-w-lg">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
               <a
                 href="#contact"
                 className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg text-center"
@@ -96,7 +96,7 @@ const Hero = () => {
             </div>
 
             {/* Social links */}
-            <div className="flex gap-6 mt-12 justify-center lg:justify-start">
+            <div className="flex gap-6 mt-12 justify-center">
               <a
                 href="https://github.com/Mohamedj2020"
                 target="_blank"
