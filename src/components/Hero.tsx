@@ -44,7 +44,7 @@ const Hero = () => {
         <div className="absolute bottom-20 left-1/2 w-72 h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse delay-2000"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 animate-on-scroll">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center min-h-screen py-20">
           {/* Text content */}
           <div className="text-center">

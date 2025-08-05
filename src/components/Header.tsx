@@ -31,7 +31,7 @@ const Header = () => {
             <a href="#contact" className="hover:text-teal-400 transition-colors font-medium">Contact</a>
           </div>
 
-          <button 
+          <button
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle mobile menu"

@@ -1,10 +1,10 @@
-# My Portfolio
+# Mohamed Jirac - Portfolio Website
 
-A personal portfolio website built with React and TypeScript. It's a continuous work in progress, evolving as I explore new technologies and design patterns.
+A modern, responsive portfolio website showcasing my journey as a Computer Science student and aspiring Software Engineer. Built with React, TypeScript, and Tailwind CSS, featuring smooth animations and a professional design.
 
-## Overview
+## 🌟 Overview
 
-This portfolio serves as a dynamic showcase of my skills and projects. Developed from scratch, it not only highlights my work but also reflects my journey in mastering React.
+This portfolio represents my technical skills, academic projects, and professional experience. As a junior at The Ohio State University studying Computer Science, I've designed this site to demonstrate both my development capabilities and my growth in the field of software engineering.
 
 ## Features
 

@@ -47,14 +47,21 @@ code {
 /* Animation classes for scroll effects */
 .animate-on-scroll {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.animate-on-scroll.visible {
+.animate-on-scroll.animate {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Staggered animation delays */
+.animate-on-scroll:nth-child(1) { transition-delay: 0.1s; }
+.animate-on-scroll:nth-child(2) { transition-delay: 0.2s; }
+.animate-on-scroll:nth-child(3) { transition-delay: 0.3s; }
+.animate-on-scroll:nth-child(4) { transition-delay: 0.4s; }
+.animate-on-scroll:nth-child(5) { transition-delay: 0.5s; }
 
 /* Delay classes for staggered animations */
 .delay-200 { transition-delay: 200ms; }

@@ -4,14 +4,14 @@ const Education = () => {
   const education = [
     {
       degree: "Bachelor of Computer Science",
-      school: "University Name",
+      school: "Ohio State University",
       period: "2020 - 2024",
       description: "Focused on software development, algorithms, and web technologies. Graduated with honors.",
       achievements: ["Dean's List", "Magna Cum Laude", "Computer Science Award"]
     },
     {
       degree: "High School Diploma",
-      school: "High School Name", 
+      school: "Northland High School",
       period: "2016 - 2020",
       description: "Strong foundation in mathematics and sciences. Active in technology clubs and programming competitions.",
       achievements: ["Valedictorian", "Programming Club President", "Math Competition Winner"]

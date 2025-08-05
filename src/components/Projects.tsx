@@ -8,10 +8,10 @@ const Projects = () => {
         <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
           Projects
         </h2>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto animate-on-scroll">
           {projectsData.map((project, index) => (
-            <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-teal-400/30 hover:border-teal-400 transition-colors shadow-lg hover:shadow-xl">
+            <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-teal-400/30 hover:border-teal-400 transition-colors shadow-lg hover:shadow-xl animate-on-scroll">
               {/* Project image placeholder */}
               <div className="h-48 bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center">
                 <span className="text-gray-400 font-medium">Project Screenshot</span>

@@ -10,28 +10,28 @@ export const personalData = {
 
 export const projectsData = [
   {
+    title: "BDAA Data/IO Hackathon",
+    description: "Conducted data analysis on EV charging infrastructure across California, identifying key trends and disparities in accessibility. Applied linear regression models to analyze correlation between city population and number of EV charging stations.",
+    technologies: ["Python", "Data Analysis", "Linear Regression", "Pandas", "Numpy"],
+    liveUrl: "#",
+    githubUrl: "#", // You can add your GitHub link here
+    image: "/images/project-ev-analysis.png"
+  },
+  {
+    title: "Market Data Pipeline Simulator",
+    description: "Developed a real-time data pipeline using Python, FastAPI, and Redis to simulate equity market feeds and support real-time price updates via WebSockets. Containerized the system with Docker Compose and implemented automated testing and CI workflows.",
+    technologies: ["Python", "FastAPI", "Redis", "WebSockets", "Docker", "PostgreSQL"],
+    liveUrl: "#",
+    githubUrl: "#", // You can add your GitHub link here
+    image: "/images/project-market-pipeline.png"
+  },
+  {
     title: "Portfolio Website",
-    description: "A responsive portfolio website built with React and TypeScript. Features a modern design with smooth animations and mobile-first approach.",
-    technologies: ["React", "TypeScript", "Tailwind CSS"],
+    description: "A responsive portfolio website built with React and TypeScript. Features modern design with smooth animations, mobile-first approach, and showcases my technical skills and projects. It is optimized for fast loading times and is accessible on all devices.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
     liveUrl: "#",
-    githubUrl: "https://github.com/Mohamedj2020/my-portfolio", // Example link
-    image: "/images/project-portfolio.png" // Suggest using actual paths
-  },
-  {
-    title: "Task Management App",
-    description: "A full-stack task management application with user authentication, real-time updates, and drag-and-drop functionality.",
-    technologies: ["React", "Node.js", "MongoDB"],
-    liveUrl: "#",
-    githubUrl: "#",
-    image: "/images/project-task-app.png" // Example path
-  },
-  {
-    title: "Weather Dashboard",
-    description: "A weather application that displays current conditions and forecasts using external APIs. Clean interface with location search.",
-    technologies: ["JavaScript", "API Integration", "CSS"],
-    liveUrl: "#",
-    githubUrl: "#",
-    image: "/images/project-weather.png" // Example path
+    githubUrl: "https://github.com/Mohamedj2020/PersonalPortfolio.git", // You can add your GitHub link here
+    image: "/images/project-portfolio.png"
   }
 ];
 

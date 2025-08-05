@@ -50,7 +50,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-white font-semibold">Email</p>
-                  <p className="text-gray-300">your.email@example.com</p>
+                  <p className="text-gray-300">jirac.1@buckeyemail.osu.edu</p>
                 </div>
               </div>
               
@@ -62,7 +62,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-white font-semibold">LinkedIn</p>
-                  <p className="text-gray-300">linkedin.com/in/yourprofile</p>
+                  <p className="text-gray-300">linkedin.com/in/mohamed-jirac</p>
                 </div>
               </div>
               
@@ -74,7 +74,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="text-white font-semibold">GitHub</p>
-                  <p className="text-gray-300">github.com/yourusername</p>
+                  <p className="text-gray-300">github.com/Mohamedj2020</p>
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-gray-800/50 border border-teal-400/30 rounded-lg text-white focus:border-teal-500 focus:outline-none backdrop-blur-sm"
-                  placeholder="Your name"
+                  placeholder="Your name..."
                 />
               </div>
               
@@ -111,7 +111,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-gray-800/50 border border-teal-400/30 rounded-lg text-white focus:border-teal-500 focus:outline-none backdrop-blur-sm"
-                  placeholder="your.email@example.com"
+                  placeholder="Your email..."
                 />
               </div>
               
