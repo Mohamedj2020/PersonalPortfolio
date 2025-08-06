@@ -6,7 +6,7 @@ A modern, responsive portfolio website showcasing my journey as a Computer Scien
 
 ## 🌟 Overview
 
-This portfolio represents my technical skills, academic projects, and professional experience. As a junior at The Ohio State University studying Computer Science, I've designed this site to demonstrate both my development capabilities and my growth in the field of software engineering.
+This portfolio represents my technical skills, academic projects, and professional experience. As a senior at The Ohio State University studying Computer Science, I've designed this site to demonstrate both my development capabilities and my growth in the field of software engineering.
 
 ## ✨ Features
 

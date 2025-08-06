@@ -57,11 +57,7 @@ const About = () => {
           {/* Description text */}
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-gray-300 text-lg leading-relaxed">
-              I am heading into my junior year at The Ohio State University. 
-              Passionate about Software Engineering, I'm actively seeking an 
-              internship to put my skills into action. My journey in Computer Science is 
-              a constant quest for growth, whether it's perfecting the codes in 
-              languages I'm familiar with or diving into new ones.
+            Heading into my senior year at The Ohio State University, I'm eager to take the next step in my journey as a Software Engineer. With a strong foundation in Computer Science, I'm actively seeking a Software Engineering internship where I can apply my skills, solve real-world problems, and continue to grow. Whether I’m refining my work in familiar languages or exploring new technologies, I’m driven by curiosity and a passion for building impactful, efficient solutions.
             </p>
           </div>
         </div>
