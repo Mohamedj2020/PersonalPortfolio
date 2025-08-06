@@ -23,7 +23,7 @@ export const projectsData = [
     description: "Developed a real-time data pipeline using Python, FastAPI, and Redis to simulate equity market feeds and support real-time price updates via WebSockets. Containerized the system with Docker Compose and implemented automated testing and CI workflows.",
     technologies: ["Python", "FastAPI", "Redis", "WebSockets", "Docker", "PostgreSQL"],
     liveUrl: "#",
-    githubUrl: "#",
+    githubUrl: "https://github.com/Mohamedj2020/Market-data-pipeline-simulator",
     image: "/images/logo2.jpg"  // Updated to match case-sensitivity
   },
 {
