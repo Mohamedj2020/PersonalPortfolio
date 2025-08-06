@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import emailjs from 'emailjs-com';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -19,18 +18,24 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus('sending');
-    emailjs.send(
-      'service_0xfror1',
-      'template_zaqoehf',
-      formData,
-      '5BbNAk9sDuWh1ZeEP'
-    ).then(
-      () => {
+    try {
+      const response = await fetch('https://formspree.io/f/xpwlynwe', { // <-- Replace with your Formspree endpoint
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (response.ok) {
         setStatus('sent');
         setFormData({ name: '', email: '', message: '' });
-      },
-      () => setStatus('error')
-    );
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
