@@ -16,6 +16,7 @@ export const projectsData = [
     liveUrl: "#",
     githubUrl: "https://drive.google.com/file/d/1v4XHFsGqFCBHX89JOtpsIIjqTgUtS_xL/view?usp=share_link", // You can add your GitHub link here
     image: "/images/Logo3_0.png"
+
   },
   {
     title: "Market Data Pipeline Simulator",
@@ -41,9 +42,10 @@ export const projectsData = [
   liveUrl: "#",
   githubUrl: "https://github.com/Mohamedj2020/DownDetector.git",
   image: "/images/logo3.png" // Confirm filename casing is correct
-};
+}
+];
 
-
+  // Add more project objects as needed
 export const contactInfo = {
   email: 'your.email@example.com',
   linkedin: 'linkedin.com/in/yourprofile',
