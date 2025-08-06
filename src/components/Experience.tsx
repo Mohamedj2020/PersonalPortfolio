@@ -43,7 +43,7 @@ const Experience = () => {
       { name: "Microservices", level: "intermediate" },
       { name: "Agile/Scrum", level: "intermediate" },
       { name: "Technical Writing", level: "advanced" },
-      { name: "Team Leadership", level: "intermediate" }
+      { name: "Team Leadership", level: "advanced" }
     ]
   };
 
@@ -112,6 +112,7 @@ const Experience = () => {
     }
   ];
 
+  // Update the certifications array with credential URLs
   const certifications = [
     {
       title: "AWS Certified Solutions Architect – Associate",
@@ -119,6 +120,7 @@ const Experience = () => {
       issued: "May 2025",
       expires: "May 2028",
       credentialId: "",
+      credentialUrl: "https://www.credly.com/badges/0d35804c-95a1-4ede-bdac-ef862769e680/linked_in_profile", // Add your AWS credential verification URL here
       skills: ["Cloud Architecture", "AWS Services", "System Design"]
     },
     {
@@ -126,6 +128,7 @@ const Experience = () => {
       issuer: "CodePath",
       issued: "May 2025",
       credentialId: "117383",
+      credentialUrl: "https://drive.google.com/file/d/1xPW9wi33O_o9Q-Zgmt2dO4D6au6x4RQJ/view?usp=share_link", // Add your CodePath credential URL here
       skills: ["Python", "Collaborative Problem Solving", "Analytical Skills", "Data Structures and Algorithms"]
     },
     {
@@ -133,25 +136,30 @@ const Experience = () => {
       issuer: "HackerRank",
       issued: "Oct 2024",
       credentialId: "",
+      credentialUrl: "https://www.hackerrank.com/certificates/iframe/fa583e2abe8d", // Add your HackerRank credential URL here
       skills: ["Problem Solving", "Python"]
     }
   ];
 
+  // Update the leadership array with descriptions
   const leadership = [
     {
       title: "National Member",
       organization: "National Society of Black Engineers (NSBE)",
-      period: "Jan 2024 - Present"
+      period: "Jan 2024 - Present",
+      description: "Active member of the largest student-managed organization focused on increasing the number of culturally responsible Black engineers. Participate in professional development workshops, networking events, and community outreach programs."
     },
     {
       title: "Tech Prep Fellow",
       organization: "Management Leadership for Tomorrow (MLT)",
-      period: "Jan 2025 - Present"
+      period: "Jan 2025 - Present",
+      description: "Selected for MLT's competitive tech preparation program designed to prepare high-achieving underrepresented students for careers in technology. Engaging in technical skill development, career coaching, and networking with industry professionals."
     },
     {
       title: "National Member",
       organization: "ColorStack",
-      period: "Aug 2024 - Present"
+      period: "Aug 2024 - Present",
+      description: "Member of the largest community of Black and Latinx Computer Science students and professionals. Participate in mentorship programs, technical workshops, and career development initiatives focused on increasing diversity in tech."
     }
   ];
 
@@ -299,6 +307,22 @@ const Experience = () => {
                     {cert.expires && ` • Expires ${cert.expires}`}
                     {cert.credentialId && ` • ID: ${cert.credentialId}`}
                   </p>
+                  
+                  {/* Add credential link button */}
+                  <div className="mb-4">
+                    <a
+                      href={cert.credentialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-4 py-2 rounded text-sm transition-colors"
+                    >
+                      <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                      Show Credential
+                    </a>
+                  </div>
+
                   <div className="flex flex-wrap gap-2">
                     {cert.skills.map((skill, skillIndex) => (
                       <span
@@ -320,7 +344,8 @@ const Experience = () => {
                 <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-teal-400/30">
                   <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                   <p className="text-teal-400 mb-1">{item.organization}</p>
-                  <p className="text-gray-400 text-sm">{item.period}</p>
+                  <p className="text-gray-400 text-sm mb-3">{item.period}</p>
+                  <p className="text-gray-300 text-sm">{item.description}</p>
                 </div>
               ))}
             </div>
