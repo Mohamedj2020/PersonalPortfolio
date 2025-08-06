@@ -2,13 +2,12 @@ import React from 'react';
 
 const Experience = () => {
   const skills = {
-    "💻 Programming Languages": ["Python", "Java", "JavaScript", "TypeScript", "C", "C++", "HTML", "CSS"],
-    "🛠️ Frameworks & Tools": ["FastAPI", "Flask", "React", "Node.js", "Docker", "CI/CD", "Linux"],
-    "📊 Data & Analytics": ["Jupyter", "Pandas", "Numpy", "JSON", "Tableau", "PowerBI"],
-    "🚀 Project & Software Development / Soft Skills": [
-      "Software Development", "SDLC", "Data Structures & Algorithms",
-      "Systems Analysis", "Project Management", "Collaborative Problem Solving",
-      "Professional Development & Mentorship"
+    "💻 Programming Languages": ["Python", "Java", "JavaScript", "TypeScript", "C", "C++", "HTML", "CSS", "SQL"],
+    "🛠️ Frameworks & Tools": ["FastAPI", "Flask", "React", "Node.js", "Docker", "Git", "CI/CD", "Linux", "AWS"],
+    "📊 Data & Analytics": ["Jupyter", "Pandas", "Numpy", "MongoDB", "PostgreSQL", "Tableau", "PowerBI", "JSON"],
+    "🚀 Development & Soft Skills": [
+      "System Design", "REST APIs", "Microservices",
+      "Agile/Scrum", "Technical Writing", "Team Leadership"
     ]
   };
 
