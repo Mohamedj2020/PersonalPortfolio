@@ -52,20 +52,16 @@ const Projects = () => {
                     href={project.githubUrl}
                     className="border border-teal-400 hover:bg-teal-400 hover:text-white text-teal-400 px-4 py-2 rounded text-sm transition-colors"
                   >
-                    GitHub Repo  GitHub
-                  </a>     </a>
-                </div>  </div>
-              </div>  </div>
-            </div>div>
-          ))}      ))}
-        </div>      </div>
-      </div>      </div>
+                    GitHub Repo
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
-
-
-
-
-export default Projects;};  );  );
+  );
 };
 
 export default Projects;
