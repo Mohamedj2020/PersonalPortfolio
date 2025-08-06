@@ -13,6 +13,7 @@
 
 # misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
@@ -22,3 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vercel
+
+emailjs.send(
+  process.env.REACT_APP_EMAILJS_SERVICE_ID!,
+  process.env.REACT_APP_EMAILJS_TEMPLATE_ID!,
+  formData,
+  process.env.REACT_APP_EMAILJS_PUBLIC_KEY!
+)
