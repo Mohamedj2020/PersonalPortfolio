@@ -12,7 +12,6 @@ This portfolio represents my technical skills, academic projects, and profession
 
 - **Responsive Design**: Built with Tailwind CSS for a seamless experience across all devices
 - **Interactive UI**: Dynamic components with smooth animations and transitions
-- **Dark Theme**: Modern dark theme with gradient accents
 - **Performance Monitoring**: Using Vercel Speed Insights
 - **Analytics**: Integrated Vercel Analytics for visitor tracking
 - **TypeScript**: Full TypeScript support for enhanced code quality
