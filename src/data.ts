@@ -15,7 +15,7 @@ export const projectsData = [
     technologies: ["Python", "Data Analysis", "Linear Regression", "Pandas", "Numpy"],
     liveUrl: "#",
     githubUrl: "https://drive.google.com/file/d/1v4XHFsGqFCBHX89JOtpsIIjqTgUtS_xL/view?usp=share_link", // You can add your GitHub link here
-    image: "/images/project-ev-analysis.png"
+    image: "/images/Logo3_0.png"
   },
   {
     title: "Market Data Pipeline Simulator",
@@ -23,7 +23,7 @@ export const projectsData = [
     technologies: ["Python", "FastAPI", "Redis", "WebSockets", "Docker", "PostgreSQL"],
     liveUrl: "#",
     githubUrl: "#", // You can add your GitHub link here
-    image: "/images/project-market-pipeline.png"
+    image: "/images/logo2.png"
   },
   {
     title: "Down Detector",
@@ -31,7 +31,7 @@ export const projectsData = [
     technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
     liveUrl: "#",
     githubUrl: "https://github.com/Mohamedj2020/DownDetector.git", // You can add your GitHub link here
-    image: "/images/project-portfolio.png"
+    image: "/images/logo3.png"
   }
 ];
 
