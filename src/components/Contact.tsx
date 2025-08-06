@@ -2,7 +2,14 @@ import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
-  const [state, handleSubmit] = useForm(process.env.REACT_APP_FORMSPREE_ID!);
+  const formspreeId = process.env.REACT_APP_FORMSPREE_ID;
+  
+  if (!formspreeId) {
+    console.error('Formspree ID is not defined');
+    return null;
+  }
+
+  const [state, handleSubmit] = useForm(formspreeId);
 
   if (state.succeeded) {
     return (
