@@ -8,20 +8,20 @@ const Contact = () => {
   const [state, handleSubmit] = useForm(formspreeId || ''); // Provide fallback
 
   return (
-    <section id="contact" className="py-20">
+    <section id="contact" className="py-20 bg-white dark:bg-transparent text-gray-900 dark:text-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
           Get In Touch
         </h2>
         
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
           {/* Contact info */}
           <div>
-            <h3 className="text-2xl font-bold text-white mb-6">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Let's Connect
             </h3>
             
-            <p className="text-gray-300 mb-8">
+            <p className="text-gray-700 dark:text-gray-300 mb-8">
               I'm always interested in hearing about new opportunities and projects. 
               Whether you have a question or just want to say hi, feel free to reach out!
             </p>
