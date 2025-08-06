@@ -12,9 +12,13 @@ const Projects = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto animate-on-scroll">
           {projectsData.map((project, index) => (
             <div key={index} className="bg-gray-800/50 backdrop-blur-sm rounded-lg overflow-hidden border border-teal-400/30 hover:border-teal-400 transition-colors shadow-lg hover:shadow-xl animate-on-scroll">
-              {/* Project image placeholder */}
-              <div className="h-48 bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center">
-                <span className="text-gray-400 font-medium">Project Screenshot</span>
+              {/* Replace placeholder with actual image */}
+              <div className="h-48 relative overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                />
               </div>
               
               <div className="p-6">
@@ -48,16 +52,20 @@ const Projects = () => {
                     href={project.githubUrl}
                     className="border border-teal-400 hover:bg-teal-400 hover:text-white text-teal-400 px-4 py-2 rounded text-sm transition-colors"
                   >
-                    GitHub
-                  </a>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+                    GitHub Repo  GitHub
+                  </a>     </a>
+                </div>  </div>
+              </div>  </div>
+            </div>div>
+          ))}      ))}
+        </div>      </div>
+      </div>      </div>
     </section>
-  );
+
+
+
+
+export default Projects;};  );  );
 };
 
 export default Projects;
