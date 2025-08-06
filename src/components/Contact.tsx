@@ -2,30 +2,10 @@ import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
-  const formspreeId = process.env.REACT_APP_FORMSPREE_ID || '';
-  const [state, handleSubmit] = useForm(formspreeId);
+  const formspreeId = process.env.REACT_APP_FORMSPREE_ID;
+  console.log('Formspree ID:', formspreeId); // Add this for debugging
 
-  if (!formspreeId) {
-    console.error('Formspree ID is not defined');
-    return null;
-  }
-
-  if (state.succeeded) {
-    return (
-      <section id="contact" className="py-20">
-        <div className="container mx-auto px-6">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
-              Thank You!
-            </h2>
-            <p className="text-gray-300 text-lg">
-              Your message has been sent successfully. I'll get back to you soon!
-            </p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const [state, handleSubmit] = useForm(formspreeId || ''); // Provide fallback
 
   return (
     <section id="contact" className="py-20">
