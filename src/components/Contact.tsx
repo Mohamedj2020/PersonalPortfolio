@@ -1,40 +1,25 @@
-import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
+import React from 'react';
+import { useForm, ValidationError } from '@formspree/react';
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [state, handleSubmit] = useForm(process.env.REACT_APP_FORMSPREE_ID!);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setStatus('sending');
-    emailjs.send(
-      process.env.REACT_APP_EMAILJS_SERVICE_ID!,
-      process.env.REACT_APP_EMAILJS_TEMPLATE_ID!,
-      formData,
-      process.env.REACT_APP_EMAILJS_PUBLIC_KEY!
-    ).then(
-      () => {
-        setStatus('sent');
-        setFormData({ name: '', email: '', message: '' });
-      },
-      (error) => {
-        console.error('FAILED TO SEND EMAIL:', error);
-        setStatus('error');
-      }
+  if (state.succeeded) {
+    return (
+      <section id="contact" className="py-20">
+        <div className="container mx-auto px-6">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+              Thank You!
+            </h2>
+            <p className="text-gray-300 text-lg">
+              Your message has been sent successfully. I'll get back to you soon!
+            </p>
+          </div>
+        </div>
+      </section>
     );
-  };
+  }
 
   return (
     <section id="contact" className="py-20">
@@ -105,12 +90,11 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-gray-800/50 border border-teal-400/30 rounded-lg text-white focus:border-teal-500 focus:outline-none backdrop-blur-sm"
                   placeholder="Your name..."
                 />
+                <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-400 mt-1" />
               </div>
               
               <div>
@@ -121,12 +105,11 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-gray-800/50 border border-teal-400/30 rounded-lg text-white focus:border-teal-500 focus:outline-none backdrop-blur-sm"
                   placeholder="Your email..."
                 />
+                <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-400 mt-1" />
               </div>
               
               <div>
@@ -136,28 +119,22 @@ const Contact = () => {
                 <textarea
                   id="message"
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
                   required
                   rows={5}
                   className="w-full px-4 py-3 bg-gray-800/50 border border-teal-400/30 rounded-lg text-white focus:border-teal-500 focus:outline-none resize-none backdrop-blur-sm"
                   placeholder="Your message..."
                 />
+                <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-400 mt-1" />
               </div>
               
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
-                disabled={status === 'sending'}
+                disabled={state.submitting}
               >
-                {status === 'sending' ? 'Sending...' : 'Send Message'}
+                {state.submitting ? 'Sending...' : 'Send Message'}
               </button>
-              {status === 'sent' && (
-                <p className="text-green-400 mt-2">Thank you! Your message has been sent.</p>
-              )}
-              {status === 'error' && (
-                <p className="text-red-400 mt-2">Oops! Something went wrong. Please try again.</p>
-              )}
+              <ValidationError errors={state.errors} className="text-red-400 mt-2" />
             </form>
           </div>
         </div>
