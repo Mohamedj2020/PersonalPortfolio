@@ -6,6 +6,7 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -14,12 +15,24 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Handle form submission
-    console.log('Form submitted:', formData);
-    alert('Thanks for your message! I\'ll get back to you soon.');
-    setFormData({ name: '', email: '', message: '' });
+    setStatus('sending');
+    try {
+      const response = await fetch('https://formspree.io/f/xpwlynwe', { // <-- Replace with your Formspree endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      if (response.ok) {
+        setStatus('sent');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -134,9 +147,16 @@ const Contact = () => {
               <button
                 type="submit"
                 className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                disabled={status === 'sending'}
               >
-                Send Message
+                {status === 'sending' ? 'Sending...' : 'Send Message'}
               </button>
+              {status === 'sent' && (
+                <p className="text-green-400 mt-2">Thank you! Your message has been sent.</p>
+              )}
+              {status === 'error' && (
+                <p className="text-red-400 mt-2">Oops! Something went wrong. Please try again.</p>
+              )}
             </form>
           </div>
         </div>
