@@ -28,12 +28,9 @@ const Contact = () => {
       () => {
         setStatus('sent');
         setFormData({ name: '', email: '', message: '' });
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
+      },
+      () => setStatus('error')
+    );
   };
 
   return (
