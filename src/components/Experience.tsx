@@ -3,19 +3,68 @@ import React, { useState } from 'react';
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('experience');
 
+  // Updated skills with proficiency levels
   const skills = {
-    "💻 Programming Languages": ["Python", "Java", "JavaScript", "TypeScript", "C", "C++", "HTML", "CSS", "SQL"],
-    "🛠️ Frameworks & Tools": ["FastAPI", "Flask", "React", "Node.js", "Docker", "Git", "CI/CD", "Linux", "AWS"],
-    "📊 Data & Analytics": ["Jupyter", "Pandas", "Numpy", "MongoDB", "PostgreSQL", "Tableau", "PowerBI", "JSON"],
+    "💻 Programming Languages": [
+      { name: "Python", level: "advanced" },
+      { name: "Java", level: "advanced" },
+      { name: "JavaScript", level: "intermediate" },
+      { name: "TypeScript", level: "intermediate" },
+      { name: "C", level: "intermediate" },
+      { name: "C++", level: "intermediate" },
+      { name: "HTML", level: "advanced" },
+      { name: "CSS", level: "advanced" },
+      { name: "SQL", level: "intermediate" }
+    ],
+    "🛠️ Frameworks & Tools": [
+      { name: "FastAPI", level: "advanced" },
+      { name: "Flask", level: "advanced" },
+      { name: "React", level: "advanced" },
+      { name: "Node.js", level: "intermediate" },
+      { name: "Docker", level: "intermediate" },
+      { name: "Git", level: "advanced" },
+      { name: "CI/CD", level: "intermediate" },
+      { name: "Linux", level: "intermediate" },
+      { name: "AWS", level: "intermediate" }
+    ],
+    "📊 Data & Analytics": [
+      { name: "Jupyter", level: "advanced" },
+      { name: "Pandas", level: "advanced" },
+      { name: "Numpy", level: "advanced" },
+      { name: "MongoDB", level: "intermediate" },
+      { name: "PostgreSQL", level: "intermediate" },
+      { name: "Tableau", level: "intermediate" },
+      { name: "PowerBI", level: "beginner" },
+      { name: "JSON", level: "advanced" }
+    ],
     "🚀 Development & Soft Skills": [
-      "System Design", "REST APIs", "Microservices",
-      "Agile/Scrum", "Technical Writing", "Team Leadership"
+      { name: "System Design", level: "intermediate" },
+      { name: "REST APIs", level: "advanced" },
+      { name: "Microservices", level: "intermediate" },
+      { name: "Agile/Scrum", level: "intermediate" },
+      { name: "Technical Writing", level: "advanced" },
+      { name: "Team Leadership", level: "intermediate" }
     ]
   };
 
+  // Function to get skill color based on level
+  const getSkillColor = (level: string) => {
+    switch (level) {
+      case 'advanced':
+        return 'bg-gradient-to-r from-yellow-500 to-orange-500'; // Yellow/Orange for advanced
+      case 'intermediate':
+        return 'bg-gradient-to-r from-blue-500 to-blue-600'; // Blue for intermediate
+      case 'beginner':
+        return 'bg-gradient-to-r from-green-500 to-green-600'; // Green for beginner
+      default:
+        return 'bg-gradient-to-r from-teal-600 to-cyan-600'; // Default teal
+    }
+  };
+
+  // Add coursework array
   const coursework = [
     "Foundations",
-    "Data Structures & Algorithms",
+    "Data Structures & Algorithms", 
     "Low-Level Programming and Computer Organization",
     "Web Applications Development",
     "Software Development and Design",
@@ -29,7 +78,7 @@ const Experience = () => {
     "Software Design & Implementation",
     "Computer Architecture",
     "Cloud Computing",
-    "Cybersecurity Fundamentals",
+    "Cybersecurity Fundamentals"
   ];
 
   const experiences = [
@@ -106,24 +155,6 @@ const Experience = () => {
     }
   ];
 
-  // Function to get skill level styling
-  const getSkillLevelStyle = (skill: string) => {
-    // Advanced skills (default/green tint)
-    // Intermediate skills (yellow)
-    const intermediateSkills = ['Java', 'Python', 'React', 'Node.js', 'C++', 'Flask', 'Pandas', 'Numpy', 'HTML', 'CSS', 'C'];
-    // Basic/Learning skills (blue)
-    const basicSkills = ['Docker', 'CI/CD', 'Linux', 'FastAPI', 'Tableau', 'PowerBI', 'JavaScript', 'TypeScript'];
-    
-    if (intermediateSkills.includes(skill)) {
-      return 'bg-yellow-500 text-white border-yellow-500';
-    } else if (basicSkills.includes(skill)) {
-      return 'bg-blue-500 text-white border-blue-500';
-    } else {
-      // Advanced skills (default/green tint)
-      return 'bg-emerald-600 text-white border-emerald-600';
-    }
-  };
-
   return (
     <section id="experience" className="py-20">
       <div className="container mx-auto px-6">
@@ -131,7 +162,7 @@ const Experience = () => {
           Experience & Skills
         </h2>
 
-        {/* NEW: Tab Navigation */}
+        {/* Tab Navigation - Add Coursework tab */}
         <div className="flex flex-wrap justify-center mb-8 space-x-2">
           <button
             onClick={() => setActiveTab('experience')}
@@ -152,6 +183,16 @@ const Experience = () => {
             }`}
           >
             Skills
+          </button>
+          <button
+            onClick={() => setActiveTab('coursework')}
+            className={`px-6 py-2 rounded-full transition-colors ${
+              activeTab === 'coursework'
+                ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white'
+                : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+            }`}
+          >
+            Coursework
           </button>
           <button
             onClick={() => setActiveTab('certifications')}
@@ -175,21 +216,27 @@ const Experience = () => {
           </button>
         </div>
 
-        {/* Tab Content - keeping all your existing content */}
-        <div className="max-w-6xl mx-auto">
-          {activeTab === 'experience' && (
-            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
-              {experiences.map((exp, index) => (
-                <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-teal-400/30">
-                  <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
-                  <p className="text-teal-400 mb-1">{exp.organization}</p>
-                  <p className="text-gray-400 text-sm mb-3">{exp.period} • {exp.location}</p>
-                  <p className="text-gray-300 text-sm">{exp.description}</p>
-                </div>
-              ))}
+        {/* Add skill level legend */}
+        {activeTab === 'skills' && (
+          <div className="flex justify-center mb-6 space-x-4 text-sm">
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 mr-2"></div>
+              <span className="text-white">Advanced</span>
             </div>
-          )}
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 mr-2"></div>
+              <span className="text-white">Intermediate</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-4 rounded-full bg-gradient-to-r from-green-500 to-green-600 mr-2"></div>
+              <span className="text-white">Beginner</span>
+            </div>
+          </div>
+        )}
 
+        {/* Tab Content */}
+        <div className="max-w-6xl mx-auto">
+          {/* Skills tab with color-coded levels */}
           {activeTab === 'skills' && (
             <div className="grid md:grid-cols-2 gap-8">
               {Object.entries(skills).map(([category, skillList]) => (
@@ -199,12 +246,43 @@ const Experience = () => {
                     {skillList.map((skill, index) => (
                       <span
                         key={index}
-                        className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-3 py-1 rounded-full text-sm"
+                        className={`${getSkillColor(skill.level)} text-white px-3 py-1 rounded-full text-sm font-medium`}
                       >
-                        {skill}
+                        {skill.name}
                       </span>
                     ))}
                   </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Add Coursework tab */}
+          {activeTab === 'coursework' && (
+            <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-teal-400/30">
+              <h3 className="text-xl font-bold text-white mb-4">📚 Relevant Coursework</h3>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {coursework.map((course, index) => (
+                  <div
+                    key={index}
+                    className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-4 py-2 rounded-lg text-sm text-center"
+                  >
+                    {course}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Keep all your existing tab content (experience, certifications, leadership) */}
+          {activeTab === 'experience' && (
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
+              {experiences.map((exp, index) => (
+                <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-lg border border-teal-400/30">
+                  <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
+                  <p className="text-teal-400 mb-1">{exp.organization}</p>
+                  <p className="text-gray-400 text-sm mb-3">{exp.period} • {exp.location}</p>
+                  <p className="text-gray-300 text-sm">{exp.description}</p>
                 </div>
               ))}
             </div>
