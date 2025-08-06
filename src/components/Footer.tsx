@@ -1,7 +1,7 @@
 import React from "react";
 
 const Footer = () => (
-  <footer style={{ textAlign: "center", padding: "1rem 0" }}>
+  <footer className="text-center py-4 text-white">
     <small>
       Copyright © 2025 Mohamed Jirac. All Rights Reserved.
     </small>
