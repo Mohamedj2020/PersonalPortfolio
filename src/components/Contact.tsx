@@ -29,7 +29,10 @@ const Contact = () => {
         setStatus('sent');
         setFormData({ name: '', email: '', message: '' });
       },
-      () => setStatus('error')
+      (error) => {
+        console.error('FAILED TO SEND EMAIL:', error);
+        setStatus('error');
+      }
     );
   };
 
