@@ -25,15 +25,24 @@ export const projectsData = [
     githubUrl: "#", // You can add your GitHub link here
     image: "/images/logo2.png"
   },
-  {
-    title: "Down Detector",
-    description: "A responsive portfolio website built with React and TypeScript. Features modern design with smooth animations, mobile-first approach, and showcases my technical skills and projects. It is optimized for fast loading times and is accessible on all devices.",
-    technologies: ["React", "TypeScript", "Tailwind CSS", "Node.js"],
-    liveUrl: "#",
-    githubUrl: "https://github.com/Mohamedj2020/DownDetector.git", // You can add your GitHub link here
-    image: "/images/logo3.png"
-  }
-];
+{
+  title: "Down Detector",
+  description:
+    "Down Detector is a full-stack web application that monitors website uptime, logs results into a SQLite database, and displays real-time updates on a responsive dashboard. Built with Flask, Bootstrap, and JavaScript, it features scheduled checks, a live status table, alert notifications, and rich data visualizations. Future improvements include dark mode, downloadable reports, and per-user dashboards.",
+  technologies: [
+    "Flask",
+    "Bootstrap",
+    "SQLite",
+    "JavaScript",
+    "Chart.js",
+    "APScheduler",
+    "Flask-Login"
+  ],
+  liveUrl: "#",
+  githubUrl: "https://github.com/Mohamedj2020/DownDetector.git",
+  image: "/images/logo3.png" // Confirm filename casing is correct
+};
+
 
 export const contactInfo = {
   email: 'your.email@example.com',
