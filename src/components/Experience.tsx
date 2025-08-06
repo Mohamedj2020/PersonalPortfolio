@@ -12,16 +12,24 @@ const Experience = () => {
     ]
   };
 
-  const coursework = [
-    "Foundations",
-    "Data Structures & Algorithms",
-    "Low-Level Programming",
-    "Computer Organization",
-    "Web Applications",
-    "Software Development & Design",
-    "AI/ML Modeling",
-    "Distributed Systems"
-  ];
+const coursework = [
+  "Foundations",
+  "Data Structures & Algorithms",
+  "Low-Level Programming and Computer Organization",
+  "Web Applications Development",
+  "Software Development and Design",
+  "AI/ML Modeling",
+  "Operating Systems",
+  "Database Systems",
+  "Computer Networks",
+  "Systems Programming in C",
+  "Object-Oriented Programming in C++",
+  "Distributed Systems",
+  "Software Design & Implementation",
+  "Computer Architecture",
+  "Cloud Computing",
+  "Cybersecurity Fundamentals",
+];
 
   const experiences = [
     {
