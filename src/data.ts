@@ -50,7 +50,16 @@ export const projectsData = [
   liveUrl: "#",
   githubUrl: "https://github.com/Mohamedj2020/DownDetector.git",
   image: "/images/logo3.png" // Confirm filename casing is correct
-}
+},
+{
+  title: "Revu App",
+  description: "A comprehensive sentiment analysis application that classifies product reviews as positive, negative, or neutral using advanced machine learning techniques. It features a user-friendly interface for inputting reviews, real-time sentiment analysis, and detailed results display. Built with React, Flask, and TensorFlow, it offers a seamless experience for users to understand product feedback.",
+  technologies: ["React", "Java", " Flasl", "Node.js", "PostgreSQL", "Python"],
+  liveUrl: "#",
+  githubUrl: "https://github.com/Mohamedj2020/Revu-app",
+    image: "/images/revs_logo.svg" // Updated to match case-sensitivity
+  },
+
 ];
 
   // Add more project objects as needed

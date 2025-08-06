@@ -1,0 +1,101 @@
+<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Blue gradient from navy to sky blue -->
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a8a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#38bdf8;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Accent gradient for symbols -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ef4444;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Silver gradient for utensils -->
+    <linearGradient id="silverGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e5e7eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9ca3af;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- White background with subtle shadow -->
+  <rect width="400" height="400" fill="white" rx="20"/>
+  
+  <!-- Background circle for contrast -->
+  <circle cx="200" cy="200" r="180" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+  
+  <!-- Fork symbol (left side) -->
+  <g transform="translate(80, 120)">
+    <rect x="15" y="0" width="6" height="120" fill="url(#silverGradient)" rx="3"/>
+    <rect x="8" y="0" width="4" height="25" fill="url(#silverGradient)" rx="2"/>
+    <rect x="14" y="0" width="4" height="25" fill="url(#silverGradient)" rx="2"/>
+    <rect x="20" y="0" width="4" height="25" fill="url(#silverGradient)" rx="2"/>
+  </g>
+  
+  <!-- Knife symbol (right side) -->
+  <g transform="translate(320, 120)">
+    <rect x="15" y="0" width="6" height="120" fill="url(#silverGradient)" rx="3"/>
+    <path d="M 12 0 L 24 0 L 21 30 L 15 30 Z" fill="url(#silverGradient)"/>
+  </g>
+  
+  <!-- Main REVU text -->
+  <text x="200" y="220" 
+        font-family="Arial, Helvetica, sans-serif" 
+        font-size="68" 
+        font-weight="900" 
+        text-anchor="middle" 
+        fill="url(#blueGradient)"
+        letter-spacing="4px">REVU</text>
+  
+  <!-- Star rating symbols above text -->
+  <g transform="translate(200, 150)">
+    <!-- 5 stars representing reviews -->
+    <g transform="translate(-60, 0)">
+      <path d="M 0 -8 L 2.4 -2.4 L 8 -2.4 L 3.2 1.2 L 5.6 7.2 L 0 4 L -5.6 7.2 L -3.2 1.2 L -8 -2.4 L -2.4 -2.4 Z" 
+            fill="url(#accentGradient)" transform="scale(0.8)"/>
+    </g>
+    <g transform="translate(-30, 0)">
+      <path d="M 0 -8 L 2.4 -2.4 L 8 -2.4 L 3.2 1.2 L 5.6 7.2 L 0 4 L -5.6 7.2 L -3.2 1.2 L -8 -2.4 L -2.4 -2.4 Z" 
+            fill="url(#accentGradient)" transform="scale(0.8)"/>
+    </g>
+    <g transform="translate(0, 0)">
+      <path d="M 0 -8 L 2.4 -2.4 L 8 -2.4 L 3.2 1.2 L 5.6 7.2 L 0 4 L -5.6 7.2 L -3.2 1.2 L -8 -2.4 L -2.4 -2.4 Z" 
+            fill="url(#accentGradient)" transform="scale(0.8)"/>
+    </g>
+    <g transform="translate(30, 0)">
+      <path d="M 0 -8 L 2.4 -2.4 L 8 -2.4 L 3.2 1.2 L 5.6 7.2 L 0 4 L -5.6 7.2 L -3.2 1.2 L -8 -2.4 L -2.4 -2.4 Z" 
+            fill="url(#accentGradient)" transform="scale(0.8)"/>
+    </g>
+    <g transform="translate(60, 0)">
+      <path d="M 0 -8 L 2.4 -2.4 L 8 -2.4 L 3.2 1.2 L 5.6 7.2 L 0 4 L -5.6 7.2 L -3.2 1.2 L -8 -2.4 L -2.4 -2.4 Z" 
+            fill="url(#accentGradient)" transform="scale(0.8)"/>
+    </g>
+  </g>
+  
+  <!-- Chat/Review bubbles below text -->
+  <g transform="translate(200, 280)">
+    <!-- Positive review bubble (green) -->
+    <g transform="translate(-45, 0)">
+      <ellipse cx="0" cy="0" rx="18" ry="12" fill="#10b981" opacity="0.8"/>
+      <path d="M -6 -2 L -2 2 L 6 -6" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+    
+    <!-- Neutral review bubble (yellow) -->
+    <g transform="translate(0, 0)">
+      <ellipse cx="0" cy="0" rx="18" ry="12" fill="#f59e0b" opacity="0.8"/>
+      <circle cx="-4" cy="-2" r="1.5" fill="white"/>
+      <circle cx="4" cy="-2" r="1.5" fill="white"/>
+      <rect x="-6" y="2" width="12" height="2" rx="1" fill="white"/>
+    </g>
+    
+    <!-- Negative review bubble (red) -->
+    <g transform="translate(45, 0)">
+      <ellipse cx="0" cy="0" rx="18" ry="12" fill="#ef4444" opacity="0.8"/>
+      <path d="M -4 -4 L 4 4 M 4 -4 L -4 4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </g>
+  
+  <!-- Subtle plate/dish symbol behind text -->
+  <circle cx="200" cy="200" r="90" fill="none" stroke="#e2e8f0" stroke-width="2" opacity="0.3" stroke-dasharray="5,5"/>
+</svg>
