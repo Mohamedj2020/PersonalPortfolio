@@ -26,6 +26,14 @@ export const projectsData = [
     githubUrl: "https://github.com/Mohamedj2020/Market-data-pipeline-simulator",
     image: "/images/logo2.jpg"  // Updated to match case-sensitivity
   },
+  {
+    title: "Portfolio Website",
+    description: "Developed a personal portfolio website using React, TypeScript, and Tailwind CSS to showcase projects and skills. Implemented responsive design and animations for an engaging user experience.",
+    technologies: ["React", "TypeScript", "Tailwind CSS", "JavaScript"],
+    liveUrl: "#",
+    githubUrl: "https://github.com/Mohamedj2020/my-portfolio",
+    image: "/images/project4.jpg" // Updated to match case-sensitivity
+  },
 {
   title: "Down Detector",
   description:
