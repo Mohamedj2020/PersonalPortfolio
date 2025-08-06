@@ -11,7 +11,7 @@ import Contact from './components/Contact';
 
 import ScrollToTopButton from './components/ScrollToTopButton';
 import ScrollAnimationProvider from './components/ScrollAnimationProvider';
-
+import Footer from './components/Footer';
 function App() {
   return (
     <ScrollAnimationProvider>
@@ -24,6 +24,7 @@ function App() {
           <Projects />
           <Contact />
         </main>
+        <Footer />
         <ScrollToTopButton />
         <SpeedInsights />
         <Analytics />
