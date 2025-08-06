@@ -23,8 +23,8 @@ export const projectsData = [
     description: "Developed a real-time data pipeline using Python, FastAPI, and Redis to simulate equity market feeds and support real-time price updates via WebSockets. Containerized the system with Docker Compose and implemented automated testing and CI workflows.",
     technologies: ["Python", "FastAPI", "Redis", "WebSockets", "Docker", "PostgreSQL"],
     liveUrl: "#",
-    githubUrl: "#", // You can add your GitHub link here
-    image: "/images/logo2.png"
+    githubUrl: "#",
+    image: "/images/logo2.jpg"  // Updated to match case-sensitivity
   },
 {
   title: "Down Detector",
