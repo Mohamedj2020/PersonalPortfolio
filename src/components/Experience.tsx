@@ -59,7 +59,7 @@ const Experience = () => {
   };
 
   // Function to get skill color based on level
-  const getSkillColor = (level) => {
+  const getSkillColor = (level: string) => {
     switch (level) {
       case 'advanced':
         return 'bg-gradient-to-r from-yellow-500 to-orange-500';
