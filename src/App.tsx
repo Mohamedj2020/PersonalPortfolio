@@ -1,7 +1,6 @@
 import React from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
-import ThemeToggle from './components/ThemeToggle';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -16,9 +15,8 @@ import Footer from './components/Footer';
 function App() {
   return (
     <ScrollAnimationProvider>
-      <div className="bg-white dark:bg-gradient-to-br dark:from-teal-900 dark:via-teal-800 dark:to-emerald-900 min-h-screen transition-colors duration-200">
+      <div className="bg-gradient-to-br from-teal-900 via-teal-800 to-emerald-900 min-h-screen">
         <Header />
-        <ThemeToggle /> {/* Move it here, right after Header */}
         <main>
           <Hero />
           <About />
