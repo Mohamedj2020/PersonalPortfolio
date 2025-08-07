@@ -269,97 +269,114 @@ const Experience = () => {
           {activeTab === 'experience' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {experiences.map((exp, index) => (
-                  <div
-                    key={exp.id}
-                    className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-all duration-700 hover:border-teal-400/80 ${
-                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                    } ${
-                      selectedExperience === exp.id 
-                        ? 'border-teal-400 shadow-xl shadow-teal-400/20 scale-102' 
-                        : 'border-teal-400/30 scale-100'
-                    }`}
-                    style={{ 
-                      transitionDelay: `${500 + index * 200}ms`,
-                      transformOrigin: 'center',
-                      willChange: selectedExperience === exp.id ? 'transform' : 'auto'
-                    }}
-                    onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
-                  >
-                    <div className="p-6">
-                      {/* Header Section */}
-                      <div className="flex justify-between items-start mb-4">
-                        <div className="flex-1">
-                          <h3 className="text-xl font-bold text-white mb-1">{exp.title}</h3>
-                          <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
-                          <p className="text-gray-400 text-sm">{exp.period} • {exp.location}</p>
-                        </div>
-                        
-                        {/* Arrow Icon - Only rotates for selected card */}
-                        <div 
-                          className={`ml-4 transition-transform duration-300 ${
-                            selectedExperience === exp.id ? 'rotate-180' : 'rotate-0'
-                          }`}
-                          style={{ transformOrigin: 'center' }}
-                        >
-                          <svg 
-                            className="w-5 h-5 text-teal-400" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            viewBox="0 0 24 24"
-                          >
-                            <path 
-                              strokeLinecap="round" 
-                              strokeLinejoin="round" 
-                              strokeWidth={2} 
-                              d="M19 9l-7 7-7-7" 
-                            />
-                          </svg>
-                        </div>
-                      </div>
-
-                      {/* Always visible description (truncated) */}
-                      <div className={`overflow-hidden transition-all duration-500 ${
-                        selectedExperience === exp.id ? 'max-h-96' : 'max-h-16'
-                      }`}>
-                        <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
-                        
-                        {/* Expanded Details - Only show for selected card */}
-                        {selectedExperience === exp.id && (
+                {experiences.map((exp, index) => {
+                  const isExpanded = selectedExperience === exp.id;
+                  
+                  return (
+                    <div
+                      key={exp.id}
+                      className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-colors duration-300 ${
+                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                      } ${
+                        isExpanded 
+                          ? 'border-teal-400 shadow-xl shadow-teal-400/20' 
+                          : 'border-teal-400/30 hover:border-teal-400/60'
+                      }`}
+                      style={{ 
+                        transitionDelay: `${500 + index * 200}ms`,
+                        transform: isExpanded ? 'scale(1.03)' : 'scale(1)',
+                        transition: 'transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out',
+                        transformOrigin: 'center',
+                        zIndex: isExpanded ? 10 : 1,
+                      }}
+                      onClick={() => setSelectedExperience(isExpanded ? null : exp.id)}
+                    >
+                      <div className="p-6">
+                        {/* Header Section */}
+                        <div className="flex justify-between items-start mb-4">
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-white mb-1">{exp.title}</h3>
+                            <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
+                            <p className="text-gray-400 text-sm">{exp.period} • {exp.location}</p>
+                          </div>
+                          
+                          {/* Arrow Icon */}
                           <div 
-                            className="space-y-3 animate-slideDown"
+                            className="ml-4 transition-transform duration-300 ease-out"
                             style={{ 
-                              animation: 'slideDown 0.3s ease-out',
-                              transform: 'translateZ(0)' // Force hardware acceleration
+                              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                              transformOrigin: 'center'
                             }}
                           >
-                            <div>
-                              <h4 className="text-teal-400 font-medium mb-2">Key Highlights:</h4>
-                              <ul className="space-y-1">
-                                {exp.highlights.map((highlight, idx) => (
-                                  <li key={idx} className="text-gray-300 text-sm flex items-center">
-                                    <span className="w-2 h-2 bg-teal-400 rounded-full mr-2 flex-shrink-0"></span>
-                                    {highlight}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            <div className="flex flex-wrap gap-2 pt-2">
-                              {exp.skills.map((skill, skillIndex) => (
-                                <span
-                                  key={skillIndex}
-                                  className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-3 py-1 rounded-full text-xs font-medium"
-                                >
-                                  {skill}
-                                </span>
-                              ))}
-                            </div>
+                            <svg 
+                              className="w-5 h-5 text-teal-400" 
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth={2} 
+                                d="M19 9l-7 7-7-7" 
+                              />
+                            </svg>
                           </div>
-                        )}
+                        </div>
+
+                        {/* Description - Always Visible */}
+                        <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
+
+                        {/* Expanded Content */}
+                        <div 
+                          className="overflow-hidden transition-all duration-500 ease-out"
+                          style={{
+                            maxHeight: isExpanded ? '500px' : '0px',
+                            opacity: isExpanded ? 1 : 0,
+                          }}
+                        >
+                          {isExpanded && (
+                            <div className="pt-4 border-t border-gray-700/50 space-y-4">
+                              {/* Key Highlights */}
+                              <div>
+                                <h4 className="text-teal-400 font-medium mb-3 flex items-center">
+                                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
+                                  Key Highlights
+                                </h4>
+                                <ul className="space-y-2 ml-4">
+                                  {exp.highlights.map((highlight, idx) => (
+                                    <li key={idx} className="text-gray-300 text-sm flex items-start">
+                                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                                      {highlight}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              {/* Skills */}
+                              <div>
+                                <h4 className="text-teal-400 font-medium mb-3 flex items-center">
+                                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
+                                  Technologies Used
+                                </h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {exp.skills.map((skill, skillIndex) => (
+                                    <span
+                                      key={skillIndex}
+                                      className="bg-gradient-to-r from-teal-600/80 to-cyan-600/80 border border-teal-400/30 text-white px-3 py-1.5 rounded-full text-xs font-medium hover:from-teal-600 hover:to-cyan-600 transition-all duration-200"
+                                    >
+                                      {skill}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}
