@@ -270,26 +270,31 @@ const Experience = () => {
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {experiences.map((exp, index) => {
-                  const isExpanded = selectedExperience === exp.id;
+                  // Make sure we're checking the exact ID match
+                  const isThisCardExpanded = selectedExperience === exp.id;
                   
                   return (
                     <div
                       key={exp.id}
-                      className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-colors duration-300 ${
+                      className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-all duration-300 ${
                         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                       } ${
-                        isExpanded 
+                        isThisCardExpanded 
                           ? 'border-teal-400 shadow-xl shadow-teal-400/20' 
                           : 'border-teal-400/30 hover:border-teal-400/60'
                       }`}
                       style={{ 
                         transitionDelay: `${500 + index * 200}ms`,
-                        transform: isExpanded ? 'scale(1.03)' : 'scale(1)',
+                        transform: isThisCardExpanded ? 'scale(1.02)' : 'scale(1)',
                         transition: 'transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out',
                         transformOrigin: 'center',
-                        zIndex: isExpanded ? 10 : 1,
+                        zIndex: isThisCardExpanded ? 10 : 1,
                       }}
-                      onClick={() => setSelectedExperience(isExpanded ? null : exp.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        console.log(`Clicked card ${exp.id}, current selected: ${selectedExperience}`);
+                        setSelectedExperience(isThisCardExpanded ? null : exp.id);
+                      }}
                     >
                       <div className="p-6">
                         {/* Header Section */}
@@ -300,11 +305,11 @@ const Experience = () => {
                             <p className="text-gray-400 text-sm">{exp.period} • {exp.location}</p>
                           </div>
                           
-                          {/* Arrow Icon */}
+                          {/* Arrow Icon - Only rotates for THIS card */}
                           <div 
                             className="ml-4 transition-transform duration-300 ease-out"
                             style={{ 
-                              transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                              transform: isThisCardExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                               transformOrigin: 'center'
                             }}
                           >
@@ -327,52 +332,44 @@ const Experience = () => {
                         {/* Description - Always Visible */}
                         <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
 
-                        {/* Expanded Content */}
-                        <div 
-                          className="overflow-hidden transition-all duration-500 ease-out"
-                          style={{
-                            maxHeight: isExpanded ? '500px' : '0px',
-                            opacity: isExpanded ? 1 : 0,
-                          }}
-                        >
-                          {isExpanded && (
-                            <div className="pt-4 border-t border-gray-700/50 space-y-4">
-                              {/* Key Highlights */}
-                              <div>
-                                <h4 className="text-teal-400 font-medium mb-3 flex items-center">
-                                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                                  Key Highlights
-                                </h4>
-                                <ul className="space-y-2 ml-4">
-                                  {exp.highlights.map((highlight, idx) => (
-                                    <li key={idx} className="text-gray-300 text-sm flex items-start">
-                                      <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                                      {highlight}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
+                        {/* Expanded Content - ONLY show for THIS specific card */}
+                        {isThisCardExpanded && (
+                          <div className="pt-4 border-t border-gray-700/50 space-y-4 animate-slideDown">
+                            {/* Key Highlights */}
+                            <div>
+                              <h4 className="text-teal-400 font-medium mb-3 flex items-center">
+                                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
+                                Key Highlights
+                              </h4>
+                              <ul className="space-y-2 ml-4">
+                                {exp.highlights.map((highlight, idx) => (
+                                  <li key={`${exp.id}-highlight-${idx}`} className="text-gray-300 text-sm flex items-start">
+                                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
+                                    {highlight}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
 
-                              {/* Skills */}
-                              <div>
-                                <h4 className="text-teal-400 font-medium mb-3 flex items-center">
-                                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                                  Technologies Used
-                                </h4>
-                                <div className="flex flex-wrap gap-2">
-                                  {exp.skills.map((skill, skillIndex) => (
-                                    <span
-                                      key={skillIndex}
-                                      className="bg-gradient-to-r from-teal-600/80 to-cyan-600/80 border border-teal-400/30 text-white px-3 py-1.5 rounded-full text-xs font-medium hover:from-teal-600 hover:to-cyan-600 transition-all duration-200"
-                                    >
-                                      {skill}
-                                    </span>
-                                  ))}
-                                </div>
+                            {/* Skills */}
+                            <div>
+                              <h4 className="text-teal-400 font-medium mb-3 flex items-center">
+                                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
+                                Technologies Used
+                              </h4>
+                              <div className="flex flex-wrap gap-2">
+                                {exp.skills.map((skill, skillIndex) => (
+                                  <span
+                                    key={`${exp.id}-skill-${skillIndex}`}
+                                    className="bg-gradient-to-r from-teal-600/80 to-cyan-600/80 border border-teal-400/30 text-white px-3 py-1.5 rounded-full text-xs font-medium hover:from-teal-600 hover:to-cyan-600 transition-all duration-200"
+                                  >
+                                    {skill}
+                                  </span>
+                                ))}
                               </div>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   );
