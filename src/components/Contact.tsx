@@ -1,6 +1,14 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 
+const typography = {
+  h1: "text-4xl md:text-6xl font-bold leading-tight",
+  h2: "text-3xl md:text-4xl font-bold leading-tight",
+  h3: "text-2xl md:text-3xl font-semibold leading-tight",
+  body: "text-base md:text-lg leading-relaxed",
+  small: "text-sm leading-relaxed"
+};
+
 const Contact = () => {
   const formspreeId = process.env.REACT_APP_FORMSPREE_ID;
   console.log('Formspree ID:', formspreeId); // Add this for debugging
@@ -10,14 +18,14 @@ const Contact = () => {
   return (
     <section id="contact" className="py-20 bg-white dark:bg-transparent text-gray-900 dark:text-white">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent">
+        <h2 className={`${typography.h2} mb-12 bg-gradient-to-r from-teal-600 to-cyan-600 dark:from-teal-400 dark:to-cyan-400 bg-clip-text text-transparent`}>
           Get In Touch
         </h2>
         
         <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
           {/* Contact info */}
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <h3 className={`${typography.h3} mb-6`}>
               Let's Connect
             </h3>
             
