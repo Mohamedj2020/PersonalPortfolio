@@ -19,7 +19,7 @@ const Header = () => {
     <header className={`transition-colors duration-300 ${scrolling ? 'bg-teal-800/90' : 'bg-teal-900/95'} backdrop-blur-md text-white sticky top-0 z-50 border-b border-teal-400/30`}>
       <nav className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-bold bg-gradient-to-r from-teal-400 via-cyan-400 to-blue-400 bg-clip-text text-transparent">
             Mohamed Jirac
           </div>
 
