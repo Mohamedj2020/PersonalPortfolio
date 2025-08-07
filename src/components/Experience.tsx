@@ -268,74 +268,95 @@ const Experience = () => {
           {/* Experience Tab with Popup Animations */}
           {activeTab === 'experience' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {experiences.map((exp, index) => (
-                  <div 
-                    key={exp.id} 
-                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform-gpu ${
-                      selectedExperience === exp.id
-                        ? 'border-teal-400 shadow-lg shadow-teal-400/20'
-                        : 'border-teal-400/30 hover:border-teal-400/60'
+                  <div
+                    key={exp.id}
+                    className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-all duration-700 hover:border-teal-400/80 ${
+                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
                     } ${
-                      isVisible 
-                        ? 'opacity-100 translate-y-0' 
-                        : 'opacity-0 translate-y-20'
+                      selectedExperience === exp.id 
+                        ? 'border-teal-400 shadow-xl shadow-teal-400/20 scale-102' 
+                        : 'border-teal-400/30 scale-100'
                     }`}
                     style={{ 
-                      transitionDelay: isVisible ? `${500 + index * 200}ms` : '0ms',
-                      transform: selectedExperience === exp.id 
-                        ? 'scale(1.02) translateZ(0)' 
-                        : 'scale(1) translateZ(0)'
+                      transitionDelay: `${500 + index * 200}ms`,
+                      transformOrigin: 'center',
+                      willChange: selectedExperience === exp.id ? 'transform' : 'auto'
                     }}
                     onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
                   >
-                    <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-xl font-bold text-white hover:text-teal-400 transition-colors">
-                        {exp.title}
-                      </h3>
-                      <div className={`transform transition-transform duration-300 ${
-                        selectedExperience === exp.id ? 'rotate-180' : 'rotate-0'
-                      }`}>
-                        <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
-                    <p className="text-gray-400 text-sm mb-3">{exp.period} • {exp.location}</p>
-                    
-                    <div className={`overflow-hidden transition-all duration-500 ${
-                      selectedExperience === exp.id ? 'max-h-96 opacity-100' : 'max-h-16 opacity-70'
-                    }`}>
-                      <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
-                      
-                      {/* Only show details when THIS specific card is selected */}
-                      {selectedExperience === exp.id && (
-                        <div className="space-y-3 animate-slideDown">
-                          <div>
-                            <h4 className="text-teal-400 font-medium mb-2">Key Highlights:</h4>
-                            <ul className="space-y-1">
-                              {exp.highlights.map((highlight, idx) => (
-                                <li key={idx} className="text-gray-300 text-sm flex items-center">
-                                  <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                                  {highlight}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                          <div className="flex flex-wrap gap-2 pt-2">
-                            {exp.skills.map((skill, skillIndex) => (
-                              <span
-                                key={skillIndex}
-                                className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-3 py-1 rounded-full text-xs font-medium"
-                              >
-                                {skill}
-                              </span>
-                            ))}
-                          </div>
+                    <div className="p-6">
+                      {/* Header Section */}
+                      <div className="flex justify-between items-start mb-4">
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-white mb-1">{exp.title}</h3>
+                          <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
+                          <p className="text-gray-400 text-sm">{exp.period} • {exp.location}</p>
                         </div>
-                      )}
+                        
+                        {/* Arrow Icon - Only rotates for selected card */}
+                        <div 
+                          className={`ml-4 transition-transform duration-300 ${
+                            selectedExperience === exp.id ? 'rotate-180' : 'rotate-0'
+                          }`}
+                          style={{ transformOrigin: 'center' }}
+                        >
+                          <svg 
+                            className="w-5 h-5 text-teal-400" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round" 
+                              strokeWidth={2} 
+                              d="M19 9l-7 7-7-7" 
+                            />
+                          </svg>
+                        </div>
+                      </div>
+
+                      {/* Always visible description (truncated) */}
+                      <div className={`overflow-hidden transition-all duration-500 ${
+                        selectedExperience === exp.id ? 'max-h-96' : 'max-h-16'
+                      }`}>
+                        <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
+                        
+                        {/* Expanded Details - Only show for selected card */}
+                        {selectedExperience === exp.id && (
+                          <div 
+                            className="space-y-3 animate-slideDown"
+                            style={{ 
+                              animation: 'slideDown 0.3s ease-out',
+                              transform: 'translateZ(0)' // Force hardware acceleration
+                            }}
+                          >
+                            <div>
+                              <h4 className="text-teal-400 font-medium mb-2">Key Highlights:</h4>
+                              <ul className="space-y-1">
+                                {exp.highlights.map((highlight, idx) => (
+                                  <li key={idx} className="text-gray-300 text-sm flex items-center">
+                                    <span className="w-2 h-2 bg-teal-400 rounded-full mr-2 flex-shrink-0"></span>
+                                    {highlight}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div className="flex flex-wrap gap-2 pt-2">
+                              {exp.skills.map((skill, skillIndex) => (
+                                <span
+                                  key={skillIndex}
+                                  className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white px-3 py-1 rounded-full text-xs font-medium"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -494,6 +515,24 @@ const Experience = () => {
           }
           .animate-slideDown { 
             animation: slideDown 0.3s ease-out; 
+          }
+          
+          .scale-102 {
+            transform: scale(1.02) !important;
+          }
+          
+          .scale-100 {
+            transform: scale(1.00) !important;
+          }
+          
+          /* Ensure smooth transitions only for intended elements */
+          .transition-all {
+            transition-property: transform, border-color, box-shadow, opacity;
+          }
+          
+          /* Prevent layout shifts */
+          .relative {
+            contain: layout style;
           }
         `}
       </style>
