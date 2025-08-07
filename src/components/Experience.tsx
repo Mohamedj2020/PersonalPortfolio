@@ -268,112 +268,124 @@ const Experience = () => {
           {/* Experience Tab with Popup Animations */}
           {activeTab === 'experience' && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {experiences.map((exp, index) => {
-                  // Make sure we're checking the exact ID match
-                  const isThisCardExpanded = selectedExperience === exp.id;
-                  
-                  return (
-                    <div
-                      key={exp.id}
-                      className={`relative bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-all duration-300 ${
-                        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-                      } ${
-                        isThisCardExpanded 
-                          ? 'border-teal-400 shadow-xl shadow-teal-400/20' 
-                          : 'border-teal-400/30 hover:border-teal-400/60'
-                      }`}
-                      style={{ 
-                        transitionDelay: `${500 + index * 200}ms`,
-                        transform: isThisCardExpanded ? 'scale(1.02)' : 'scale(1)',
-                        transition: 'transform 0.3s ease-out, border-color 0.3s ease-out, box-shadow 0.3s ease-out',
-                        transformOrigin: 'center',
-                        zIndex: isThisCardExpanded ? 10 : 1,
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        console.log(`Clicked card ${exp.id}, current selected: ${selectedExperience}`);
-                        setSelectedExperience(isThisCardExpanded ? null : exp.id);
-                      }}
-                    >
-                      <div className="p-6">
-                        {/* Header Section */}
-                        <div className="flex justify-between items-start mb-4">
-                          <div className="flex-1">
-                            <h3 className="text-xl font-bold text-white mb-1">{exp.title}</h3>
-                            <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
-                            <p className="text-gray-400 text-sm">{exp.period} • {exp.location}</p>
-                          </div>
-                          
-                          {/* Arrow Icon - Only rotates for THIS card */}
-                          <div 
-                            className="ml-4 transition-transform duration-300 ease-out"
-                            style={{ 
-                              transform: isThisCardExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                              transformOrigin: 'center'
-                            }}
-                          >
-                            <svg 
-                              className="w-5 h-5 text-teal-400" 
-                              fill="none" 
-                              stroke="currentColor" 
-                              viewBox="0 0 24 24"
-                            >
-                              <path 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth={2} 
-                                d="M19 9l-7 7-7-7" 
-                              />
-                            </svg>
-                          </div>
-                        </div>
+              {/* Timeline Container */}
+              <div className="relative max-w-4xl mx-auto">
+                {/* Timeline Line */}
+                <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-teal-500 to-cyan-500 rounded-full"></div>
 
-                        {/* Description - Always Visible */}
-                        <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
+                {/* Timeline Items */}
+                <div className="space-y-8">
+                  {experiences.map((exp, index) => {
+                    const isExpanded = selectedExperience === exp.id;
+                    
+                    return (
+                      <div
+                        key={exp.id}
+                        className={`relative transition-all duration-700 ${
+                          isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'
+                        }`}
+                        style={{ transitionDelay: `${500 + index * 200}ms` }}
+                      >
+                        {/* Timeline Dot */}
+                        <div className="absolute left-6 w-4 h-4 bg-teal-500 rounded-full border-4 border-gray-900 z-10 transition-all duration-300 hover:scale-125"></div>
 
-                        {/* Expanded Content - ONLY show for THIS specific card */}
-                        {isThisCardExpanded && (
-                          <div className="pt-4 border-t border-gray-700/50 space-y-4 animate-slideDown">
-                            {/* Key Highlights */}
-                            <div>
-                              <h4 className="text-teal-400 font-medium mb-3 flex items-center">
-                                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                                Key Highlights
-                              </h4>
-                              <ul className="space-y-2 ml-4">
-                                {exp.highlights.map((highlight, idx) => (
-                                  <li key={`${exp.id}-highlight-${idx}`} className="text-gray-300 text-sm flex items-start">
-                                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-3 mt-2 flex-shrink-0"></span>
-                                    {highlight}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-
-                            {/* Skills */}
-                            <div>
-                              <h4 className="text-teal-400 font-medium mb-3 flex items-center">
-                                <span className="w-2 h-2 bg-teal-400 rounded-full mr-2"></span>
-                                Technologies Used
-                              </h4>
-                              <div className="flex flex-wrap gap-2">
-                                {exp.skills.map((skill, skillIndex) => (
-                                  <span
-                                    key={`${exp.id}-skill-${skillIndex}`}
-                                    className="bg-gradient-to-r from-teal-600/80 to-cyan-600/80 border border-teal-400/30 text-white px-3 py-1.5 rounded-full text-xs font-medium hover:from-teal-600 hover:to-cyan-600 transition-all duration-200"
-                                  >
-                                    {skill}
-                                  </span>
-                                ))}
+                        {/* Timeline Card */}
+                        <div 
+                          className={`ml-20 bg-gray-800/50 backdrop-blur-sm rounded-xl border cursor-pointer transition-all duration-300 ${
+                            isExpanded 
+                              ? 'border-teal-400 shadow-xl shadow-teal-400/20 scale-105' 
+                              : 'border-teal-400/30 hover:border-teal-400 hover:scale-102'
+                          }`}
+                          style={{
+                            transformOrigin: 'left center',
+                            zIndex: isExpanded ? 10 : 1,
+                          }}
+                          onClick={() => setSelectedExperience(isExpanded ? null : exp.id)}
+                        >
+                          <div className="p-6">
+                            {/* Header */}
+                            <div className="flex justify-between items-start mb-4">
+                              <div className="flex-1">
+                                <h3 className="text-xl font-bold text-white mb-2">{exp.title}</h3>
+                                <p className="text-teal-400 font-medium mb-1">{exp.organization}</p>
+                                <div className="flex items-center text-gray-400 text-sm">
+                                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                  </svg>
+                                  {exp.period}
+                                  <span className="mx-2">•</span>
+                                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                  </svg>
+                                  {exp.location}
+                                </div>
+                              </div>
+                              
+                              {/* Expand Button */}
+                              <div 
+                                className={`ml-4 p-2 rounded-full bg-teal-600/20 hover:bg-teal-600/30 transition-all duration-300 ${
+                                  isExpanded ? 'rotate-180' : 'rotate-0'
+                                }`}
+                              >
+                                <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
                               </div>
                             </div>
+
+                            {/* Description */}
+                            <p className="text-gray-300 text-sm leading-relaxed mb-4">{exp.description}</p>
+
+                            {/* Expanded Content */}
+                            {isExpanded && (
+                              <div className="space-y-6 pt-4 border-t border-gray-700/50 animate-slideDown">
+                                {/* Key Highlights */}
+                                <div>
+                                  <h4 className="text-teal-400 font-semibold mb-4 flex items-center">
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Key Highlights
+                                  </h4>
+                                  <div className="grid md:grid-cols-1 gap-3">
+                                    {exp.highlights.map((highlight, idx) => (
+                                      <div key={idx} className="flex items-start bg-gray-700/30 p-3 rounded-lg">
+                                        <div className="w-2 h-2 bg-teal-400 rounded-full mr-3 mt-2 flex-shrink-0"></div>
+                                        <span className="text-gray-300 text-sm">{highlight}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+
+                                {/* Technologies Used */}
+                                <div>
+                                  <h4 className="text-teal-400 font-semibold mb-4 flex items-center">
+                                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    Technologies Used
+                                  </h4>
+                                  <div className="flex flex-wrap gap-3">
+                                    {exp.skills.map((skill, skillIndex) => (
+                                      <span
+                                        key={skillIndex}
+                                        className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 cursor-pointer shadow-lg"
+                                      >
+                                        {skill}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
                           </div>
-                        )}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
             </div>
           )}
