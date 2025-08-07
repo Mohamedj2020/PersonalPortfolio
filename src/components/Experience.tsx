@@ -272,18 +272,17 @@ const Experience = () => {
                 {experiences.map((exp, index) => (
                   <div 
                     key={exp.id} 
-                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform hover:scale-102 ${
+                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer ${
                       selectedExperience === exp.id
                         ? 'border-teal-400 shadow-lg shadow-teal-400/20 scale-105'
                         : 'border-teal-400/30 hover:border-teal-400'
                     } ${
                       isVisible 
-                        ? 'opacity-100 translate-y-0 rotate-0 scale-100' 
-                        : 'opacity-0 translate-y-20 rotate-3 scale-90'
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 translate-y-20'
                     }`}
                     style={{ 
                       transitionDelay: isVisible ? `${500 + index * 200}ms` : '0ms',
-                      transformOrigin: 'center'
                     }}
                     onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
                   >
@@ -291,12 +290,15 @@ const Experience = () => {
                       <h3 className="text-xl font-bold text-white hover:text-teal-400 transition-colors">
                         {exp.title}
                       </h3>
-                      <div className={`transform transition-transform duration-300 ${selectedExperience === exp.id ? 'rotate-180' : ''}`}>
+                      <div className={`transform transition-transform duration-300 ${
+                        selectedExperience === exp.id ? 'rotate-180' : ''
+                      }`}>
                         <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </div>
                     </div>
+                    
                     <p className="text-teal-400 mb-1 font-medium">{exp.organization}</p>
                     <p className="text-gray-400 text-sm mb-3">{exp.period} • {exp.location}</p>
                     
@@ -304,6 +306,8 @@ const Experience = () => {
                       selectedExperience === exp.id ? 'max-h-96 opacity-100' : 'max-h-16 opacity-70'
                     }`}>
                       <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
+                      
+                      {/* Only show details when THIS specific card is selected */}
                       {selectedExperience === exp.id && (
                         <div className="space-y-3 animate-slideDown">
                           <div>
