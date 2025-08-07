@@ -1,15 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('experience');
   const [selectedExperience, setSelectedExperience] = useState<number | null>(null);
   const [animateSkills, setAnimateSkills] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // Trigger animations when component mounts
+  // Intersection Observer for scroll-based animations
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 100);
-    return () => clearTimeout(timer);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      {
+        threshold: 0.1, // Trigger when 10% of the section is visible
+        rootMargin: '0px 0px -100px 0px' // Trigger slightly before the section comes into view
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
   }, []);
 
   // Trigger skill animation when skills tab is opened
@@ -20,6 +40,17 @@ const Experience = () => {
       return () => clearTimeout(timer);
     }
   }, [activeTab]);
+
+  // Reset animations when tab changes (optional - for re-triggering animations)
+  useEffect(() => {
+    if (isVisible) {
+      // Small delay to allow tab content to render
+      const timer = setTimeout(() => {
+        // Force re-animation on tab change if needed
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [activeTab, isVisible]);
 
   // Updated skills without years
   const skills = {
@@ -193,7 +224,7 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="py-20">
+    <section ref={sectionRef} id="experience" className="py-20">
       <div className="container mx-auto px-6">
         {/* Animated Title */}
         <h2 className={`text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
@@ -203,9 +234,11 @@ const Experience = () => {
         </h2>
 
         {/* Animated Tab Navigation */}
-        <div className={`flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-2 max-w-4xl mx-auto border border-teal-400/20 gap-1 transition-all duration-1000 delay-300 ${
+        <div className={`flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-2 max-w-4xl mx-auto border border-teal-400/20 gap-1 transition-all duration-1000 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}>
+        }`}
+        style={{ transitionDelay: isVisible ? '300ms' : '0ms' }}
+        >
           {[
             { key: 'experience', label: 'Experience', icon: '💼' },
             { key: 'skills', label: 'Skills', icon: '🛠️' },
@@ -239,17 +272,17 @@ const Experience = () => {
                 {experiences.map((exp, index) => (
                   <div 
                     key={exp.id} 
-                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform ${
+                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform hover:scale-102 ${
                       selectedExperience === exp.id
                         ? 'border-teal-400 shadow-lg shadow-teal-400/20 scale-105'
-                        : 'border-teal-400/30 hover:border-teal-400 hover:scale-102'
+                        : 'border-teal-400/30 hover:border-teal-400'
                     } ${
                       isVisible 
                         ? 'opacity-100 translate-y-0 rotate-0 scale-100' 
-                        : 'opacity-0 translate-y-20 rotate-3 scale-95'
+                        : 'opacity-0 translate-y-20 rotate-3 scale-90'
                     }`}
                     style={{ 
-                      transitionDelay: `${500 + index * 200}ms`,
+                      transitionDelay: isVisible ? `${500 + index * 200}ms` : '0ms',
                       transformOrigin: 'center'
                     }}
                     onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
