@@ -193,28 +193,27 @@ const Experience = () => {
         </h2>
 
         {/* Mobile-Optimized Tab Navigation */}
-        <div className="flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl md:rounded-full p-3 max-w-5xl mx-auto border border-teal-400/20 gap-2">
+        <div className="flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-2 max-w-4xl mx-auto border border-teal-400/20 gap-1">
           {[
             { key: 'experience', label: 'Experience', icon: '💼' },
             { key: 'skills', label: 'Skills', icon: '🛠️' },
             { key: 'coursework', label: 'Coursework', icon: '📚' },
-            { key: 'certifications', label: 'Certifications', icon: '🏆' },
+            { key: 'certifications', label: 'Certs', icon: '🏆' },
             { key: 'leadership', label: 'Leadership', icon: '👥' }
           ].map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl md:rounded-full transition-all duration-500 relative overflow-hidden ${
+              className={`px-2 py-1.5 sm:px-3 sm:py-2 md:px-4 md:py-3 rounded-lg md:rounded-full transition-all duration-500 text-center ${
                 activeTab === tab.key
                   ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg scale-105'
-                  : 'bg-transparent text-gray-300 hover:bg-gray-700/50 hover:scale-105 hover:text-white'
+                  : 'bg-transparent text-gray-300 hover:bg-gray-700/50 hover:text-white'
               }`}
             >
-              <span className="mr-1 sm:mr-2 text-sm sm:text-base md:text-lg">{tab.icon}</span>
-              <span className="font-medium text-xs sm:text-sm md:text-base">{tab.label}</span>
-              {activeTab === tab.key && (
-                <div className="absolute inset-0 bg-white/10 animate-pulse rounded-xl md:rounded-full"></div>
-              )}
+              <div className="flex flex-col sm:flex-row items-center sm:space-x-1">
+                <span className="text-xs sm:text-sm md:text-base">{tab.icon}</span>
+                <span className="font-medium text-xs sm:text-xs md:text-sm leading-tight">{tab.label}</span>
+              </div>
             </button>
           ))}
         </div>
@@ -284,37 +283,37 @@ const Experience = () => {
             </div>
           )}
 
-          {/* Interactive Skills Tab */}
+          {/* Mobile-Optimized Skills Tab */}
           {activeTab === 'skills' && (
             <>
-              {/* Skill Level Legend */}
-              <div className="flex justify-center mb-8 space-x-6 text-sm bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 max-w-2xl mx-auto border border-teal-400/20">
-                <div className="flex items-center">
-                  <div className="w-5 h-5 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500 mr-3 shadow-lg"></div>
-                  <span className="text-white font-medium">Advanced</span>
+              {/* Compact Mobile Legend */}
+              <div className="flex flex-col sm:flex-row justify-center items-center mb-6 space-y-2 sm:space-y-0 sm:space-x-4 bg-gray-800/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 max-w-3xl mx-auto border border-teal-400/20">
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></div>
+                  <span className="text-white font-medium text-xs sm:text-sm">Advanced</span>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 mr-3 shadow-lg"></div>
-                  <span className="text-white font-medium">Intermediate</span>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-blue-500 to-blue-600"></div>
+                  <span className="text-white font-medium text-xs sm:text-sm">Intermediate</span>
                 </div>
-                <div className="flex items-center">
-                  <div className="w-5 h-5 rounded-full bg-gradient-to-r from-green-500 to-green-600 mr-3 shadow-lg"></div>
-                  <span className="text-white font-medium">Beginner</span>
+                <div className="flex items-center space-x-1">
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-green-500 to-green-600"></div>
+                  <span className="text-white font-medium text-xs sm:text-sm">Beginner</span>
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {Object.entries(skills).map(([category, skillList]) => (
                   <div 
                     key={category} 
-                    className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-500 hover:shadow-lg"
+                    className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-500"
                   >
-                    <h3 className="text-xl font-bold text-white mb-6 text-center">{category}</h3>
-                    <div className="flex flex-wrap gap-3 justify-center">
+                    <h3 className="text-lg sm:text-xl font-bold text-white mb-4 text-center">{category}</h3>
+                    <div className="flex flex-wrap gap-2 justify-center">
                       {skillList.map((skill, index) => (
                         <span
                           key={index}
-                          className={`${getSkillColor(skill.level)} text-white px-4 py-2 rounded-full text-sm font-medium transform transition-all duration-300 hover:scale-110 hover:shadow-xl cursor-pointer hover:-translate-y-1`}
+                          className={`${getSkillColor(skill.level)} text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 cursor-pointer`}
                         >
                           {skill.name}
                         </span>
@@ -326,17 +325,17 @@ const Experience = () => {
             </>
           )}
 
-          {/* Fixed Coursework Tab */}
+          {/* Mobile-Optimized Coursework Tab */}
           {activeTab === 'coursework' && (
-            <div className="bg-gray-800/50 backdrop-blur-sm p-8 rounded-xl border border-teal-400/30">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">📚 Relevant Coursework</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30">
+              <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 text-center">📚 Relevant Coursework</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                 {coursework.map((course, index) => (
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-4 rounded-xl text-sm text-center hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer h-20 flex items-center justify-center"
+                    className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-2 sm:p-3 rounded-lg text-center hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 hover:scale-105 cursor-pointer min-h-[50px] sm:min-h-[60px] flex items-center justify-center"
                   >
-                    <span className="leading-tight font-medium">{course}</span>
+                    <span className="text-xs sm:text-sm font-medium leading-tight">{course}</span>
                   </div>
                 ))}
               </div>
