@@ -192,8 +192,8 @@ const Experience = () => {
           Experience & Skills
         </h2>
 
-        {/* Interactive Tab Navigation */}
-        <div className="flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-full p-2 max-w-4xl mx-auto border border-teal-400/20">
+        {/* Mobile-Optimized Tab Navigation */}
+        <div className="flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl md:rounded-full p-3 max-w-5xl mx-auto border border-teal-400/20 gap-2">
           {[
             { key: 'experience', label: 'Experience', icon: '💼' },
             { key: 'skills', label: 'Skills', icon: '🛠️' },
@@ -204,16 +204,16 @@ const Experience = () => {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-6 py-3 rounded-full transition-all duration-500 mx-1 my-1 relative overflow-hidden ${
+              className={`px-3 py-2 sm:px-4 sm:py-2 md:px-6 md:py-3 rounded-xl md:rounded-full transition-all duration-500 relative overflow-hidden ${
                 activeTab === tab.key
-                  ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg scale-110'
+                  ? 'bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg scale-105'
                   : 'bg-transparent text-gray-300 hover:bg-gray-700/50 hover:scale-105 hover:text-white'
               }`}
             >
-              <span className="mr-2 text-lg">{tab.icon}</span>
-              <span className="font-medium">{tab.label}</span>
+              <span className="mr-1 sm:mr-2 text-sm sm:text-base md:text-lg">{tab.icon}</span>
+              <span className="font-medium text-xs sm:text-sm md:text-base">{tab.label}</span>
               {activeTab === tab.key && (
-                <div className="absolute inset-0 bg-white/10 animate-pulse rounded-full"></div>
+                <div className="absolute inset-0 bg-white/10 animate-pulse rounded-xl md:rounded-full"></div>
               )}
             </button>
           ))}
@@ -224,7 +224,7 @@ const Experience = () => {
           {/* Interactive Experience Tab */}
           {activeTab === 'experience' && (
             <div className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {experiences.map((exp, index) => (
                   <div 
                     key={exp.id} 
