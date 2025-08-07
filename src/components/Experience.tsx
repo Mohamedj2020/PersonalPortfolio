@@ -272,10 +272,10 @@ const Experience = () => {
                 {experiences.map((exp, index) => (
                   <div 
                     key={exp.id} 
-                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer ${
+                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform-gpu ${
                       selectedExperience === exp.id
-                        ? 'border-teal-400 shadow-lg shadow-teal-400/20 scale-105'
-                        : 'border-teal-400/30 hover:border-teal-400'
+                        ? 'border-teal-400 shadow-lg shadow-teal-400/20'
+                        : 'border-teal-400/30 hover:border-teal-400/60'
                     } ${
                       isVisible 
                         ? 'opacity-100 translate-y-0' 
@@ -283,6 +283,9 @@ const Experience = () => {
                     }`}
                     style={{ 
                       transitionDelay: isVisible ? `${500 + index * 200}ms` : '0ms',
+                      transform: selectedExperience === exp.id 
+                        ? 'scale(1.02) translateZ(0)' 
+                        : 'scale(1) translateZ(0)'
                     }}
                     onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
                   >
@@ -291,7 +294,7 @@ const Experience = () => {
                         {exp.title}
                       </h3>
                       <div className={`transform transition-transform duration-300 ${
-                        selectedExperience === exp.id ? 'rotate-180' : ''
+                        selectedExperience === exp.id ? 'rotate-180' : 'rotate-0'
                       }`}>
                         <svg className="w-5 h-5 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
