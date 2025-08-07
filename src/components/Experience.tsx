@@ -4,6 +4,13 @@ const Experience = () => {
   const [activeTab, setActiveTab] = useState('experience');
   const [selectedExperience, setSelectedExperience] = useState<number | null>(null);
   const [animateSkills, setAnimateSkills] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  // Trigger animations when component mounts
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Trigger skill animation when skills tab is opened
   useEffect(() => {
@@ -188,12 +195,17 @@ const Experience = () => {
   return (
     <section id="experience" className="py-20">
       <div className="container mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+        {/* Animated Title */}
+        <h2 className={`text-4xl font-bold text-center mb-12 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           Experience & Skills
         </h2>
 
-        {/* Mobile-Optimized Tab Navigation */}
-        <div className="flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-2 max-w-4xl mx-auto border border-teal-400/20 gap-1">
+        {/* Animated Tab Navigation */}
+        <div className={`flex flex-wrap justify-center mb-8 bg-gray-800/30 backdrop-blur-sm rounded-2xl p-2 max-w-4xl mx-auto border border-teal-400/20 gap-1 transition-all duration-1000 delay-300 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}>
           {[
             { key: 'experience', label: 'Experience', icon: '💼' },
             { key: 'skills', label: 'Skills', icon: '🛠️' },
@@ -220,18 +232,26 @@ const Experience = () => {
 
         {/* Interactive Tab Content */}
         <div className="max-w-6xl mx-auto">
-          {/* Interactive Experience Tab */}
+          {/* Experience Tab with Popup Animations */}
           {activeTab === 'experience' && (
             <div className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 {experiences.map((exp, index) => (
                   <div 
                     key={exp.id} 
-                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-500 cursor-pointer transform ${
+                    className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border transition-all duration-700 cursor-pointer transform ${
                       selectedExperience === exp.id
                         ? 'border-teal-400 shadow-lg shadow-teal-400/20 scale-105'
                         : 'border-teal-400/30 hover:border-teal-400 hover:scale-102'
+                    } ${
+                      isVisible 
+                        ? 'opacity-100 translate-y-0 rotate-0 scale-100' 
+                        : 'opacity-0 translate-y-20 rotate-3 scale-95'
                     }`}
+                    style={{ 
+                      transitionDelay: `${500 + index * 200}ms`,
+                      transformOrigin: 'center'
+                    }}
                     onClick={() => setSelectedExperience(selectedExperience === exp.id ? null : exp.id)}
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -252,7 +272,7 @@ const Experience = () => {
                     }`}>
                       <p className="text-gray-300 text-sm mb-4">{exp.description}</p>
                       {selectedExperience === exp.id && (
-                        <div className="space-y-3">
+                        <div className="space-y-3 animate-slideDown">
                           <div>
                             <h4 className="text-teal-400 font-medium mb-2">Key Highlights:</h4>
                             <ul className="space-y-1">
@@ -283,11 +303,14 @@ const Experience = () => {
             </div>
           )}
 
-          {/* Mobile-Optimized Skills Tab */}
+          {/* Skills Tab with Staggered Animations */}
           {activeTab === 'skills' && (
             <>
-              {/* Compact Mobile Legend */}
-              <div className="flex flex-col sm:flex-row justify-center items-center mb-6 space-y-2 sm:space-y-0 sm:space-x-4 bg-gray-800/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 max-w-3xl mx-auto border border-teal-400/20">
+              <div className={`flex flex-col sm:flex-row justify-center items-center mb-6 space-y-2 sm:space-y-0 sm:space-x-4 bg-gray-800/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 max-w-3xl mx-auto border border-teal-400/20 transition-all duration-700 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
+              style={{ transitionDelay: '400ms' }}
+              >
                 <div className="flex items-center space-x-1">
                   <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gradient-to-r from-yellow-500 to-orange-500"></div>
                   <span className="text-white font-medium text-xs sm:text-sm">Advanced</span>
@@ -303,16 +326,21 @@ const Experience = () => {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-                {Object.entries(skills).map(([category, skillList]) => (
+                {Object.entries(skills).map(([category, skillList], index) => (
                   <div 
                     key={category} 
-                    className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-500"
+                    className={`bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-700 ${
+                      isVisible 
+                        ? 'opacity-100 translate-y-0 scale-100' 
+                        : 'opacity-0 translate-y-16 scale-95'
+                    }`}
+                    style={{ transitionDelay: `${600 + index * 150}ms` }}
                   >
                     <h3 className="text-lg sm:text-xl font-bold text-white mb-4 text-center">{category}</h3>
                     <div className="flex flex-wrap gap-2 justify-center">
-                      {skillList.map((skill, index) => (
+                      {skillList.map((skill, skillIndex) => (
                         <span
-                          key={index}
+                          key={skillIndex}
                           className={`${getSkillColor(skill.level)} text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-105 cursor-pointer`}
                         >
                           {skill.name}
@@ -327,13 +355,20 @@ const Experience = () => {
 
           {/* Mobile-Optimized Coursework Tab */}
           {activeTab === 'coursework' && (
-            <div className="bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30">
+            <div className={`bg-gray-800/50 backdrop-blur-sm p-4 sm:p-6 rounded-xl border border-teal-400/30 transition-all duration-700 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
+            style={{ transitionDelay: '500ms' }}
+            >
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-6 text-center">📚 Relevant Coursework</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
                 {coursework.map((course, index) => (
                   <div
                     key={index}
-                    className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-2 sm:p-3 rounded-lg text-center hover:from-teal-700 hover:to-cyan-700 transition-all duration-300 hover:scale-105 cursor-pointer min-h-[50px] sm:min-h-[60px] flex items-center justify-center"
+                    className={`bg-gradient-to-r from-teal-600 to-cyan-600 text-white p-2 sm:p-3 rounded-lg text-center hover:from-teal-700 hover:to-cyan-700 transition-all duration-500 hover:scale-105 cursor-pointer min-h-[50px] sm:min-h-[60px] flex items-center justify-center ${
+                      isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                    }`}
+                    style={{ transitionDelay: `${700 + index * 50}ms` }}
                   >
                     <span className="text-xs sm:text-sm font-medium leading-tight">{course}</span>
                   </div>
@@ -346,7 +381,13 @@ const Experience = () => {
           {activeTab === 'certifications' && (
             <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
               {certifications.map((cert, index) => (
-                <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-300 hover:shadow-lg">
+                <div 
+                  key={index} 
+                  className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-700 hover:shadow-lg ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${400 + index * 200}ms` }}
+                >
                   <h3 className="text-xl font-bold text-white mb-2">{cert.title}</h3>
                   <p className="text-teal-400 mb-1">{cert.issuer}</p>
                   <p className="text-gray-400 text-sm mb-3">
@@ -386,7 +427,13 @@ const Experience = () => {
           {activeTab === 'leadership' && (
             <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
               {leadership.map((item, index) => (
-                <div key={index} className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-300 hover:shadow-lg">
+                <div 
+                  key={index} 
+                  className={`bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-teal-400/30 hover:border-teal-400 transition-all duration-700 hover:shadow-lg ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                  }`}
+                  style={{ transitionDelay: `${400 + index * 200}ms` }}
+                >
                   <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
                   <p className="text-teal-400 mb-1">{item.organization}</p>
                   <p className="text-gray-400 text-sm mb-3">{item.period}</p>
@@ -397,6 +444,19 @@ const Experience = () => {
           )}
         </div>
       </div>
+
+      {/* CSS for additional animations */}
+      <style>
+        {`
+          @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-slideDown { 
+            animation: slideDown 0.3s ease-out; 
+          }
+        `}
+      </style>
     </section>
   );
 };
