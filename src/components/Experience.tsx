@@ -135,7 +135,7 @@ const Experience = () => {
     {
       id: 1,
       title: "Software Engineer Intern",
-      organization: "Mahamed Konsulting",
+      organization: "Kassim Konsulting",
       period: "Apr 2025 - Present",
       location: "Seattle, WA",
       description: "Built and deployed a responsive web platform enabling students to receive resume reviews and access real-time internship listings through integrated third-party APIs.",

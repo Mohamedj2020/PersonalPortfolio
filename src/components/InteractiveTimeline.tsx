@@ -12,7 +12,7 @@ const InteractiveTimeline = () => {
     {
       date: "2025",
       title: "Software Engineer Intern",
-      company: "Mahamed Konsulting",
+      company: "Kassim Konsulting",
       type: "work",
       details: "Built responsive web platform with React and Node.js",
       achievements: ["500+ users", "99.9% uptime", "AWS deployment"]
