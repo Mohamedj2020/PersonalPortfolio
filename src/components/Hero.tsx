@@ -35,6 +35,9 @@ const Hero = () => {
     
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, currentRoleIndex, roles]);
+  const resumeUrl = '/images/mlt_july_resume.pdf';
+  const downloadSupported = typeof document !== 'undefined' && 'download' in document.createElement('a');
+
   return (
     <section id="hero" className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background decorative elements */}
@@ -87,11 +90,11 @@ const Hero = () => {
                 Get in touch
               </a>
               <a
-                href="/images/mlt_july_resume.pdf"
-                download
-                className="border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-white font-semibold px-6 py-3 rounded-full transition-all duration-300 text-center"
+                href={resumeUrl}
+                {...(downloadSupported ? { download: true } : {})}
+                className="btn-primary"
               >
-                Download CV
+                Download résumé
               </a>
             </div>
 

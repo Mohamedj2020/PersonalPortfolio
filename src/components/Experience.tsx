@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import './Experience.css';
 
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('experience');
@@ -34,14 +35,16 @@ const Experience = () => {
     };
   }, []);
 
-  // Trigger skill animation when skills tab is opened
+  // Reset animations when tab changes (optional - for re-triggering animations)
   useEffect(() => {
-    if (activeTab === 'skills') {
-      setAnimateSkills(true);
-      const timer = setTimeout(() => setAnimateSkills(false), 1000);
+    if (isVisible) {
+      const timer = setTimeout(() => {
+        // Force re-animation on tab change if needed
+      }, 50);
       return () => clearTimeout(timer);
     }
-  }, [activeTab]);
+  }, [activeTab, isVisible]);
+
 
   // Reset animations when tab changes (optional - for re-triggering animations)
   useEffect(() => {
@@ -533,37 +536,6 @@ const Experience = () => {
           )}
         </div>
       </div>
-
-      {/* CSS for additional animations */}
-      <style>
-        {`
-          @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .animate-slideDown { 
-            animation: slideDown 0.3s ease-out; 
-          }
-          
-          .scale-102 {
-            transform: scale(1.02) !important;
-          }
-          
-          .scale-100 {
-            transform: scale(1.00) !important;
-          }
-          
-          /* Ensure smooth transitions only for intended elements */
-          .transition-all {
-            transition-property: transform, border-color, box-shadow, opacity;
-          }
-          
-          /* Prevent layout shifts */
-          .relative {
-            contain: layout style;
-          }
-        `}
-      </style>
     </section>
   );
 };
