@@ -1,0 +1,5 @@
+name = "personalportfolio"
+compatibility_date = "2025-09-30"
+
+[site]
+bucket = "./build"
