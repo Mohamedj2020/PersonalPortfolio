@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 const Experience = () => {
   const [activeTab, setActiveTab] = useState('experience');
   const [selectedExperience, setSelectedExperience] = useState<number | null>(null);
-  const [animateSkills, setAnimateSkills] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -21,14 +20,17 @@ const Experience = () => {
       }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const sectionElement = sectionRef.current;
+
+    if (sectionElement) {
+      observer.observe(sectionElement);
     }
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
+      if (sectionElement) {
+        observer.unobserve(sectionElement);
       }
+      observer.disconnect();
     };
   }, []);
 
