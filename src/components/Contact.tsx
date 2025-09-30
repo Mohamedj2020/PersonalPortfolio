@@ -1,14 +1,6 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
 
-const typography = {
-  h1: "text-4xl md:text-6xl font-bold leading-tight",
-  h2: "text-3xl md:text-4xl font-bold leading-tight",
-  h3: "text-2xl md:text-3xl font-semibold leading-tight",
-  body: "text-base md:text-lg leading-relaxed",
-  small: "text-sm leading-relaxed"
-};
-
 const Contact = () => {
   // Use a valid ID as fallback for development 
   const formId = process.env.REACT_APP_FORMSPREE_ID || "mgvnklbq";
