@@ -60,20 +60,20 @@ const TerminalCodeSymbol = () => {
     setClickedTech(null);
     setIsPaused(false);
     setSpeedLevel(1);
-    setInput('> System reset... ✓');
+    setInput('System reset... ✓');
     setTimeout(() => setInput(''), 1500);
   }, []);
 
   const togglePause = useCallback(() => {
     setIsPaused(prev => !prev);
-    setInput(prev => prev ? '> Resumed ▶' : '> Paused ⏸');
+    setInput(prev => prev ? 'Resumed ▶' : 'Paused ⏸');
     setTimeout(() => setInput(''), 1000);
   }, []);
 
   const speedUp = useCallback(() => {
     setSpeedLevel(prev => {
       if (prev >= maxSpeedLevel) {
-        setInput('> Max speed reached! 🔥');
+        setInput('Max speed reached! 🔥');
         setTimeout(() => setInput(''), 1500);
         return prev;
       }
@@ -85,7 +85,7 @@ const TerminalCodeSymbol = () => {
       })));
       
       const newLevel = prev + 1;
-      setInput(`> Speed boost! Level ${newLevel}/${maxSpeedLevel} ⚡`);
+      setInput(`Speed boost! Level ${newLevel}/${maxSpeedLevel} ⚡`);
       setTimeout(() => setInput(''), 1500);
       return newLevel;
     });
@@ -103,7 +103,7 @@ const TerminalCodeSymbol = () => {
         speedUp();
       } else if (e.key === 'Escape') {
         setIsPaused(true);
-        setInput('> Paused (ESC)');
+        setInput(' Paused (ESC)');
         setTimeout(() => setInput(''), 1000);
       }
     };
@@ -323,7 +323,9 @@ const TerminalCodeSymbol = () => {
             <div className="flex items-center mb-2 md:mb-3">
               <span className="text-teal-400 mr-1.5 md:mr-2 text-xs md:text-sm">&gt;</span>
               <div className="flex-1 text-[10px] md:text-xs lg:text-sm">
-                {input || (
+                {input ? (
+                  <span className="text-white font-semibold">{input}</span>
+                ) : (
                   <span className="text-gray-500">
                     whoami
                   </span>
