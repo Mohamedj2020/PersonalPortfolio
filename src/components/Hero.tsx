@@ -92,9 +92,9 @@ const Hero = () => {
               <a
                 href={resumeUrl}
                 {...(downloadSupported ? { download: true } : {})}
-                className="btn-primary"
+                className="border-2 border-teal-400 text-teal-400 hover:bg-teal-400 hover:text-gray-900 font-semibold px-6 py-3 rounded-full transition-all duration-300 transform hover:scale-105 text-center"
               >
-                Download résumé
+                Download CV
               </a>
             </div>
 
