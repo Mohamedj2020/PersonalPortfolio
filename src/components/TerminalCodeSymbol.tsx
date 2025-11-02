@@ -13,14 +13,6 @@ interface TechIcon {
   rotation: number;
 }
 
-interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  unlocked: boolean;
-}
-
 const initialTechStack: TechIcon[] = [
   { name: 'React', icon: '⚛️', color: 'text-blue-400', x: 50, y: 50, vx: 1, vy: 0.8, size: 45, type: 'emoji', rotation: 0 },
   { name: 'TypeScript', icon: 'TS', color: 'text-blue-500 bg-blue-500/20 px-2 py-1 rounded font-bold border border-blue-500/30', x: 200, y: 100, vx: -0.9, vy: 1, size: 45, type: 'text', rotation: 0 },
@@ -32,38 +24,18 @@ const initialTechStack: TechIcon[] = [
   { name: 'Git', icon: '🔀', color: 'text-orange-600', x: 130, y: 140, vx: 1, vy: -1, size: 45, type: 'emoji', rotation: 0 },
 ];
 
-const INITIAL_ACHIEVEMENTS: Achievement[] = [
-  { id: 'first_click', title: 'First Click', description: 'Click your first icon', icon: '🎯', unlocked: false },
-  { id: 'speed_demon', title: 'Speed Demon', description: 'Reach maximum speed', icon: '⚡', unlocked: false },
-  { id: 'combo_master', title: 'Combo Master', description: 'Get a 5x combo', icon: '🔥', unlocked: false },
-  { id: 'combo_god', title: 'Combo God', description: 'Get a 10x combo', icon: '👑', unlocked: false },
-  { id: 'corner_hunter', title: 'Corner Hunter', description: 'Hit 10 corners', icon: '🎪', unlocked: false },
-  { id: 'century', title: 'Century Club', description: 'Score 100 XP', icon: '💯', unlocked: false },
-  { id: 'high_roller', title: 'High Roller', description: 'Score 500 XP', icon: '💎', unlocked: false },
-  { id: 'ultimate', title: 'Ultimate Master', description: 'Score 1000 XP', icon: '🏆', unlocked: false },
-];
-
 const TerminalCodeSymbol = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [clickedTech, setClickedTech] = useState<string | null>(null);
   const [input, setInput] = useState('');
   const [score, setScore] = useState(0);
-  const [cornerHits, setCornerHits] = useState(0);
   const [combo, setCombo] = useState(0);
-  const [maxCombo, setMaxCombo] = useState(0);
   const [showCombo, setShowCombo] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [speedLevel, setSpeedLevel] = useState(1);
   const [showRedHint, setShowRedHint] = useState(false);
   const [showYellowHint, setShowYellowHint] = useState(false);
   const [showGreenHint, setShowGreenHint] = useState(false);
-  const [showBlueHint, setShowBlueHint] = useState(false);
-  const [showParticles, setShowParticles] = useState(false);
-  const [particlePosition, setParticlePosition] = useState({ x: 0, y: 0 });
-  const [achievements, setAchievements] = useState<Achievement[]>(INITIAL_ACHIEVEMENTS);
-  const [showAchievement, setShowAchievement] = useState<string | null>(null);
-  const [showAchievementPanel, setShowAchievementPanel] = useState(false);
-  const [highScore, setHighScore] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const maxSpeedLevel = 5;
   const terminalContentRef = useRef<HTMLDivElement>(null);
@@ -80,117 +52,14 @@ const TerminalCodeSymbol = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const unlockAchievement = useCallback((message: string) => {
-    setShowAchievement(message);
-    setTimeout(() => setShowAchievement(null), 3000);
-  }, []);
-
-  // Check for achievements
-  const checkAchievements = useCallback(() => {
-    setAchievements(prev => {
-      const newAchievements = [...prev];
-      let changed = false;
-
-      if (score >= 10 && !newAchievements.find(a => a.id === 'first_click')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'first_click');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('🎯 First Click!');
-          changed = true;
-        }
-      }
-
-      if (speedLevel === 5 && !newAchievements.find(a => a.id === 'speed_demon')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'speed_demon');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('⚡ Speed Demon!');
-          changed = true;
-        }
-      }
-
-      if (combo >= 5 && !newAchievements.find(a => a.id === 'combo_master')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'combo_master');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('🔥 Combo Master!');
-          changed = true;
-        }
-      }
-
-      if (cornerHits >= 10 && !newAchievements.find(a => a.id === 'corner_hunter')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'corner_hunter');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('🎪 Corner Hunter!');
-          changed = true;
-        }
-      }
-
-      if (score >= 100 && !newAchievements.find(a => a.id === 'century')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'century');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('💯 Century Club!');
-          changed = true;
-        }
-      }
-
-      if (maxCombo >= 10 && !newAchievements.find(a => a.id === 'combo_god')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'combo_god');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('👑 Combo God!');
-          changed = true;
-        }
-      }
-
-      if (score >= 500 && !newAchievements.find(a => a.id === 'high_roller')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'high_roller');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('💎 High Roller!');
-          changed = true;
-        }
-      }
-
-      if (score >= 1000 && !newAchievements.find(a => a.id === 'ultimate')?.unlocked) {
-        const idx = newAchievements.findIndex(a => a.id === 'ultimate');
-        if (idx !== -1) {
-          newAchievements[idx].unlocked = true;
-          unlockAchievement('🏆 Ultimate Master!');
-          changed = true;
-        }
-      }
-
-      return changed ? newAchievements : prev;
-    });
-  }, [score, speedLevel, combo, cornerHits, maxCombo, unlockAchievement]);
-
-  useEffect(() => {
-    checkAchievements();
-  }, [checkAchievements]);
-
-  useEffect(() => {
-    if (score > highScore) {
-      setHighScore(score);
-    }
-  }, [score, highScore]);
-
-  const unlockedCount = achievements.filter(a => a.unlocked).length;
-
   const resetTerminal = useCallback(() => {
     setTechStack(initialTechStack);
     setScore(0);
-    setCornerHits(0);
     setCombo(0);
-    setMaxCombo(0);
     setShowCombo(false);
     setClickedTech(null);
     setIsPaused(false);
     setSpeedLevel(1);
-    setHighScore(0);
-    setAchievements(INITIAL_ACHIEVEMENTS.map(a => ({ ...a, unlocked: false })));
     setInput('> System reset... ✓');
     setTimeout(() => setInput(''), 1500);
   }, []);
@@ -199,16 +68,6 @@ const TerminalCodeSymbol = () => {
     setIsPaused(prev => !prev);
     setInput(prev => prev ? '> Resumed ▶' : '> Paused ⏸');
     setTimeout(() => setInput(''), 1000);
-  }, []);
-
-  const toggleAchievementPanel = useCallback(() => {
-    setShowAchievementPanel(prev => {
-      const newValue = !prev;
-      if (newValue) {
-        setIsPaused(true);
-      }
-      return newValue;
-    });
   }, []);
 
   const speedUp = useCallback(() => {
@@ -243,22 +102,17 @@ const TerminalCodeSymbol = () => {
         e.preventDefault();
         speedUp();
       } else if (e.key === 'Escape') {
-        if (showAchievementPanel) {
-          toggleAchievementPanel();
-        } else {
-          setIsPaused(true);
-          setInput('> Paused (ESC)');
-          setTimeout(() => setInput(''), 1000);
-        }
-      } else if (e.key === 'a' || e.key === 'A') {
-        toggleAchievementPanel();
+        setIsPaused(true);
+        setInput('> Paused (ESC)');
+        setTimeout(() => setInput(''), 1000);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [showAchievementPanel, resetTerminal, togglePause, speedUp, toggleAchievementPanel]);
+  }, [resetTerminal, togglePause, speedUp]);
 
+  // Simplified animation for mobile
   useEffect(() => {
     const animate = () => {
       if (!terminalContentRef.current || isPaused) return;
@@ -273,37 +127,19 @@ const TerminalCodeSymbol = () => {
         let newY = tech.y + tech.vy;
         let newVx = tech.vx;
         let newVy = tech.vy;
-        let hitCorner = false;
+        // Minimal rotation on mobile
         let newRotation = isMobile 
-          ? tech.rotation + Math.abs(tech.vx + tech.vy) * 0.3
+          ? tech.rotation + 1
           : tech.rotation + (Math.abs(tech.vx) + Math.abs(tech.vy)) * 0.5;
 
         if (newX <= padding || newX >= contentWidth - tech.size - padding) {
           newVx = -tech.vx;
           newX = newX <= padding ? padding : contentWidth - tech.size - padding;
-          
-          if ((newY <= padding + 30 || newY >= contentHeight - tech.size - padding - 30)) {
-            hitCorner = true;
-          }
         }
         
         if (newY <= padding || newY >= contentHeight - tech.size - padding) {
           newVy = -tech.vy;
           newY = newY <= padding ? padding : contentHeight - tech.size - padding;
-          
-          if ((newX <= padding + 30 || newX >= contentWidth - tech.size - padding - 30)) {
-            hitCorner = true;
-          }
-        }
-
-        if (hitCorner) {
-          setCornerHits(prev => prev + 1);
-          setScore(prev => prev + 5);
-          if (!isMobile) {
-            setParticlePosition({ x: newX + tech.size / 2, y: newY + tech.size / 2 });
-            setShowParticles(true);
-            setTimeout(() => setShowParticles(false), 500);
-          }
         }
 
         return {
@@ -317,19 +153,16 @@ const TerminalCodeSymbol = () => {
       }));
     };
 
-    const fps = isMobile ? 30 : 60;
+    // Lower FPS on mobile for better performance
+    const fps = isMobile ? 24 : 60;
     const intervalId = setInterval(animate, 1000 / fps);
     return () => clearInterval(intervalId);
   }, [isPaused, isMobile]);
 
-  const handleTechClick = (techName: string, event: React.MouseEvent) => {
+  const handleTechClick = (techName: string) => {
     const newCombo = combo + 1;
     setCombo(newCombo);
     setShowCombo(true);
-    
-    if (newCombo > maxCombo) {
-      setMaxCombo(newCombo);
-    }
     
     if (comboTimerRef.current) {
       clearTimeout(comboTimerRef.current);
@@ -345,19 +178,6 @@ const TerminalCodeSymbol = () => {
     
     const points = 10 * (newCombo > 1 ? newCombo : 1);
     setScore(prev => prev + points);
-    
-    if (!isMobile) {
-      const rect = event.currentTarget.getBoundingClientRect();
-      const parentRect = terminalContentRef.current?.getBoundingClientRect();
-      if (parentRect) {
-        setParticlePosition({ 
-          x: rect.left - parentRect.left + rect.width / 2, 
-          y: rect.top - parentRect.top + rect.height / 2 
-        });
-        setShowParticles(true);
-        setTimeout(() => setShowParticles(false), 500);
-      }
-    }
     
     setTechStack(prev => prev.map(tech => 
       tech.name === techName 
@@ -375,72 +195,16 @@ const TerminalCodeSymbol = () => {
     }, 1500);
   };
 
-  const getShakeClass = () => {
-    if (combo >= 10) return 'animate-shake';
-    return '';
-  };
-
   return (
     <div 
       className="relative w-full h-full flex items-center justify-center"
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{ minHeight: '450px' }}
     >
-      {showAchievement && (
-        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] animate-bounce">
-          <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white px-4 py-1.5 md:px-5 md:py-2 rounded-full font-bold shadow-2xl border-2 border-white text-sm md:text-base">
-            {showAchievement}
-          </div>
-        </div>
-      )}
-
-      {showAchievementPanel && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2">
-          <div className="bg-gray-800 p-2.5 sm:p-3 md:p-4 rounded-lg border-2 border-teal-400 shadow-2xl w-72 md:w-96 lg:w-[450px] max-h-[400px] md:max-h-[450px] overflow-y-auto">
-            <div className="flex justify-between items-center mb-2 md:mb-3">
-              <h2 className="text-base sm:text-lg md:text-xl font-bold text-teal-400">🏆 Achievements</h2>
-              <div className="text-gray-400 text-xs">{unlockedCount}/{achievements.length}</div>
-            </div>
-            <div className="space-y-1.5 md:space-y-2">
-              {achievements.map((achievement) => (
-                <div
-                  key={achievement.id}
-                  className={`p-1.5 sm:p-2 md:p-2.5 rounded border transition-all ${
-                    achievement.unlocked
-                      ? 'bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border-yellow-500/50'
-                      : 'bg-gray-700/50 border-gray-600'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <div className={`text-lg sm:text-xl md:text-2xl flex-shrink-0 ${achievement.unlocked ? 'grayscale-0' : 'grayscale opacity-30'}`}>
-                      {achievement.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className={`font-bold text-xs sm:text-sm ${achievement.unlocked ? 'text-yellow-400' : 'text-gray-500'} leading-tight`}>
-                        {achievement.title}
-                      </div>
-                      <div className="text-[9px] sm:text-[10px] text-gray-400 leading-tight">{achievement.description}</div>
-                    </div>
-                    {achievement.unlocked && (
-                      <div className="text-green-400 text-sm sm:text-base md:text-lg flex-shrink-0">✓</div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={toggleAchievementPanel}
-              className="w-full mt-2 md:mt-3 bg-teal-600 hover:bg-teal-500 text-white py-1.5 md:py-2 px-3 md:px-4 rounded-lg font-bold transition-all text-xs sm:text-sm"
-            >
-              Close (A or ESC)
-            </button>
-          </div>
-        </div>
-      )}
-
+      {/* Simplified Combo Display - No bounce animation on mobile */}
       {showCombo && combo > 1 && (
-        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
+        <div className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-50 ${!isMobile && 'animate-bounce'}`}>
           <div className={`bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-lg text-sm md:text-base ${
             combo >= 10 ? 'md:text-xl border-2 border-yellow-400' : ''
           }`}>
@@ -449,31 +213,25 @@ const TerminalCodeSymbol = () => {
         </div>
       )}
 
-      {showRedHint && (
+      {/* Button Hints - Desktop only */}
+      {!isMobile && showRedHint && (
         <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
           <div className="bg-red-500/90 text-white px-2.5 py-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-semibold shadow-lg whitespace-nowrap">
             🔴 Reset (Press R)
           </div>
         </div>
       )}
-      {showYellowHint && (
+      {!isMobile && showYellowHint && (
         <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
           <div className="bg-yellow-500/90 text-gray-900 px-2.5 py-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-semibold shadow-lg whitespace-nowrap">
             🟡 Pause (Press Space)
           </div>
         </div>
       )}
-      {showGreenHint && (
+      {!isMobile && showGreenHint && (
         <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
           <div className="bg-green-500/90 text-white px-2.5 py-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-semibold shadow-lg whitespace-nowrap">
             🟢 Speed: {speedLevel}/{maxSpeedLevel} (Press ↑)
-          </div>
-        </div>
-      )}
-      {showBlueHint && (
-        <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
-          <div className="bg-blue-500/90 text-white px-2.5 py-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-semibold shadow-lg whitespace-nowrap">
-            🔵 Achievements (Press A)
           </div>
         </div>
       )}
@@ -481,7 +239,7 @@ const TerminalCodeSymbol = () => {
       <div 
         className={`relative w-72 md:w-96 lg:w-[450px] bg-gray-900 rounded-lg shadow-2xl border transition-all duration-500 ${
           isHovered ? 'scale-105 shadow-teal-500/50 border-teal-400/50' : 'border-gray-700'
-        } ${getShakeClass()}`}
+        }`}
       >
         <div className="flex items-center justify-between h-9 md:h-10 px-3 md:px-4 bg-gray-800 rounded-t-lg border-b border-gray-700">
           <div className="flex items-center gap-1.5 md:gap-2">
@@ -507,27 +265,11 @@ const TerminalCodeSymbol = () => {
               onMouseEnter={() => !isMobile && setShowGreenHint(true)}
               onMouseLeave={() => setShowGreenHint(false)}
             ></div>
-            <div 
-              className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-blue-500 hover:bg-blue-400 transition-all cursor-pointer hover:scale-110 active:scale-95 shadow-lg shadow-blue-500/50"
-              onClick={toggleAchievementPanel}
-              onMouseEnter={() => !isMobile && setShowBlueHint(true)}
-              onMouseLeave={() => setShowBlueHint(false)}
-            ></div>
             <span className="ml-1.5 md:ml-2 text-[10px] md:text-xs text-gray-400">~/mohamed</span>
           </div>
           <div className="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-mono">
             <div className="text-purple-400 transition-all hover:scale-105" title="Total Experience Points">
               XP: <span className="font-bold">{score}</span>
-            </div>
-            <div className="hidden sm:block text-yellow-400 transition-all hover:scale-105" title="Corner hits = +5 XP each!">
-              🎯 {cornerHits}
-            </div>
-            <div 
-              className="text-orange-400 transition-all hover:scale-105 cursor-pointer" 
-              title={`${unlockedCount} achievements unlocked! Click to view.`}
-              onClick={toggleAchievementPanel}
-            >
-              🏆 <span className="hidden sm:inline">{unlockedCount}/</span>{achievements.length}
             </div>
             {isPaused && (
               <div className="text-orange-400 animate-pulse">⏸</div>
@@ -539,41 +281,31 @@ const TerminalCodeSymbol = () => {
           ref={terminalContentRef}
           className="relative p-3 md:p-4 h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-900/80"
         >
-          {!isMobile && showParticles && (
-            <div 
-              className="absolute z-30 pointer-events-none"
-              style={{ left: particlePosition.x, top: particlePosition.y }}
-            >
-              <div className="animate-ping absolute h-6 w-6 md:h-8 md:w-8 rounded-full bg-yellow-400 opacity-75 -translate-x-1/2 -translate-y-1/2"></div>
-              <div className="animate-ping absolute h-9 w-9 md:h-12 md:w-12 rounded-full bg-purple-400 opacity-50 -translate-x-1/2 -translate-y-1/2" style={{ animationDelay: '0.1s' }}></div>
-              <div className="animate-pulse absolute h-3 w-3 md:h-4 md:w-4 rounded-full bg-orange-400 -translate-x-1/2 -translate-y-1/2"></div>
-              <div className="absolute text-base md:text-xl -translate-x-1/2 -translate-y-1/2 animate-bounce">✨</div>
-            </div>
-          )}
-
+          {/* Tech Stack Icons - Simplified for mobile */}
           {techStack.map((tech) => (
             <div
               key={tech.name}
-              className="absolute cursor-pointer transition-transform duration-100 hover:scale-125 z-20 active:scale-95"
+              className={`absolute cursor-pointer z-20 active:scale-95 ${!isMobile && 'transition-transform duration-100 hover:scale-125'}`}
               style={{
                 left: `${tech.x}px`,
                 top: `${tech.y}px`,
                 maxWidth: `${tech.size}px`,
                 minWidth: `${tech.size}px`,
-                transform: `rotate(${tech.rotation}deg)`,
+                transform: isMobile ? 'none' : `rotate(${tech.rotation}deg)`,
                 willChange: 'transform',
               }}
-              onClick={(e) => handleTechClick(tech.name, e)}
+              onClick={() => handleTechClick(tech.name)}
             >
               <div className="relative group">
                 <div 
-                  className={`${tech.type === 'text' ? 'text-xs md:text-sm lg:text-base' : 'text-xl md:text-2xl lg:text-3xl'} ${tech.color} drop-shadow-2xl filter hover:brightness-125 transition-all select-none flex items-center justify-center ${
+                  className={`${tech.type === 'text' ? 'text-xs md:text-sm lg:text-base' : 'text-xl md:text-2xl lg:text-3xl'} ${tech.color} ${!isMobile && 'drop-shadow-2xl filter hover:brightness-125 transition-all'} select-none flex items-center justify-center ${
                     clickedTech === tech.name ? 'scale-150 animate-pulse' : ''
                   }`}
                   style={{ whiteSpace: 'nowrap' }}
                 >
                   {tech.icon}
                 </div>
+                {/* Tooltip - Desktop only */}
                 {!isMobile && (
                   <div className="hidden md:block absolute -top-14 left-1/2 transform -translate-x-1/2 bg-gray-800/95 backdrop-blur text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap z-30 pointer-events-none border border-teal-400/50 shadow-lg">
                     <div className="font-semibold">{tech.name}</div>
@@ -613,18 +345,7 @@ const TerminalCodeSymbol = () => {
                 </div>
                 <div className="text-gray-500 text-[9px] md:text-[10px] lg:text-xs mt-3 md:mt-4 space-y-0.5 md:space-y-1 italic">
                   <div>💡 Click bouncing icons</div>
-                  <div>🎯 Corner hits = +5 bonus</div>
                   <div>🔥 Chain for combos</div>
-                  {maxCombo > 0 && (
-                    <div className="text-purple-400 font-semibold">
-                      Best: x{maxCombo} combo
-                    </div>
-                  )}
-                  {highScore > 0 && (
-                    <div className="text-yellow-400 font-semibold">
-                      High Score: {highScore} XP
-                    </div>
-                  )}
                 </div>
               </div>
             )}
@@ -646,9 +367,10 @@ const TerminalCodeSymbol = () => {
         </div>
       </div>
 
-      <div className={`absolute inset-0 bg-teal-500/5 blur-3xl rounded-full transition-all duration-500 -z-10 ${
+      {/* Simplified glow - No blur on mobile */}
+      <div className={`absolute inset-0 ${isMobile ? 'bg-teal-500/5' : 'bg-teal-500/5 blur-3xl'} rounded-full transition-all duration-500 -z-10 ${
         isHovered ? 'scale-110 bg-teal-400/10' : 'scale-90'
-      } ${combo >= 10 ? 'bg-purple-500/20' : ''}`}></div>
+      }`}></div>
     </div>
   );
 };
