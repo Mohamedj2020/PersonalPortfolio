@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 interface TechIcon {
   name: string;
@@ -69,10 +69,104 @@ const TerminalCodeSymbol = () => {
   const [techStack, setTechStack] = useState<TechIcon[]>(initialTechStack);
   const comboTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+  const unlockAchievement = useCallback((message: string) => {
+    setShowAchievement(message);
+    setTimeout(() => setShowAchievement(null), 3000);
+  }, []);
+
   // Check for achievements
+  const checkAchievements = useCallback(() => {
+    setAchievements(prev => {
+      const newAchievements = [...prev];
+      let changed = false;
+
+      // First click achievement
+      if (score >= 10 && !newAchievements.find(a => a.id === 'first_click')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'first_click');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('🎯 First Click!');
+          changed = true;
+        }
+      }
+
+      // Speed demon
+      if (speedLevel === 5 && !newAchievements.find(a => a.id === 'speed_demon')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'speed_demon');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('⚡ Speed Demon!');
+          changed = true;
+        }
+      }
+
+      // Combo master
+      if (combo >= 5 && !newAchievements.find(a => a.id === 'combo_master')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'combo_master');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('🔥 Combo Master!');
+          changed = true;
+        }
+      }
+
+      // Corner hunter
+      if (cornerHits >= 10 && !newAchievements.find(a => a.id === 'corner_hunter')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'corner_hunter');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('🎪 Corner Hunter!');
+          changed = true;
+        }
+      }
+
+      // Century
+      if (score >= 100 && !newAchievements.find(a => a.id === 'century')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'century');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('💯 Century Club!');
+          changed = true;
+        }
+      }
+
+      // Combo God
+      if (maxCombo >= 10 && !newAchievements.find(a => a.id === 'combo_god')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'combo_god');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('👑 Combo God!');
+          changed = true;
+        }
+      }
+
+      // High roller
+      if (score >= 500 && !newAchievements.find(a => a.id === 'high_roller')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'high_roller');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('💎 High Roller!');
+          changed = true;
+        }
+      }
+
+      // Ultimate
+      if (score >= 1000 && !newAchievements.find(a => a.id === 'ultimate')?.unlocked) {
+        const idx = newAchievements.findIndex(a => a.id === 'ultimate');
+        if (idx !== -1) {
+          newAchievements[idx].unlocked = true;
+          unlockAchievement('🏆 Ultimate Master!');
+          changed = true;
+        }
+      }
+
+      return changed ? newAchievements : prev;
+    });
+  }, [score, speedLevel, combo, cornerHits, maxCombo, unlockAchievement]);
+
   useEffect(() => {
     checkAchievements();
-  }, [score, speedLevel, combo, cornerHits, maxCombo]);
+  }, [checkAchievements]);
 
   // Track high score
   useEffect(() => {
@@ -81,131 +175,9 @@ const TerminalCodeSymbol = () => {
     }
   }, [score, highScore]);
 
-  const checkAchievements = () => {
-    const newAchievements = [...achievements];
-    let changed = false;
-
-    // First click achievement
-    if (score >= 10 && !newAchievements.find(a => a.id === 'first_click')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'first_click');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('🎯 First Click!');
-        changed = true;
-      }
-    }
-
-    // Speed demon
-    if (speedLevel === 5 && !newAchievements.find(a => a.id === 'speed_demon')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'speed_demon');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('⚡ Speed Demon!');
-        changed = true;
-      }
-    }
-
-    // Combo master
-    if (combo >= 5 && !newAchievements.find(a => a.id === 'combo_master')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'combo_master');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('🔥 Combo Master!');
-        changed = true;
-      }
-    }
-
-    // Corner hunter
-    if (cornerHits >= 10 && !newAchievements.find(a => a.id === 'corner_hunter')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'corner_hunter');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('🎪 Corner Hunter!');
-        changed = true;
-      }
-    }
-
-    // Century
-    if (score >= 100 && !newAchievements.find(a => a.id === 'century')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'century');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('💯 Century Club!');
-        changed = true;
-      }
-    }
-
-    // Combo God
-    if (maxCombo >= 10 && !newAchievements.find(a => a.id === 'combo_god')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'combo_god');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('👑 Combo God!');
-        changed = true;
-      }
-    }
-
-    // High roller
-    if (score >= 500 && !newAchievements.find(a => a.id === 'high_roller')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'high_roller');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('💎 High Roller!');
-        changed = true;
-      }
-    }
-
-    // Ultimate
-    if (score >= 1000 && !newAchievements.find(a => a.id === 'ultimate')?.unlocked) {
-      const idx = newAchievements.findIndex(a => a.id === 'ultimate');
-      if (idx !== -1) {
-        newAchievements[idx].unlocked = true;
-        unlockAchievement('🏆 Ultimate Master!');
-        changed = true;
-      }
-    }
-
-    if (changed) {
-      setAchievements(newAchievements);
-    }
-  };
-
-  const unlockAchievement = (message: string) => {
-    setShowAchievement(message);
-    setTimeout(() => setShowAchievement(null), 3000);
-  };
-
   const unlockedCount = achievements.filter(a => a.unlocked).length;
 
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'r' || e.key === 'R') {
-        resetTerminal();
-      } else if (e.key === ' ') {
-        e.preventDefault();
-        togglePause();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        speedUp();
-      } else if (e.key === 'Escape') {
-        if (showAchievementPanel) {
-          setShowAchievementPanel(false);
-        } else {
-          setIsPaused(true);
-          setInput('> Paused (ESC)');
-          setTimeout(() => setInput(''), 1000);
-        }
-      } else if (e.key === 'a' || e.key === 'A') {
-        toggleAchievementPanel();
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [speedLevel, isPaused, showAchievementPanel]);
-
-  const resetTerminal = () => {
+  const resetTerminal = useCallback(() => {
     setTechStack(initialTechStack);
     setScore(0);
     setCornerHits(0);
@@ -220,38 +192,73 @@ const TerminalCodeSymbol = () => {
     setAchievements(INITIAL_ACHIEVEMENTS.map(a => ({ ...a, unlocked: false })));
     setInput('> System reset... ✓');
     setTimeout(() => setInput(''), 1500);
-  };
+  }, []);
 
-  const togglePause = () => {
-    setIsPaused(!isPaused);
-    setInput(!isPaused ? '> Paused ⏸' : '> Resumed ▶');
+  const togglePause = useCallback(() => {
+    setIsPaused(prev => !prev);
+    setInput(prev => prev ? '> Resumed ▶' : '> Paused ⏸');
     setTimeout(() => setInput(''), 1000);
-  };
+  }, []);
 
-  const toggleAchievementPanel = () => {
-    setShowAchievementPanel(!showAchievementPanel);
-    // Pause game when panel opens
-    if (!showAchievementPanel) {
-      setIsPaused(true);
-    }
-  };
+  const toggleAchievementPanel = useCallback(() => {
+    setShowAchievementPanel(prev => {
+      const newValue = !prev;
+      // Pause game when panel opens
+      if (newValue) {
+        setIsPaused(true);
+      }
+      return newValue;
+    });
+  }, []);
 
-  const speedUp = () => {
-    if (speedLevel >= maxSpeedLevel) {
-      setInput('> Max speed reached! 🔥');
+  const speedUp = useCallback(() => {
+    setSpeedLevel(prev => {
+      if (prev >= maxSpeedLevel) {
+        setInput('> Max speed reached! 🔥');
+        setTimeout(() => setInput(''), 1500);
+        return prev;
+      }
+
+      setTechStack(current => current.map(tech => ({
+        ...tech,
+        vx: tech.vx * 1.25,
+        vy: tech.vy * 1.25,
+      })));
+      
+      const newLevel = prev + 1;
+      setInput(`> Speed boost! Level ${newLevel}/${maxSpeedLevel} ⚡`);
       setTimeout(() => setInput(''), 1500);
-      return;
-    }
+      return newLevel;
+    });
+  }, [maxSpeedLevel]);
 
-    setSpeedLevel(prev => prev + 1);
-    setTechStack(prev => prev.map(tech => ({
-      ...tech,
-      vx: tech.vx * 1.25,
-      vy: tech.vy * 1.25,
-    })));
-    setInput(`> Speed boost! Level ${speedLevel + 1}/${maxSpeedLevel} ⚡`);
-    setTimeout(() => setInput(''), 1500);
-  };
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'r' || e.key === 'R') {
+        resetTerminal();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePause();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        speedUp();
+      } else if (e.key === 'Escape') {
+        if (showAchievementPanel) {
+          toggleAchievementPanel();
+        } else {
+          setIsPaused(true);
+          setInput('> Paused (ESC)');
+          setTimeout(() => setInput(''), 1000);
+        }
+      } else if (e.key === 'a' || e.key === 'A') {
+        toggleAchievementPanel();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showAchievementPanel, resetTerminal, togglePause, speedUp, toggleAchievementPanel]);
 
   useEffect(() => {
     const animate = () => {
