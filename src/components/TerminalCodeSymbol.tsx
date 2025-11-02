@@ -64,10 +64,21 @@ const TerminalCodeSymbol = () => {
   const [showAchievement, setShowAchievement] = useState<string | null>(null);
   const [showAchievementPanel, setShowAchievementPanel] = useState(false);
   const [highScore, setHighScore] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const maxSpeedLevel = 5;
   const terminalContentRef = useRef<HTMLDivElement>(null);
   const [techStack, setTechStack] = useState<TechIcon[]>(initialTechStack);
   const comboTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Detect mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const unlockAchievement = useCallback((message: string) => {
     setShowAchievement(message);
@@ -80,7 +91,6 @@ const TerminalCodeSymbol = () => {
       const newAchievements = [...prev];
       let changed = false;
 
-      // First click achievement
       if (score >= 10 && !newAchievements.find(a => a.id === 'first_click')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'first_click');
         if (idx !== -1) {
@@ -90,7 +100,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Speed demon
       if (speedLevel === 5 && !newAchievements.find(a => a.id === 'speed_demon')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'speed_demon');
         if (idx !== -1) {
@@ -100,7 +109,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Combo master
       if (combo >= 5 && !newAchievements.find(a => a.id === 'combo_master')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'combo_master');
         if (idx !== -1) {
@@ -110,7 +118,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Corner hunter
       if (cornerHits >= 10 && !newAchievements.find(a => a.id === 'corner_hunter')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'corner_hunter');
         if (idx !== -1) {
@@ -120,7 +127,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Century
       if (score >= 100 && !newAchievements.find(a => a.id === 'century')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'century');
         if (idx !== -1) {
@@ -130,7 +136,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Combo God
       if (maxCombo >= 10 && !newAchievements.find(a => a.id === 'combo_god')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'combo_god');
         if (idx !== -1) {
@@ -140,7 +145,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // High roller
       if (score >= 500 && !newAchievements.find(a => a.id === 'high_roller')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'high_roller');
         if (idx !== -1) {
@@ -150,7 +154,6 @@ const TerminalCodeSymbol = () => {
         }
       }
 
-      // Ultimate
       if (score >= 1000 && !newAchievements.find(a => a.id === 'ultimate')?.unlocked) {
         const idx = newAchievements.findIndex(a => a.id === 'ultimate');
         if (idx !== -1) {
@@ -168,7 +171,6 @@ const TerminalCodeSymbol = () => {
     checkAchievements();
   }, [checkAchievements]);
 
-  // Track high score
   useEffect(() => {
     if (score > highScore) {
       setHighScore(score);
@@ -188,7 +190,6 @@ const TerminalCodeSymbol = () => {
     setIsPaused(false);
     setSpeedLevel(1);
     setHighScore(0);
-    // Reset achievements to initial state
     setAchievements(INITIAL_ACHIEVEMENTS.map(a => ({ ...a, unlocked: false })));
     setInput('> System reset... ✓');
     setTimeout(() => setInput(''), 1500);
@@ -203,7 +204,6 @@ const TerminalCodeSymbol = () => {
   const toggleAchievementPanel = useCallback(() => {
     setShowAchievementPanel(prev => {
       const newValue = !prev;
-      // Pause game when panel opens
       if (newValue) {
         setIsPaused(true);
       }
@@ -232,7 +232,6 @@ const TerminalCodeSymbol = () => {
     });
   }, [maxSpeedLevel]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'r' || e.key === 'R') {
@@ -275,37 +274,36 @@ const TerminalCodeSymbol = () => {
         let newVx = tech.vx;
         let newVy = tech.vy;
         let hitCorner = false;
-        let newRotation = tech.rotation + (Math.abs(tech.vx) + Math.abs(tech.vy)) * 0.5;
+        let newRotation = isMobile 
+          ? tech.rotation + Math.abs(tech.vx + tech.vy) * 0.3
+          : tech.rotation + (Math.abs(tech.vx) + Math.abs(tech.vy)) * 0.5;
 
-        // Bounce off left and right edges
         if (newX <= padding || newX >= contentWidth - tech.size - padding) {
           newVx = -tech.vx;
           newX = newX <= padding ? padding : contentWidth - tech.size - padding;
           
-          // Check if hit corner
           if ((newY <= padding + 30 || newY >= contentHeight - tech.size - padding - 30)) {
             hitCorner = true;
           }
         }
         
-        // Bounce off top and bottom edges
         if (newY <= padding || newY >= contentHeight - tech.size - padding) {
           newVy = -tech.vy;
           newY = newY <= padding ? padding : contentHeight - tech.size - padding;
           
-          // Check if hit corner
           if ((newX <= padding + 30 || newX >= contentWidth - tech.size - padding - 30)) {
             hitCorner = true;
           }
         }
 
-        // Corner hit with particle effect
         if (hitCorner) {
           setCornerHits(prev => prev + 1);
           setScore(prev => prev + 5);
-          setParticlePosition({ x: newX + tech.size / 2, y: newY + tech.size / 2 });
-          setShowParticles(true);
-          setTimeout(() => setShowParticles(false), 500);
+          if (!isMobile) {
+            setParticlePosition({ x: newX + tech.size / 2, y: newY + tech.size / 2 });
+            setShowParticles(true);
+            setTimeout(() => setShowParticles(false), 500);
+          }
         }
 
         return {
@@ -319,27 +317,24 @@ const TerminalCodeSymbol = () => {
       }));
     };
 
-    const intervalId = setInterval(animate, 1000 / 60);
+    const fps = isMobile ? 30 : 60;
+    const intervalId = setInterval(animate, 1000 / fps);
     return () => clearInterval(intervalId);
-  }, [isPaused]);
+  }, [isPaused, isMobile]);
 
   const handleTechClick = (techName: string, event: React.MouseEvent) => {
-    // Combo system
     const newCombo = combo + 1;
     setCombo(newCombo);
     setShowCombo(true);
     
-    // Track max combo
     if (newCombo > maxCombo) {
       setMaxCombo(newCombo);
     }
     
-    // Clear existing timer
     if (comboTimerRef.current) {
       clearTimeout(comboTimerRef.current);
     }
     
-    // Reset combo after 2 seconds of no clicks
     comboTimerRef.current = setTimeout(() => {
       setCombo(0);
       setShowCombo(false);
@@ -348,23 +343,22 @@ const TerminalCodeSymbol = () => {
     setClickedTech(techName);
     setInput(`> skills --show ${techName}`);
     
-    // Combo multiplier scoring
     const points = 10 * (newCombo > 1 ? newCombo : 1);
     setScore(prev => prev + points);
     
-    // Show particle effect
-    const rect = event.currentTarget.getBoundingClientRect();
-    const parentRect = terminalContentRef.current?.getBoundingClientRect();
-    if (parentRect) {
-      setParticlePosition({ 
-        x: rect.left - parentRect.left + rect.width / 2, 
-        y: rect.top - parentRect.top + rect.height / 2 
-      });
-      setShowParticles(true);
-      setTimeout(() => setShowParticles(false), 500);
+    if (!isMobile) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      const parentRect = terminalContentRef.current?.getBoundingClientRect();
+      if (parentRect) {
+        setParticlePosition({ 
+          x: rect.left - parentRect.left + rect.width / 2, 
+          y: rect.top - parentRect.top + rect.height / 2 
+        });
+        setShowParticles(true);
+        setTimeout(() => setShowParticles(false), 500);
+      }
     }
     
-    // Add speed boost and rotation to clicked icon
     setTechStack(prev => prev.map(tech => 
       tech.name === techName 
         ? { ...tech, vx: tech.vx * 1.5, vy: tech.vy * 1.5 }
@@ -373,7 +367,6 @@ const TerminalCodeSymbol = () => {
     setTimeout(() => {
       setClickedTech(null);
       setInput('');
-      // Normalize speed back
       setTechStack(prev => prev.map(tech => 
         tech.name === techName 
           ? { ...tech, vx: tech.vx / 1.5, vy: tech.vy / 1.5 }
@@ -382,7 +375,6 @@ const TerminalCodeSymbol = () => {
     }, 1500);
   };
 
-  // Screen shake effect on high combo
   const getShakeClass = () => {
     if (combo >= 10) return 'animate-shake';
     return '';
@@ -395,16 +387,14 @@ const TerminalCodeSymbol = () => {
       onMouseLeave={() => setIsHovered(false)}
       style={{ minHeight: '450px' }}
     >
-      {/* Achievement Notification */}
       {showAchievement && (
-        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-[100] animate-bounce">
           <div className="bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-white px-4 py-1.5 md:px-5 md:py-2 rounded-full font-bold shadow-2xl border-2 border-white text-sm md:text-base">
             {showAchievement}
           </div>
         </div>
       )}
 
-      {/* Achievement Panel - Terminal Sized */}
       {showAchievementPanel && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2">
           <div className="bg-gray-800 p-2.5 sm:p-3 md:p-4 rounded-lg border-2 border-teal-400 shadow-2xl w-72 md:w-96 lg:w-[450px] max-h-[400px] md:max-h-[450px] overflow-y-auto">
@@ -449,9 +439,8 @@ const TerminalCodeSymbol = () => {
         </div>
       )}
 
-      {/* Combo Display */}
       {showCombo && combo > 1 && (
-        <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 animate-bounce">
           <div className={`bg-gradient-to-r from-purple-500 to-pink-500 text-white px-3 py-1.5 md:px-4 md:py-2 rounded-full font-bold shadow-lg text-sm md:text-base ${
             combo >= 10 ? 'md:text-xl border-2 border-yellow-400' : ''
           }`}>
@@ -460,7 +449,6 @@ const TerminalCodeSymbol = () => {
         </div>
       )}
 
-      {/* Button Hints */}
       {showRedHint && (
         <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-50 animate-slideDown">
           <div className="bg-red-500/90 text-white px-2.5 py-1.5 md:px-3 rounded-lg text-[10px] md:text-xs font-semibold shadow-lg whitespace-nowrap">
@@ -490,25 +478,23 @@ const TerminalCodeSymbol = () => {
         </div>
       )}
 
-      {/* Terminal Window */}
       <div 
         className={`relative w-72 md:w-96 lg:w-[450px] bg-gray-900 rounded-lg shadow-2xl border transition-all duration-500 ${
           isHovered ? 'scale-105 shadow-teal-500/50 border-teal-400/50' : 'border-gray-700'
         } ${getShakeClass()}`}
       >
-        {/* Terminal Header */}
         <div className="flex items-center justify-between h-9 md:h-10 px-3 md:px-4 bg-gray-800 rounded-t-lg border-b border-gray-700">
           <div className="flex items-center gap-1.5 md:gap-2">
             <div 
               className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-red-500 hover:bg-red-400 transition-all cursor-pointer hover:scale-110 active:scale-95 shadow-lg shadow-red-500/50"
               onClick={resetTerminal}
-              onMouseEnter={() => setShowRedHint(true)}
+              onMouseEnter={() => !isMobile && setShowRedHint(true)}
               onMouseLeave={() => setShowRedHint(false)}
             ></div>
             <div 
               className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-yellow-500 hover:bg-yellow-400 transition-all cursor-pointer hover:scale-110 active:scale-95 shadow-lg shadow-yellow-500/50"
               onClick={togglePause}
-              onMouseEnter={() => setShowYellowHint(true)}
+              onMouseEnter={() => !isMobile && setShowYellowHint(true)}
               onMouseLeave={() => setShowYellowHint(false)}
             ></div>
             <div 
@@ -518,18 +504,17 @@ const TerminalCodeSymbol = () => {
                   : 'bg-green-500 hover:bg-green-400 shadow-green-500/50'
               }`}
               onClick={speedUp}
-              onMouseEnter={() => setShowGreenHint(true)}
+              onMouseEnter={() => !isMobile && setShowGreenHint(true)}
               onMouseLeave={() => setShowGreenHint(false)}
             ></div>
             <div 
               className="h-2.5 w-2.5 md:h-3 md:w-3 rounded-full bg-blue-500 hover:bg-blue-400 transition-all cursor-pointer hover:scale-110 active:scale-95 shadow-lg shadow-blue-500/50"
               onClick={toggleAchievementPanel}
-              onMouseEnter={() => setShowBlueHint(true)}
+              onMouseEnter={() => !isMobile && setShowBlueHint(true)}
               onMouseLeave={() => setShowBlueHint(false)}
             ></div>
             <span className="ml-1.5 md:ml-2 text-[10px] md:text-xs text-gray-400">~/mohamed</span>
           </div>
-          {/* Stats Display */}
           <div className="flex items-center gap-2 md:gap-3 text-[10px] md:text-xs font-mono">
             <div className="text-purple-400 transition-all hover:scale-105" title="Total Experience Points">
               XP: <span className="font-bold">{score}</span>
@@ -550,13 +535,11 @@ const TerminalCodeSymbol = () => {
           </div>
         </div>
 
-        {/* Terminal Content - Bouncing Area */}
         <div 
           ref={terminalContentRef}
           className="relative p-3 md:p-4 h-64 md:h-72 lg:h-80 overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-900/80"
         >
-          {/* Particle Effect */}
-          {showParticles && (
+          {!isMobile && showParticles && (
             <div 
               className="absolute z-30 pointer-events-none"
               style={{ left: particlePosition.x, top: particlePosition.y }}
@@ -568,7 +551,6 @@ const TerminalCodeSymbol = () => {
             </div>
           )}
 
-          {/* Bouncing Tech Stack Icons */}
           {techStack.map((tech) => (
             <div
               key={tech.name}
@@ -579,6 +561,7 @@ const TerminalCodeSymbol = () => {
                 maxWidth: `${tech.size}px`,
                 minWidth: `${tech.size}px`,
                 transform: `rotate(${tech.rotation}deg)`,
+                willChange: 'transform',
               }}
               onClick={(e) => handleTechClick(tech.name, e)}
             >
@@ -591,22 +574,20 @@ const TerminalCodeSymbol = () => {
                 >
                   {tech.icon}
                 </div>
-                {/* Enhanced Tooltip */}
-                <div className="hidden md:block absolute -top-14 left-1/2 transform -translate-x-1/2 bg-gray-800/95 backdrop-blur text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap z-30 pointer-events-none border border-teal-400/50 shadow-lg">
-                  <div className="font-semibold">{tech.name}</div>
-                  <div className="text-teal-400 text-[10px]">
-                    {combo > 0 ? `+${10 * (combo + 1)} XP (x${combo + 1} Combo!)` : '+10 XP'}
+                {!isMobile && (
+                  <div className="hidden md:block absolute -top-14 left-1/2 transform -translate-x-1/2 bg-gray-800/95 backdrop-blur text-white text-xs px-3 py-2 rounded-lg opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap z-30 pointer-events-none border border-teal-400/50 shadow-lg">
+                    <div className="font-semibold">{tech.name}</div>
+                    <div className="text-teal-400 text-[10px]">
+                      {combo > 0 ? `+${10 * (combo + 1)} XP (x${combo + 1} Combo!)` : '+10 XP'}
+                    </div>
+                    <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800/95"></div>
                   </div>
-                  {/* Tooltip arrow */}
-                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-gray-800/95"></div>
-                </div>
+                )}
               </div>
             </div>
           ))}
 
-          {/* Terminal Output Layer */}
           <div className="relative z-10 pointer-events-none px-1 md:px-2">
-            {/* Command Input */}
             <div className="flex items-center mb-2 md:mb-3">
               <span className="text-teal-400 mr-1.5 md:mr-2 text-xs md:text-sm">&gt;</span>
               <div className="flex-1 text-[10px] md:text-xs lg:text-sm">
@@ -619,7 +600,6 @@ const TerminalCodeSymbol = () => {
               </div>
             </div>
 
-            {/* Output */}
             {!clickedTech && !input && (
               <div className="space-y-1.5 md:space-y-2 text-[10px] md:text-xs lg:text-sm">
                 <div className="text-gray-400">
@@ -649,7 +629,6 @@ const TerminalCodeSymbol = () => {
               </div>
             )}
 
-            {/* Tech Click Output */}
             {clickedTech && (
               <div className="space-y-1.5 md:space-y-2 text-[10px] md:text-xs lg:text-sm">
                 <div className="text-teal-400 animate-slideDown">
@@ -667,7 +646,6 @@ const TerminalCodeSymbol = () => {
         </div>
       </div>
 
-      {/* Glow effect */}
       <div className={`absolute inset-0 bg-teal-500/5 blur-3xl rounded-full transition-all duration-500 -z-10 ${
         isHovered ? 'scale-110 bg-teal-400/10' : 'scale-90'
       } ${combo >= 10 ? 'bg-purple-500/20' : ''}`}></div>
