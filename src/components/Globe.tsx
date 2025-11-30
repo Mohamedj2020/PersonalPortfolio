@@ -2,6 +2,21 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import createGlobe from 'cobe';
 import { useSpring } from '@react-spring/web';
 
+/**
+ * Globe component
+ *
+ * Renders an interactive 3D globe visualization using the cobe library.
+ * - Displays colored markers for various programming languages at their origin locations.
+ * - Allows users to drag to rotate the globe interactively.
+ * - Clicking a marker focuses the globe on that language's location.
+ *
+ * Props: None currently.
+ *
+ * Key behaviors:
+ * - Interactive dragging to rotate the globe.
+ * - Animated focusing on selected language locations.
+ * - Renders colored markers for each language.
+ */
 const Globe = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const focusRef = useRef<[number, number]>([0, 0]);
