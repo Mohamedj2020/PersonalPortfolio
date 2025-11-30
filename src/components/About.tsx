@@ -1,5 +1,5 @@
 import React from 'react';
-import TerminalCodeSymbol from './TerminalCodeSymbol';
+import Globe from './Globe';
 
 const About = () => {
   return (
@@ -12,10 +12,10 @@ const About = () => {
         <div className="max-w-6xl mx-auto animate-on-scroll">
           <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
             
-            {/* Terminal Code Symbol */}
+            {/* Globe Component */}
             <div className="flex justify-center lg:justify-start">
               <div className="w-full max-w-md h-96">
-                <TerminalCodeSymbol />
+                <Globe />
               </div>
             </div>
 
