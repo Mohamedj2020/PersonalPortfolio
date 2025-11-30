@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import createGlobe from 'cobe';
-import { useSpring } from '@react-spring/web';
+import { useSpring, animated } from '@react-spring/web';
 
 const Globe = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
