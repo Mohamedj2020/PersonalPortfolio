@@ -7,18 +7,14 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Ensure all sections have smooth transitions */
-* {
-  transition: all 0.3s ease;
-}
-
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #0B0B0B;
 }
 
 code {
@@ -28,54 +24,154 @@ code {
 
 /* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #0B0B0B;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #14b8a6, #06b6d4);
-  border-radius: 4px;
+  background: #27272a;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #0f766e, #0891b2);
+  background: #3f3f46;
 }
 
-/* Animation classes for scroll effects */
-.animate-on-scroll {
+/* ===== Scroll fade-in animation ===== */
+.scroll-fade {
   opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.animate-on-scroll.animate {
+.scroll-fade.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Staggered animation delays */
-.animate-on-scroll:nth-child(1) { transition-delay: 0.1s; }
-.animate-on-scroll:nth-child(2) { transition-delay: 0.2s; }
-.animate-on-scroll:nth-child(3) { transition-delay: 0.3s; }
-.animate-on-scroll:nth-child(4) { transition-delay: 0.4s; }
-.animate-on-scroll:nth-child(5) { transition-delay: 0.5s; }
-
-/* Delay classes for staggered animations */
-.delay-200 { transition-delay: 200ms; }
-.delay-400 { transition-delay: 400ms; }
-.delay-600 { transition-delay: 600ms; }
-.delay-800 { transition-delay: 800ms; }
-.delay-1000 { transition-delay: 1000ms; }
-
-/* Enhanced hover effects */
-.hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ===== Timeline gradient line ===== */
+.timeline-line {
+  background: linear-gradient(
+    to bottom,
+    rgba(16, 185, 129, 0.5),
+    rgba(59, 130, 246, 0.3),
+    rgba(139, 92, 246, 0.15),
+    transparent
+  );
 }
 
-.hover-lift:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+/* ===== Section heading accent underline ===== */
+.section-heading {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, #10b981, #3b82f6, transparent);
+  border-radius: 1px;
+  opacity: 0.6;
+}
+
+/* ===== Animated gradient button ===== */
+.btn-gradient {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ===== Glow card hover ===== */
+.glow-card {
+  transition: all 0.3s ease;
+}
+
+.glow-card:hover {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.06), 0 0 40px rgba(59, 130, 246, 0.04);
+}
+
+/* ===== Profile image glow ring ===== */
+.profile-glow {
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.15),
+    0 0 20px rgba(16, 185, 129, 0.1),
+    0 0 40px rgba(59, 130, 246, 0.05);
+  transition: box-shadow 0.4s ease;
+}
+
+.profile-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(16, 185, 129, 0.3),
+    0 0 25px rgba(16, 185, 129, 0.15),
+    0 0 50px rgba(59, 130, 246, 0.1);
+}
+
+/* ===== Subtle dot grid background ===== */
+.dot-grid-bg {
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+/* ===== Focus glow for form inputs ===== */
+.input-glow:focus {
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08), 0 0 12px rgba(16, 185, 129, 0.06);
+}
+
+/* ===== Animated nav indicator ===== */
+.nav-active-indicator {
+  position: relative;
+}
+
+.nav-active-indicator::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 16px;
+  background: linear-gradient(to bottom, #10b981, #3b82f6);
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.nav-active-indicator.active::before {
+  opacity: 1;
+}
+
+/* ===== Tab content fade-in ===== */
+@keyframes tab-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tab-fade {
+  animation: tab-fade-in 0.35s ease-out;
 }
