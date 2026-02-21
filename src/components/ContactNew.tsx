@@ -1,6 +1,5 @@
 import React from 'react';
 import { useForm, ValidationError } from '@formspree/react';
-import { personalData } from '../data';
 
 const ContactNew = () => {
   const formId = process.env.REACT_APP_FORMSPREE_ID || 'mgvnklbq';
