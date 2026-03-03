@@ -1,0 +1,137 @@
+---
+title: "Styling"
+description: "How the portfolio uses Tailwind CSS, custom styles, and animations for a polished dark theme."
+---
+
+The portfolio uses **Tailwind CSS 3.4** for utility-first styling with a dark zinc-based color palette and emerald accent colors.
+
+## Tailwind configuration
+
+The Tailwind config extends the default theme with the **Inter** font family:
+
+```javascript tailwind.config.js
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./public/index.html"
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+};
+```
+
+Tailwind scans all source files and the public HTML for class usage, so any Tailwind class used in JSX is included in the final CSS bundle.
+
+## Color palette
+
+The site uses a consistent dark palette:
+
+| Element          | Color classes                          |
+| ---------------- | -------------------------------------- |
+| Background       | `bg-zinc-900`, dot grid pattern in CSS |
+| Primary text     | `text-zinc-400`                        |
+| Headings         | `text-white`, `text-zinc-200`          |
+| Muted text       | `text-zinc-500`                        |
+| Borders          | `border-zinc-800`, `ring-zinc-700/50`  |
+| Accent (hover)   | `text-emerald-400`, `bg-emerald-500/20` |
+| Selection        | `selection:bg-emerald-500/20 selection:text-emerald-100` |
+
+## Skill tag colors
+
+Each skill category uses a themed color set with background, text, ring, and hover variants:
+
+```tsx
+const colorMap = {
+  blue:    { bg: 'bg-blue-500/10',    text: 'text-blue-400',    ring: 'ring-blue-500/20'    },
+  emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', ring: 'ring-emerald-500/20' },
+  purple:  { bg: 'bg-purple-500/10',  text: 'text-purple-400',  ring: 'ring-purple-500/20'  },
+  rose:    { bg: 'bg-rose-500/10',    text: 'text-rose-400',    ring: 'ring-rose-500/20'    },
+  amber:   { bg: 'bg-amber-500/10',   text: 'text-amber-500',   ring: 'ring-amber-500/20'   },
+};
+```
+
+## Layout
+
+The portfolio uses a two-column layout on large screens:
+
+```
+┌──────────────────────────────────────────────┐
+│  ┌─────────────┐  ┌────────────────────────┐ │
+│  │   Sidebar    │  │       Content          │ │
+│  │   (45%)      │  │       (55%)            │ │
+│  │   sticky     │  │                        │ │
+│  │              │  │  About                 │ │
+│  │  Name        │  │  Experience            │ │
+│  │  Typing      │  │  Projects              │ │
+│  │  Nav links   │  │  Skills                │ │
+│  │  Social      │  │  Contact               │ │
+│  │              │  │  Footer                │ │
+│  └─────────────┘  └────────────────────────┘ │
+└──────────────────────────────────────────────┘
+```
+
+- **Desktop** (`lg:` breakpoint) — Sidebar is `sticky` with `max-h-screen`, content scrolls independently
+- **Mobile** — Stacked layout, sidebar content appears at the top
+
+Key layout classes on the container:
+
+```
+mx-auto min-h-screen max-w-screen-xl px-6 py-12 md:px-12 md:py-20 lg:px-24 lg:py-0
+```
+
+## Animations
+
+### Scroll-fade
+
+Elements with the `scroll-fade` class start hidden and slide up when they enter the viewport:
+
+```css
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+```
+
+Staggered reveals are achieved with inline `transitionDelay`:
+
+```tsx
+<div className="scroll-fade" style={{ transitionDelay: '200ms' }}>
+```
+
+### Glow cards
+
+Experience and project cards use a `glow-card` class for a subtle highlight effect on hover.
+
+### Input glow
+
+Form inputs use the `input-glow` class for a focus-state glow effect.
+
+### Typing animation
+
+The sidebar typing effect is pure React state management — no CSS animations. It types at 100ms/character and deletes at 50ms/character with a 2s pause between roles.
+
+## Custom CSS
+
+Global styles live in `src/index.css`, which includes:
+
+1. Tailwind directives (`@tailwind base`, `@tailwind components`, `@tailwind utilities`)
+2. Custom background patterns (dot grid)
+3. Scroll-fade animation classes
+4. Glow and input-glow effects
+5. Custom scrollbar styling
+
+<Tip>
+  Since the project uses Tailwind, prefer utility classes in JSX over adding custom CSS rules. Only add to `index.css` for effects that can't be expressed with Tailwind utilities (like custom animations or pseudo-element patterns).
+</Tip>

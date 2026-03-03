@@ -1,0 +1,68 @@
+---
+title: "Getting started"
+description: "Clone the repository, install dependencies, and run the portfolio locally in under two minutes."
+---
+
+## Prerequisites
+
+Before you begin, make sure you have these installed:
+
+- [Node.js](https://nodejs.org/) v16 or later
+- npm (included with Node.js) or yarn
+- Git
+
+## Clone and install
+
+<Steps>
+  <Step title="Clone the repository">
+    ```bash
+    git clone https://github.com/Mohamedj2020/PersonalPortfolio.git
+    cd PersonalPortfolio
+    ```
+  </Step>
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    ```
+    This installs React, TypeScript, Tailwind CSS, Framer Motion, Formspree, and all other dependencies.
+  </Step>
+  <Step title="Start the development server">
+    ```bash
+    npm start
+    ```
+    The site opens at [http://localhost:3000](http://localhost:3000) with hot reloading enabled.
+  </Step>
+</Steps>
+
+## Available scripts
+
+| Command           | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `npm start`       | Start the development server on port 3000      |
+| `npm run build`   | Create an optimized production build in `build/` |
+| `npm test`        | Run tests with Jest and React Testing Library   |
+| `npm run eject`   | Eject from Create React App (irreversible)     |
+
+<Warning>
+  `npm run eject` is a one-way operation. You won't be able to undo it. Only use this if you need full control over the build configuration.
+</Warning>
+
+## Environment variables
+
+The contact form uses Formspree. Set the form ID in a `.env` file at the project root:
+
+```bash .env
+REACT_APP_FORMSPREE_ID=your_formspree_id
+```
+
+If this variable is not set, the form falls back to the default ID embedded in the code.
+
+## Verify the setup
+
+After running `npm start`, you should see:
+
+1. A dark-themed page with a sidebar on the left (desktop) or a stacked layout (mobile).
+2. The sidebar displays your name, a typing animation cycling through roles, and navigation links.
+3. Scrolling reveals sections (About, Experience, Projects, Skills, Contact) with fade-in animations.
+
+If everything renders correctly, you're ready to [explore the project structure](/project-structure) and start customizing.

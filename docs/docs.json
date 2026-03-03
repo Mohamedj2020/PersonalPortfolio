@@ -1,0 +1,58 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Mohamed Jirac Portfolio",
+  "description": "Documentation for Mohamed Jirac's personal portfolio website built with React, TypeScript, and Tailwind CSS.",
+  "theme": "mint",
+  "colors": {
+    "primary": "#10B981",
+    "light": "#34D399",
+    "dark": "#059669"
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "introduction",
+              "getting-started",
+              "project-structure"
+            ]
+          },
+          {
+            "group": "Core concepts",
+            "pages": [
+              "components",
+              "data-management",
+              "styling"
+            ]
+          },
+          {
+            "group": "Going further",
+            "pages": [
+              "customization",
+              "deployment"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "appearance": {
+    "default": "dark"
+  },
+  "background": {
+    "decoration": "grid"
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/Mohamedj2020",
+      "linkedin": "https://www.linkedin.com/in/mohamed-jirac"
+    }
+  },
+  "seo": {
+    "indexing": "all"
+  }
+}

@@ -106,18 +106,23 @@ const Credentials = () => {
 
   // Animated sliding indicator
   useEffect(() => {
-    const el = tabRefs.current[activeTab];
-    if (el) {
-      const parent = el.parentElement;
-      if (parent) {
-        const parentRect = parent.getBoundingClientRect();
-        const rect = el.getBoundingClientRect();
-        setIndicatorStyle({
-          left: rect.left - parentRect.left,
-          width: rect.width,
-        });
+    const recalc = () => {
+      const el = tabRefs.current[activeTab];
+      if (el) {
+        const parent = el.parentElement;
+        if (parent) {
+          const parentRect = parent.getBoundingClientRect();
+          const rect = el.getBoundingClientRect();
+          setIndicatorStyle({
+            left: rect.left - parentRect.left,
+            width: rect.width,
+          });
+        }
       }
-    }
+    };
+    recalc();
+    window.addEventListener('resize', recalc);
+    return () => window.removeEventListener('resize', recalc);
   }, [activeTab]);
 
   return (

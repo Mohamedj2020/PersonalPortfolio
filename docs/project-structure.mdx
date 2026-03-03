@@ -1,0 +1,82 @@
+---
+title: "Project structure"
+description: "How the portfolio's files and folders are organized."
+---
+
+## Top-level layout
+
+```
+PersonalPortfolio/
+├── docs/                # Mintlify documentation (this site)
+├── public/              # Static assets served as-is
+│   ├── images/          # Profile photos, logos, project thumbnails
+│   ├── index.html       # HTML shell
+│   └── manifest.json    # PWA manifest
+├── src/                 # Application source code
+│   ├── components/      # React components (one per section)
+│   ├── hooks/           # Custom React hooks
+│   ├── data.ts          # All portfolio content
+│   ├── App.tsx          # Root component
+│   ├── index.tsx        # Entry point
+│   └── index.css        # Global styles and Tailwind directives
+├── build/               # Production build output (generated)
+├── package.json         # Dependencies and scripts
+├── tailwind.config.js   # Tailwind CSS configuration
+├── tsconfig.json        # TypeScript configuration
+├── vercel.json          # Vercel deployment settings
+└── postcss.config.js    # PostCSS plugins (Tailwind, Autoprefixer)
+```
+
+## Key directories
+
+### `src/components/`
+
+Each major section of the portfolio is a standalone component:
+
+| File              | Section                                    |
+| ----------------- | ------------------------------------------ |
+| `Sidebar.tsx`     | Fixed sidebar with name, typing animation, and nav links |
+| `About.tsx`       | Education and bio                          |
+| `Work.tsx`        | Work experience with expandable cards      |
+| `ProjectsNew.tsx` | Project showcase grid                      |
+| `Skills.tsx`      | Technical skills, coursework, certifications, leadership |
+| `ContactNew.tsx`  | Contact form powered by Formspree          |
+| `Footer.tsx`      | Page footer                                |
+
+<Tip>
+  Components are imported and composed in `App.tsx`. The render order in that file determines the scroll order of sections on the page.
+</Tip>
+
+### `src/data.ts`
+
+A single TypeScript file that contains all portfolio content as exported constants. See [Data management](/data-management) for the full breakdown.
+
+### `src/hooks/`
+
+Custom React hooks for reusable logic.
+
+| File                     | Purpose                                    |
+| ------------------------ | ------------------------------------------ |
+| `useScrollAnimation.tsx` | Provides an `IntersectionObserver`-based hook for triggering scroll-fade animations |
+
+### `public/images/`
+
+Static assets including:
+
+- Profile photos
+- Company and organization logos
+- Project thumbnail images
+- Resume PDF
+
+<Note>
+  Images are referenced with root-relative paths like `/images/example.png` in the data file and components.
+</Note>
+
+## Configuration files
+
+| File                 | Purpose                                              |
+| -------------------- | ---------------------------------------------------- |
+| `tailwind.config.js` | Extends the default theme with the Inter font family |
+| `tsconfig.json`      | TypeScript compiler options                          |
+| `vercel.json`        | Deployment framework, rewrites, and cache headers    |
+| `postcss.config.js`  | Loads Tailwind CSS and Autoprefixer plugins           |

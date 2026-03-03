@@ -1,0 +1,156 @@
+---
+title: "Customization"
+description: "How to personalize the portfolio with your own content, colors, and sections."
+---
+
+The portfolio is designed to be easily customizable. Most changes require editing only `src/data.ts` and dropping new images into `public/images/`.
+
+## Replace content
+
+<Steps>
+  <Step title="Update personal information">
+    Open `src/data.ts` and change the `personalData` object with your name, title, bio, email, social links, resume URL, and profile image path. See [Data management](/data-management) for field details.
+  </Step>
+  <Step title="Replace images">
+    Drop your profile photo, company logos, and project thumbnails into `public/images/`. Update the corresponding paths in `data.ts`.
+  </Step>
+  <Step title="Update experience and projects">
+    Edit the `experiencesData` and `projectsData` arrays in `data.ts`. Add, remove, or reorder entries as needed.
+  </Step>
+  <Step title="Update skills and credentials">
+    Edit the `skillsData`, `courseworkData`, `certificationsData`, and `leadershipData` exports.
+  </Step>
+</Steps>
+
+## Change the typing animation roles
+
+The sidebar typing animation cycles through a list of roles. Edit the `roles` array in `src/components/Sidebar.tsx`:
+
+```tsx
+const roles = useMemo(
+  () => ['Developer', 'Student', 'Designer', 'Creator', 'Problem Solver'],
+  []
+);
+```
+
+Replace these strings with your own roles or titles.
+
+## Change colors
+
+### Accent color
+
+The portfolio uses emerald as its accent. To change it, search for `emerald` across the source files and replace with another Tailwind color:
+
+```
+emerald → blue
+emerald → violet
+emerald → cyan
+```
+
+Key files to update:
+- `src/App.tsx` — Selection highlight color
+- `src/components/Sidebar.tsx` — Active nav indicator, social link hovers
+- `src/components/ContactNew.tsx` — Submit button and success message
+- `src/index.css` — Any custom emerald-based styles
+
+### Skill category colors
+
+Edit the `colorMap` in `src/components/Skills.tsx`:
+
+```tsx
+const colorMap = {
+  blue:    { bg: 'bg-blue-500/10',    text: 'text-blue-400',    ... },
+  emerald: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', ... },
+  // Add or change colors here
+};
+```
+
+Then update the `color` field on each category in `skillsData` to reference the new key.
+
+## Add a new section
+
+<Steps>
+  <Step title="Create a component">
+    Add a new file in `src/components/`, following the pattern of existing components:
+
+    ```tsx NewSection.tsx
+    import React from 'react';
+
+    const NewSection = () => {
+      return (
+        <section id="new-section" className="mb-16 scroll-mt-24 md:mb-24 lg:mb-32">
+          <h2 className="mb-10 text-xl font-medium tracking-tight text-white scroll-fade">
+            <span className="section-heading">New section</span>
+          </h2>
+          <div className="scroll-fade">
+            {/* Your content */}
+          </div>
+        </section>
+      );
+    };
+
+    export default NewSection;
+    ```
+  </Step>
+  <Step title="Add it to App.tsx">
+    Import and place the component in the render order:
+
+    ```tsx
+    import NewSection from './components/NewSection';
+
+    // Inside the <main> element, add where you want it to appear:
+    <NewSection />
+    ```
+  </Step>
+  <Step title="Add a nav link">
+    In `src/components/Sidebar.tsx`, add an entry to the `navItems` array:
+
+    ```tsx
+    const navItems = [
+      { href: '#about', label: 'About' },
+      { href: '#experience', label: 'Experience' },
+      { href: '#projects', label: 'Projects' },
+      { href: '#new-section', label: 'New section' },  // new
+      { href: '#skills', label: 'Skills' },
+      { href: '#contact', label: 'Contact' },
+    ];
+    ```
+  </Step>
+</Steps>
+
+## Change the font
+
+The default font is **Inter**, loaded via the Tailwind config. To change it:
+
+1. Add the new font to your `public/index.html` (via Google Fonts or a local file).
+2. Update `tailwind.config.js`:
+
+```javascript
+theme: {
+  extend: {
+    fontFamily: {
+      sans: ['YourFont', 'system-ui', 'sans-serif'],
+    },
+  },
+},
+```
+
+## Change the contact form provider
+
+The contact form uses [Formspree](https://formspree.io/). To switch providers:
+
+1. Replace the `useForm` hook in `src/components/ContactNew.tsx` with your provider's SDK.
+2. Update the form submission logic.
+3. Remove the `@formspree/react` dependency if no longer needed.
+
+## Remove analytics
+
+Vercel Analytics and Speed Insights are included in `App.tsx`. To remove them:
+
+1. Delete the `<SpeedInsights />` and `<Analytics />` components from `App.tsx`.
+2. Remove the imports.
+3. Uninstall the packages:
+
+```bash
+npm uninstall @vercel/analytics @vercel/speed-insights
+```

@@ -1,0 +1,131 @@
+---
+title: "Data management"
+description: "How all portfolio content is organized in a single TypeScript data file."
+---
+
+All portfolio text, links, and metadata live in `src/data.ts`. Components import specific exports from this file —  no content is hardcoded in JSX. This makes it straightforward to update your portfolio without editing component logic.
+
+## Data exports
+
+The file exports the following constants:
+
+| Export               | Type     | Used by            | Description                                   |
+| -------------------- | -------- | ------------------ | --------------------------------------------- |
+| `personalData`       | Object   | `Sidebar`          | Name, title, bio, email, resume URL, social links |
+| `aboutData`          | Object   | `About`            | Education details and bio summary             |
+| `skillsData`         | Object   | `Skills`           | Technical skills grouped by category          |
+| `experiencesData`    | Array    | `Work`             | Work experience entries with optional multi-role support |
+| `projectsData`       | Array    | `ProjectsNew`      | Project showcase entries                      |
+| `courseworkData`     | Array    | `Skills`           | List of completed courses                     |
+| `certificationsData` | Array    | `Skills`           | Professional certifications                   |
+| `leadershipData`     | Array    | `Skills`           | Leadership and organization memberships       |
+
+## Editing content
+
+### Update personal information
+
+```typescript
+export const personalData = {
+  name: 'Mohamed Jirac',
+  title: 'Software Engineer',
+  location: 'Columbus, OH',
+  bio: 'I am a Software Engineer based in Columbus, OH.',
+  email: 'jirac.1@buckeyemail.osu.edu',
+  resumeUrl: '/images/mlt_july_resume.pdf',
+  profileImage: '/images/2P2A3560.png',
+  socialLinks: {
+    github: 'https://github.com/Mohamedj2020',
+    linkedin: 'https://www.linkedin.com/in/mohamed-jirac',
+  },
+  currentRole: 'Software Engineer Intern @ Kassim Konsulting',
+  previousRoles: [
+    'Tech Prep Fellow @ CodePath',
+    'Undergraduate Researcher @ Ohio State University',
+    'STEM Instructor',
+  ],
+};
+```
+
+Change any value and the corresponding component updates automatically on next render.
+
+### Add a new work experience
+
+Add an object to the `experiencesData` array:
+
+```typescript
+{
+  id: 6,                              // Unique numeric ID
+  title: 'Role Title',
+  organization: 'Company Name',
+  period: 'Jan 2026 - Present',
+  location: 'City, State',
+  logo: '/images/company-logo.jpg',   // Place image in public/images/
+  logoInitial: 'CN',                  // Fallback if logo fails to load
+  description: 'Brief description of what you did.',
+  highlights: [
+    'Key accomplishment one',
+    'Key accomplishment two',
+  ],
+  skills: ['React', 'TypeScript'],
+}
+```
+
+<Tip>
+  For multi-role positions (like holding an internship and attending a hackathon at the same company), use the `roles` array instead of top-level `description`, `highlights`, and `skills`. See the JPMorgan Chase entry in `data.ts` for an example.
+</Tip>
+
+### Add a new project
+
+Add an object to the `projectsData` array:
+
+```typescript
+{
+  title: 'Project Name',
+  description: 'What you built and why.',
+  technologies: ['Python', 'FastAPI', 'Docker'],
+  liveUrl: '#',                                    // or a real URL
+  githubUrl: 'https://github.com/you/repo',
+  image: '/images/project-thumb.png',
+}
+```
+
+### Add a certification
+
+Add an object to the `certificationsData` array:
+
+```typescript
+{
+  title: 'Certification Name',
+  issuer: 'Issuing Organization',
+  date: 'Issued Jan 2026',
+  credentialUrl: 'https://example.com/credential',
+  skills: ['Skill 1', 'Skill 2'],
+}
+```
+
+### Add skills
+
+Each category in `skillsData` has an `items` array. Add or remove strings:
+
+```typescript
+languages: {
+  label: 'Languages',
+  color: 'blue' as const,
+  items: ['Python', 'Java', 'JavaScript', 'TypeScript', 'C', 'C++', 'SQL', 'Rust'],
+  //                                                                       ^^^^^^ new
+},
+```
+
+Available color themes: `blue`, `emerald`, `purple`, `rose`, `amber`. To add a new category, add a new key to `skillsData` with a matching color from the `colorMap` in `Skills.tsx`.
+
+## Images
+
+Place all images in `public/images/`. Reference them with root-relative paths:
+
+```typescript
+logo: '/images/company-logo.jpg',
+```
+
+<Note>
+  Images are served statically from the `public/` directory. They are not processed by Webpack, so use standard web formats (JPG, PNG, SVG, WebP).
+</Note>
