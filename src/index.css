@@ -1,50 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scroll behavior */
+:root {
+  --forge-bg: #070707;
+  --forge-panel: rgba(18, 10, 10, 0.74);
+  --forge-panel-strong: rgba(24, 11, 12, 0.92);
+  --forge-border: rgba(248, 113, 113, 0.14);
+  --forge-border-strong: rgba(248, 113, 113, 0.28);
+  --forge-text: #f5ede4;
+  --forge-muted: #b7aea7;
+  --forge-red: #c1121f;
+  --forge-deep-red: #7a0c18;
+  --forge-warm: #f3e8dc;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0B0B0B;
+  background:
+    radial-gradient(circle at top, rgba(193, 18, 31, 0.1), transparent 30%),
+    linear-gradient(180deg, #0a0a0a 0%, #070707 45%, #040404 100%);
+  color: var(--forge-text);
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }
 
-/* Custom scrollbar for webkit browsers */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0B0B0B;
+  background: #090909;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 3px;
+  background: linear-gradient(180deg, rgba(193, 18, 31, 0.9), rgba(122, 12, 24, 0.9));
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: linear-gradient(180deg, rgba(248, 113, 113, 0.95), rgba(193, 18, 31, 0.95));
 }
 
-/* ===== Scroll fade-in animation ===== */
+.forge-shell {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.forge-surface {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 18% 14%, rgba(193, 18, 31, 0.22), transparent 0 26%),
+    radial-gradient(circle at 82% 20%, rgba(122, 12, 24, 0.24), transparent 0 22%),
+    radial-gradient(circle at 56% 72%, rgba(91, 10, 18, 0.2), transparent 0 24%),
+    linear-gradient(180deg, rgba(12, 12, 12, 0.88), rgba(6, 6, 6, 0.98));
+}
+
+.forge-surface::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  opacity: 0.16;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 92%);
+}
+
+.forge-surface::after {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  background-image: radial-gradient(rgba(243, 232, 220, 0.22) 0.8px, transparent 0.8px);
+  background-size: 118px 118px;
+  opacity: 0.24;
+}
+
+.forge-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.46;
+}
+
+.forge-orb-one {
+  top: 8%;
+  left: -8%;
+  height: 18rem;
+  width: 18rem;
+  background: rgba(193, 18, 31, 0.24);
+}
+
+.forge-orb-two {
+  top: 30%;
+  right: -6%;
+  height: 22rem;
+  width: 22rem;
+  background: rgba(122, 12, 24, 0.28);
+}
+
+.forge-orb-three {
+  bottom: 4%;
+  left: 36%;
+  height: 16rem;
+  width: 16rem;
+  background: rgba(255, 190, 140, 0.08);
+}
+
 .scroll-fade {
   opacity: 0;
   transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transition:
+    opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .scroll-fade.visible {
@@ -52,22 +137,20 @@ code {
   transform: translateY(0);
 }
 
-/* ===== Timeline gradient line ===== */
 .timeline-line {
   background: linear-gradient(
     to bottom,
-    rgba(16, 185, 129, 0.5),
-    rgba(59, 130, 246, 0.3),
-    rgba(139, 92, 246, 0.15),
+    rgba(248, 113, 113, 0.48),
+    rgba(193, 18, 31, 0.26),
+    rgba(122, 12, 24, 0.14),
     transparent
   );
 }
 
-/* ===== Section heading accent underline ===== */
 .section-heading {
   position: relative;
   display: inline-block;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
 }
 
 .section-heading::after {
@@ -77,18 +160,16 @@ code {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(to right, #10b981, #3b82f6, transparent);
-  border-radius: 1px;
-  opacity: 0.6;
+  background: linear-gradient(to right, rgba(248, 113, 113, 0.85), rgba(193, 18, 31, 0.45), transparent);
+  border-radius: 999px;
 }
 
-/* ===== Animated gradient button ===== */
 .btn-gradient {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+  background: linear-gradient(135deg, #fb7185, #c1121f, #7a0c18);
   background-size: 200% 200%;
-  animation: gradient-shift 4s ease infinite;
+  animation: gradient-shift 4.2s ease infinite;
 }
 
 @keyframes gradient-shift {
@@ -97,47 +178,43 @@ code {
   100% { background-position: 0% 50%; }
 }
 
-/* ===== Glow card hover ===== */
 .glow-card {
-  transition: all 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .glow-card:hover {
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.06), 0 0 40px rgba(59, 130, 246, 0.04);
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(248, 113, 113, 0.08),
+    0 0 32px rgba(193, 18, 31, 0.14);
 }
 
-/* ===== Profile image glow ring ===== */
 .profile-glow {
   box-shadow:
-    0 0 0 1px rgba(16, 185, 129, 0.15),
-    0 0 20px rgba(16, 185, 129, 0.1),
-    0 0 40px rgba(59, 130, 246, 0.05);
+    0 0 0 1px rgba(248, 113, 113, 0.2),
+    0 16px 40px rgba(0, 0, 0, 0.35),
+    0 0 36px rgba(193, 18, 31, 0.12);
   transition: box-shadow 0.4s ease;
 }
 
 .profile-glow:hover {
   box-shadow:
-    0 0 0 1px rgba(16, 185, 129, 0.3),
-    0 0 25px rgba(16, 185, 129, 0.15),
-    0 0 50px rgba(59, 130, 246, 0.1);
+    0 0 0 1px rgba(248, 113, 113, 0.32),
+    0 18px 44px rgba(0, 0, 0, 0.38),
+    0 0 44px rgba(193, 18, 31, 0.18);
 }
 
-/* ===== Subtle dot grid background ===== */
-.dot-grid-bg {
-  background-image: radial-gradient(
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 1px
-  );
-  background-size: 24px 24px;
-}
-
-/* ===== Focus glow for form inputs ===== */
 .input-glow:focus {
-  border-color: rgba(16, 185, 129, 0.4) !important;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.08), 0 0 12px rgba(16, 185, 129, 0.06);
+  border-color: rgba(248, 113, 113, 0.36) !important;
+  box-shadow:
+    0 0 0 3px rgba(248, 113, 113, 0.08),
+    0 0 16px rgba(193, 18, 31, 0.12);
 }
 
-/* ===== Animated nav indicator ===== */
 .nav-active-indicator {
   position: relative;
 }
@@ -150,8 +227,8 @@ code {
   transform: translateY(-50%);
   width: 3px;
   height: 16px;
-  background: linear-gradient(to bottom, #10b981, #3b82f6);
-  border-radius: 2px;
+  background: linear-gradient(to bottom, #fb7185, #c1121f);
+  border-radius: 999px;
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -160,7 +237,6 @@ code {
   opacity: 1;
 }
 
-/* ===== Tab content fade-in ===== */
 @keyframes tab-fade-in {
   from {
     opacity: 0;
