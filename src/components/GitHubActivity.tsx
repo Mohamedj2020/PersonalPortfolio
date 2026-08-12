@@ -40,8 +40,7 @@ const getColorForLevel = (level: number) => LEVEL_COLORS[Math.min(level, LEVEL_C
 const buildDateRange = () => {
   const today = startOfDay(new Date());
   const start = new Date(today);
-  start.setMonth(start.getMonth() - 12);
-  start.setDate(start.getDate() + 1 - start.getDay());
+  start.setDate(today.getDate() - (GRID_COLS * GRID_ROWS - 1));
 
   const days: Date[] = [];
   for (let index = 0; index < GRID_COLS * GRID_ROWS; index += 1) {
@@ -73,6 +72,30 @@ const mergeContributions = (responses: ContributionsResponse[]) => {
   });
 
   return merged;
+};
+
+const loadPublicContributions = async (
+  username: string,
+  signal: AbortSignal
+) => {
+  const currentYear = new Date().getFullYear();
+  const previousYear = currentYear - 1;
+
+  const responses = await Promise.all(
+    [previousYear, currentYear].map(async (year) => {
+      const response = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=${year}`, {
+        signal,
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to load contributions for ${year}`);
+      }
+
+      return (await response.json()) as ContributionsResponse;
+    })
+  );
+
+  return mergeContributions(responses);
 };
 
 const GitHubActivity = () => {
@@ -114,24 +137,26 @@ const GitHubActivity = () => {
 
     const loadContributions = async () => {
       try {
-        const currentYear = new Date().getFullYear();
-        const previousYear = currentYear - 1;
+        const from = dateToKey(days[0]);
+        const to = dateToKey(days[days.length - 1]);
 
-        const responses = await Promise.all(
-          [previousYear, currentYear].map(async (year) => {
-            const response = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=${year}`, {
-              signal: controller.signal,
-            });
+        try {
+          const response = await fetch(
+            `/api/github-contributions?username=${encodeURIComponent(username)}&from=${from}&to=${to}`,
+            { signal: controller.signal }
+          );
 
-            if (!response.ok) {
-              throw new Error(`Failed to load contributions for ${year}`);
-            }
+          if (!response.ok) {
+            throw new Error('Authenticated GitHub contributions unavailable');
+          }
 
-            return (await response.json()) as ContributionsResponse;
-          })
-        );
-
-        setContributions(mergeContributions(responses));
+          const authenticated = (await response.json()) as ContributionsResponse;
+          setContributions(mergeContributions([authenticated]));
+          return;
+        } catch (error) {
+          const fallback = await loadPublicContributions(username, controller.signal);
+          setContributions(fallback);
+        }
       } catch (err) {
         if (!controller.signal.aborted) {
           setContributions(new Map());
@@ -142,7 +167,7 @@ const GitHubActivity = () => {
     loadContributions();
 
     return () => controller.abort();
-  }, [username]);
+  }, [days, username]);
 
   useEffect(() => {
     const frame = gridFrameRef.current;
