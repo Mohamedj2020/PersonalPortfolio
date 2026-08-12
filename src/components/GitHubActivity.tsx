@@ -41,11 +41,11 @@ const toActivityItem = (event: GitHubEvent): ActivityItem | null => {
     return {
       id: event.id,
       label: 'Push',
-      title: `Shipped code to ${repoName}`,
+      title: `Pushed updates to ${repoName}`,
       detail:
         commitCount > 0
-          ? `${commitCount} new ${commitCount === 1 ? 'commit' : 'commits'} landed in this repository.`
-          : `Recent changes were pushed to ${repoName}.`,
+          ? `${commitCount} ${commitCount === 1 ? 'commit' : 'commits'} in this repository.`
+          : `Recent changes in ${repoName}.`,
       date,
       url: `https://github.com/${event.repo.name}/commits`,
     };
@@ -55,8 +55,8 @@ const toActivityItem = (event: GitHubEvent): ActivityItem | null => {
     return {
       id: event.id,
       label: 'PR',
-      title: event.payload?.pull_request?.title || `Worked through a pull request in ${repoName}`,
-      detail: `Public pull request activity on ${repoName}.`,
+      title: event.payload?.pull_request?.title || `Pull request update in ${repoName}`,
+      detail: `Public pull request activity in ${repoName}.`,
       date,
       url: event.payload?.pull_request?.html_url || `https://github.com/${event.repo.name}/pulls`,
     };
@@ -72,7 +72,7 @@ const toActivityItem = (event: GitHubEvent): ActivityItem | null => {
         refType === 'repository'
           ? `Started a new repository: ${repoName}`
           : `Created a new ${refType} in ${repoName}`,
-      detail: `Fresh groundwork going into ${repoName}.`,
+      detail: `New work started in ${repoName}.`,
       date,
       url: `https://github.com/${event.repo.name}`,
     };
@@ -83,7 +83,7 @@ const toActivityItem = (event: GitHubEvent): ActivityItem | null => {
       id: event.id,
       label: 'Issue',
       title: event.payload?.issue?.title || `Opened an issue in ${repoName}`,
-      detail: `Tracking work and follow-up in ${repoName}.`,
+      detail: `Public issue activity in ${repoName}.`,
       date,
       url: event.payload?.issue?.html_url || `https://github.com/${event.repo.name}/issues`,
     };
@@ -143,11 +143,10 @@ const GitHubActivity = () => {
       <div className="scroll-fade rounded-[34px] border border-red-500/12 bg-[rgba(17,10,10,0.72)] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm">
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-red-200/70">Live GitHub Pulse</p>
-            <h3 className="mt-3 font-serif text-4xl text-stone-50">@{username}</h3>
+            <p className="font-mono text-xs text-red-200/70">Recent public activity</p>
+            <h3 className="mt-3 text-2xl font-semibold text-stone-50">@{username}</h3>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-400">
-              A live snapshot of recent public work pulled directly from GitHub, so the portfolio
-              reflects what I am actively shipping and exploring.
+              Latest public events from my GitHub profile, pulled in automatically.
             </p>
           </div>
 
@@ -157,16 +156,16 @@ const GitHubActivity = () => {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full border border-red-500/16 bg-black/35 px-5 py-3 text-sm font-semibold text-stone-200 transition-colors hover:border-red-400/30 hover:bg-red-500/10 hover:text-stone-50"
           >
-            View profile
+            GitHub profile
           </a>
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <div className="rounded-full border border-red-500/12 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-red-100/85">
+          <div className="rounded-full border border-red-500/12 bg-red-500/10 px-4 py-2 font-mono text-xs text-red-100/85">
             Public events
           </div>
-          <div className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.24em] text-stone-400">
-            Auto-refreshes on load
+          <div className="rounded-full border border-white/10 bg-black/30 px-4 py-2 font-mono text-xs text-stone-400">
+            Updates on load
           </div>
         </div>
 
@@ -195,13 +194,13 @@ const GitHubActivity = () => {
                 className="glow-card rounded-[28px] border border-white/6 bg-black/30 p-5 transition-colors hover:border-red-400/18"
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-red-500/12 bg-red-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-red-100/90">
+                  <span className="rounded-full border border-red-500/12 bg-red-500/10 px-3 py-1 font-mono text-[11px] text-red-100/90">
                     {item.label}
                   </span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-stone-500">{item.date}</span>
+                  <span className="font-mono text-xs text-stone-500">{item.date}</span>
                 </div>
 
-                <h4 className="mt-4 font-serif text-2xl leading-tight text-stone-50">{item.title}</h4>
+                <h4 className="mt-4 text-lg font-semibold leading-7 text-stone-50">{item.title}</h4>
                 <p className="mt-3 text-sm leading-7 text-stone-400">{item.detail}</p>
               </a>
             ))}
