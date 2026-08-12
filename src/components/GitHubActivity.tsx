@@ -14,7 +14,6 @@ type ContributionsResponse = {
 
 const GRID_COLS = 53;
 const GRID_ROWS = 7;
-const MAX_CELL_SIZE = 16;
 const MIN_CELL_SIZE = 4;
 const CELL_GAP = 1;
 const WEEKDAY_MARKERS = [
@@ -159,17 +158,12 @@ const GitHubActivity = () => {
 
       const nextWeekdayLabelWidth = frameWidth < 420 ? 22 : frameWidth < 960 ? 28 : 38;
       const weekdayGap = frameWidth < 960 ? 8 : 14;
-      const nextMaxCellSize =
-        frameWidth < 420 ? 5 : frameWidth < 768 ? 7 : frameWidth < 1200 ? 10 : MAX_CELL_SIZE;
       const availableGridWidth = frameWidth - nextWeekdayLabelWidth - weekdayGap;
       const nextCellSize = Math.max(
         MIN_CELL_SIZE,
-        Math.min(nextMaxCellSize, (availableGridWidth - CELL_GAP * (GRID_COLS - 1)) / GRID_COLS)
+        (availableGridWidth - CELL_GAP * (GRID_COLS - 1)) / GRID_COLS
       );
-      const nextGridWidth = Math.max(
-        0,
-        nextCellSize * GRID_COLS + CELL_GAP * (GRID_COLS - 1)
-      );
+      const nextGridWidth = Math.max(0, availableGridWidth);
 
       setWeekdayLabelWidth((current) =>
         current === nextWeekdayLabelWidth ? current : nextWeekdayLabelWidth
