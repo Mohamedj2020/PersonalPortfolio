@@ -29,12 +29,9 @@ const Projects = () => {
 
               <div className="flex-1">
                 <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-red-200/70">Featured Build</p>
-                    <h3 className="mt-2 font-serif text-3xl leading-none text-stone-50 transition-colors group-hover:text-red-50">
-                      {project.title}
-                    </h3>
-                  </div>
+                  <h3 className="text-xl font-semibold leading-7 text-stone-50 transition-colors group-hover:text-red-50">
+                    {project.title}
+                  </h3>
 
                   <svg
                     className="mt-1 h-4 w-4 shrink-0 text-red-200/60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -51,7 +48,7 @@ const Projects = () => {
                   </svg>
                 </div>
 
-                <p className="mt-4 text-sm leading-7 text-stone-400">{project.description}</p>
+                <p className="mt-3 text-sm leading-7 text-stone-400">{project.description}</p>
 
                 <ul className="mt-4 flex flex-wrap gap-2">
                   {project.technologies.map((tech, i) => (
