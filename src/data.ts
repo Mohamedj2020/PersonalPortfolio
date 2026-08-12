@@ -2,7 +2,7 @@ export const personalData = {
   name: 'Mohamed Jirac',
   title: 'Software Engineer',
   location: 'Columbus, OH',
-  bio: 'I am a Software Engineer based in Columbus, OH.',
+  bio: 'Software engineer and computer science student.',
   email: 'jirac.1@buckeyemail.osu.edu',
   resumeUrl: '/images/mlt_july_resume.pdf',
   profileImage: '/images/2P2A3560.png',
@@ -10,8 +10,9 @@ export const personalData = {
     github: 'https://github.com/Mohamedj2020',
     linkedin: 'https://www.linkedin.com/in/mohamed-jirac',
   },
-  currentRole: 'Software Engineer Intern @ Kassim Konsulting',
+  currentRole: 'Software Engineer Intern @ JPMorgan Chase',
   previousRoles: [
+    'Software Engineer Intern @ Kassim Konsulting',
     'Tech Prep Fellow @ CodePath',
     'Undergraduate Researcher @ Ohio State University',
     'STEM Instructor',
@@ -64,20 +65,20 @@ export const experiencesData = [
         type: 'Internship',
         period: '2026 - Present',
         description: '',
-        highlights: ['Incoming Summer 2026'],
+        highlights: ['Summer 2026 internship'],
         skills: ['Software Engineering'],
       },
       {
         title: 'Code For Good Hackathon',
         type: 'Seasonal',
         period: 'Oct 2025',
-        location: 'Columbus, Ohio Metropolitan Area · On-site',
+        location: 'Columbus, Ohio Metropolitan Area / On-site',
         description:
-          'Developed a React front-end for the Code For Good Hackathon at JPMorganChase, showcasing nonprofit data.',
+          'Developed a React front-end for the Code For Good Hackathon at JPMorgan Chase, showcasing nonprofit data.',
         highlights: [
-          'Created an interactive heat-map and geo-visualization to enhance user engagement',
-          'Implemented a secure API layer to effectively manage incomplete data from a nonprofit API',
-          'Focused on user experience by integrating smooth sliding components and an AI chat placeholder',
+          'Created an interactive heat map and geo visualization to improve usability',
+          'Built a secure API layer to handle incomplete nonprofit data',
+          'Focused on smoother interaction patterns across the product',
         ],
         skills: ['React', 'Tailwind CSS', 'JavaScript', 'TypeScript', 'APIs', 'Figma'],
       },
@@ -92,10 +93,10 @@ export const experiencesData = [
     logo: '/images/adobe.jpg',
     logoInitial: 'A',
     description:
-      'Collaborated with Adobe to empower students through creative tools and resources, enhancing their design and storytelling skills.',
+      'Collaborated with Adobe to help students make better use of creative tools and resources across campus.',
     highlights: [
-      'Organized workshops and events to promote Creative Cloud, fostering a community of innovative thinkers on campus',
-      'Developed personal branding strategies for students, resulting in increased engagement and visibility for their projects',
+      'Organized workshops and events around Creative Cloud',
+      'Helped students think through branding and presentation of their work',
     ],
     skills: ['Event Planning', 'Product Development', 'Creative Strategy'],
   },
@@ -108,11 +109,11 @@ export const experiencesData = [
     logo: '/images/kkcon.jpg',
     logoInitial: 'KK',
     description:
-      'Built and deployed a responsive web platform enabling students to receive resume reviews and access real-time internship listings through integrated third-party APIs.',
+      'Built and deployed a web platform for students to get resume reviews and see internship listings through third-party APIs.',
     highlights: [
-      'Built responsive web platform',
+      'Built a responsive web platform',
       'Integrated third-party APIs',
-      'Deployed production system',
+      'Deployed a production system',
     ],
     skills: ['React', 'Node.js', 'APIs'],
   },
@@ -125,11 +126,11 @@ export const experiencesData = [
     logo: '/images/codepath_org_logo.jpg',
     logoInitial: 'CP',
     description:
-      'Completed a rigorous training program focused on data structures, algorithms, and system design. Solved LeetCode-style problems covering arrays, linked lists, trees, and graphs.',
+      'Completed an intensive program focused on data structures, algorithms, and system design through problem solving practice.',
     highlights: [
-      'Mastered data structures & algorithms',
-      'Solved 100+ LeetCode problems',
-      'System design fundamentals',
+      'Strengthened data structures and algorithms fundamentals',
+      'Solved 100+ interview-style problems',
+      'Worked through core system design concepts',
     ],
     skills: ['Python', 'Algorithms', 'System Design'],
   },
@@ -142,10 +143,10 @@ export const experiencesData = [
     logo: '/images/osulogo.png',
     logoInitial: 'OSU',
     description:
-      'Designed compilers and software tools optimized for data-intensive applications on GPUs, enhancing processing efficiency and reducing processing time.',
+      'Worked on compilers and software tools for data-intensive GPU workloads with a focus on improving efficiency.',
     highlights: [
-      'Designed GPU-optimized compilers',
-      'Enhanced processing efficiency',
+      'Designed GPU-focused compiler work',
+      'Improved processing efficiency',
       'Reduced data processing time',
     ],
     skills: ['C', 'GPU Programming', 'Compilers'],
@@ -159,7 +160,7 @@ export const experiencesData = [
     logo: '/images/stemexplorerprogramgearlogoc.png',
     logoInitial: 'SE',
     description:
-      'Taught weekly STEM and programming classes to Somali high school students, focusing on low-level programming using the C language.',
+      'Taught weekly STEM and programming classes to Somali high school students, with a focus on C and programming fundamentals.',
     highlights: [
       'Taught weekly programming classes',
       'Mentored high school students',
@@ -173,7 +174,7 @@ export const projectsData = [
   {
     title: 'BDAA Data/IO Hackathon',
     description:
-      'Conducted data analysis on EV charging infrastructure across California, identifying key trends and disparities in accessibility. Applied linear regression models to analyze correlation between city population and number of EV charging stations.',
+      'Conducted data analysis on EV charging infrastructure across California, identifying trends and disparities in accessibility. Applied linear regression to study the relationship between city population and EV charging station count.',
     technologies: ['Python', 'Data Analysis', 'Linear Regression', 'Pandas', 'Numpy'],
     liveUrl: '#',
     githubUrl:
@@ -183,7 +184,7 @@ export const projectsData = [
   {
     title: 'Market Data Pipeline Simulator',
     description:
-      'Developed a real-time data pipeline using Python, FastAPI, and Redis to simulate equity market feeds and support real-time price updates via WebSockets. Containerized the system with Docker Compose and implemented automated testing and CI workflows.',
+      'Developed a real-time data pipeline using Python, FastAPI, and Redis to simulate equity market feeds and support live price updates over WebSockets. Containerized the system with Docker Compose and added automated testing and CI workflows.',
     technologies: ['Python', 'FastAPI', 'Redis', 'WebSockets', 'Docker', 'PostgreSQL'],
     liveUrl: '#',
     githubUrl: 'https://github.com/Mohamedj2020/Market-data-pipeline-simulator',
@@ -192,7 +193,7 @@ export const projectsData = [
   {
     title: 'Portfolio Website',
     description:
-      'Developed a personal portfolio website using React, TypeScript, and Tailwind CSS to showcase projects and skills. Implemented responsive design and animations for an engaging user experience.',
+      'Built a personal portfolio with React, TypeScript, and Tailwind CSS to showcase projects and experience through a responsive interface.',
     technologies: ['React', 'TypeScript', 'Tailwind CSS', 'JavaScript'],
     liveUrl: '#',
     githubUrl: 'https://github.com/Mohamedj2020/my-portfolio',
@@ -201,7 +202,7 @@ export const projectsData = [
   {
     title: 'Down Detector',
     description:
-      'A full-stack web application that monitors website uptime, logs results into a SQLite database, and displays real-time updates on a responsive dashboard.',
+      'A full-stack web application that monitors website uptime, stores results in SQLite, and displays updates on a responsive dashboard.',
     technologies: ['Flask', 'Bootstrap', 'SQLite', 'JavaScript', 'Chart.js'],
     liveUrl: '#',
     githubUrl: 'https://github.com/Mohamedj2020/DownDetector.git',
@@ -210,7 +211,7 @@ export const projectsData = [
   {
     title: 'Revu App',
     description:
-      'A sentiment analysis application that classifies product reviews as positive, negative, or neutral using machine learning. Features a user-friendly interface with real-time analysis.',
+      'A sentiment analysis application that classifies product reviews as positive, negative, or neutral using machine learning, with a real-time user interface.',
     technologies: ['React', 'Flask', 'Node.js', 'PostgreSQL', 'Python'],
     liveUrl: '#',
     githubUrl: 'https://github.com/Mohamedj2020/Revu-app',
@@ -225,7 +226,7 @@ export const aboutData = {
     expected: 'Expected Dec 2026',
   },
   summary:
-    "Heading into my senior year at The Ohio State University, I'm eager to take the next step in my journey as a Software Engineer. With a strong foundation in Computer Science, I'm actively seeking a Software Engineering internship where I can apply my skills, solve real-world problems, and continue to grow.",
+    "I'm heading into my senior year at Ohio State and trying to get better at building software the right way: clear code, reliable systems, and products people actually use. I learn the most by shipping, getting feedback, and working on teams that care about both speed and quality.",
 };
 
 export const courseworkData = [
@@ -249,16 +250,16 @@ export const courseworkData = [
 
 export const certificationsData = [
   {
-    title: 'AWS Certified Solutions Architect – Associate',
+    title: 'AWS Certified Solutions Architect - Associate',
     issuer: 'Amazon Web Services (AWS)',
-    date: 'Issued May 2025 • Expires May 2028',
+    date: 'Issued May 2025 | Expires May 2028',
     credentialUrl: 'https://www.credly.com/badges/0d35804c-95a1-4ede-bdac-ef862769e680/linked_in_profile',
     skills: ['Cloud Architecture', 'AWS Services', 'System Design'],
   },
   {
     title: 'Intermediate Technical Interview Prep',
     issuer: 'CodePath',
-    date: 'Issued May 2025 • ID: 117383',
+    date: 'Issued May 2025 | ID: 117383',
     credentialUrl: 'https://drive.google.com/file/d/1xPW9wi33O_o9Q-Zgmt2dO4D6au6x4RQJ/view?usp=share_link',
     skills: ['Python', 'Collaborative Problem Solving', 'Analytical Skills', 'Data Structures and Algorithms'],
   },
@@ -284,13 +285,13 @@ export const leadershipData = [
     organization: 'Management Leadership for Tomorrow (MLT)',
     period: 'Jan 2025 - Present',
     description:
-      "Selected for MLT's competitive tech preparation program designed to prepare high-achieving underrepresented students for careers in technology. Engaging in technical skill development, career coaching, and networking with industry professionals.",
+      "Selected for MLT's tech preparation program for students pursuing careers in technology. Working through technical skill development, career coaching, and networking with industry professionals.",
   },
   {
     role: 'National Member',
     organization: 'ColorStack',
     period: 'Aug 2024 - Present',
     description:
-      'Member of the largest community of Black and Latinx Computer Science students and professionals. Participate in mentorship programs, technical workshops, and career development initiatives focused on increasing diversity in tech.',
+      'Member of a community for Black and Latinx computer science students and professionals, with a focus on mentorship, technical growth, and career development.',
   },
 ];
