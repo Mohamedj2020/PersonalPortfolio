@@ -13,23 +13,21 @@ const About = () => {
           className="scroll-fade rounded-[32px] border border-red-500/12 bg-[rgba(18,10,10,0.72)] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm"
           style={{ transitionDelay: '100ms' }}
         >
-          <p className="text-xs uppercase tracking-[0.3em] text-red-200/70">Foundation</p>
-          <h3 className="mt-4 font-serif text-4xl leading-none text-stone-50">
-            Computer science with range.
+          <p className="font-mono text-xs text-red-200/70">Education</p>
+          <h3 className="mt-4 text-2xl font-semibold leading-tight text-stone-50">
+            Computer science at Ohio State.
           </h3>
           <div className="mt-6 h-px w-full bg-gradient-to-r from-red-500/40 to-transparent" />
 
           <div className="mt-6 space-y-3">
             <p className="text-base font-semibold text-stone-100">{aboutData.education.degree}</p>
             <p className="text-sm text-stone-400">{aboutData.education.school}</p>
-            <p className="text-sm uppercase tracking-[0.22em] text-red-200/65">
-              {aboutData.education.expected}
-            </p>
+            <p className="font-mono text-xs text-red-200/70">{aboutData.education.expected}</p>
           </div>
 
           <p className="mt-8 text-sm leading-7 text-stone-400">
-            I like work that demands both systems thinking and taste, whether that means shaping a
-            product, refining an interface, or teaching someone else how the pieces fit together.
+            My interests sit between solid engineering and practical product thinking. I like
+            building things that are technically sound, easy to use, and worth maintaining.
           </p>
         </div>
 
@@ -45,8 +43,8 @@ const About = () => {
             />
 
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-stone-500">Why I build</p>
-              <p className="mt-4 text-base leading-8 text-stone-300">{aboutData.summary}</p>
+              <p className="font-mono text-xs text-stone-500">About me</p>
+              <p className="mt-4 text-[15px] leading-8 text-stone-300">{aboutData.summary}</p>
             </div>
           </div>
         </div>
