@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -23,11 +23,11 @@ html {
 
 body {
   margin: 0;
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background:
-    radial-gradient(circle at top, rgba(193, 18, 31, 0.1), transparent 30%),
+    radial-gradient(circle at top, rgba(193, 18, 31, 0.08), transparent 28%),
     linear-gradient(180deg, #0a0a0a 0%, #070707 45%, #040404 100%);
   color: var(--forge-text);
 }
@@ -66,9 +66,9 @@ code {
   pointer-events: none;
   z-index: -1;
   background:
-    radial-gradient(circle at 18% 14%, rgba(193, 18, 31, 0.22), transparent 0 26%),
-    radial-gradient(circle at 82% 20%, rgba(122, 12, 24, 0.24), transparent 0 22%),
-    radial-gradient(circle at 56% 72%, rgba(91, 10, 18, 0.2), transparent 0 24%),
+    radial-gradient(circle at 18% 14%, rgba(193, 18, 31, 0.16), transparent 0 24%),
+    radial-gradient(circle at 82% 20%, rgba(122, 12, 24, 0.17), transparent 0 20%),
+    radial-gradient(circle at 56% 72%, rgba(91, 10, 18, 0.14), transparent 0 22%),
     linear-gradient(180deg, rgba(12, 12, 12, 0.88), rgba(6, 6, 6, 0.98));
 }
 
@@ -80,7 +80,7 @@ code {
     linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
   background-size: 72px 72px;
-  opacity: 0.16;
+  opacity: 0.1;
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 92%);
 }
 
@@ -90,14 +90,14 @@ code {
   inset: -12%;
   background-image: radial-gradient(rgba(243, 232, 220, 0.22) 0.8px, transparent 0.8px);
   background-size: 118px 118px;
-  opacity: 0.24;
+  opacity: 0.12;
 }
 
 .forge-orb {
   position: absolute;
   border-radius: 999px;
-  filter: blur(70px);
-  opacity: 0.46;
+  filter: blur(84px);
+  opacity: 0.26;
 }
 
 .forge-orb-one {
@@ -150,7 +150,7 @@ code {
 .section-heading {
   position: relative;
   display: inline-block;
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 
 .section-heading::after {
@@ -160,22 +160,14 @@ code {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(to right, rgba(248, 113, 113, 0.85), rgba(193, 18, 31, 0.45), transparent);
+  background: linear-gradient(to right, rgba(248, 113, 113, 0.7), rgba(193, 18, 31, 0.28), transparent);
   border-radius: 999px;
 }
 
 .btn-gradient {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #fb7185, #c1121f, #7a0c18);
-  background-size: 200% 200%;
-  animation: gradient-shift 4.2s ease infinite;
-}
-
-@keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  background: #a91622;
 }
 
 .glow-card {
@@ -188,24 +180,24 @@ code {
 .glow-card:hover {
   transform: translateY(-2px);
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(248, 113, 113, 0.08),
-    0 0 32px rgba(193, 18, 31, 0.14);
+    0 18px 48px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(248, 113, 113, 0.05),
+    0 0 24px rgba(193, 18, 31, 0.08);
 }
 
 .profile-glow {
   box-shadow:
     0 0 0 1px rgba(248, 113, 113, 0.2),
-    0 16px 40px rgba(0, 0, 0, 0.35),
-    0 0 36px rgba(193, 18, 31, 0.12);
+    0 16px 40px rgba(0, 0, 0, 0.28),
+    0 0 30px rgba(193, 18, 31, 0.08);
   transition: box-shadow 0.4s ease;
 }
 
 .profile-glow:hover {
   box-shadow:
     0 0 0 1px rgba(248, 113, 113, 0.32),
-    0 18px 44px rgba(0, 0, 0, 0.38),
-    0 0 44px rgba(193, 18, 31, 0.18);
+    0 18px 44px rgba(0, 0, 0, 0.32),
+    0 0 34px rgba(193, 18, 31, 0.12);
 }
 
 .input-glow:focus {
@@ -227,7 +219,7 @@ code {
   transform: translateY(-50%);
   width: 3px;
   height: 16px;
-  background: linear-gradient(to bottom, #fb7185, #c1121f);
+  background: #d43643;
   border-radius: 999px;
   opacity: 0;
   transition: opacity 0.3s ease;
