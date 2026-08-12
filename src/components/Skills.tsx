@@ -57,7 +57,7 @@ const Skills = () => {
         return (
           <div key={category.label} className="mb-8 scroll-fade" style={{ transitionDelay: `${idx * 100}ms` }}>
             <div className="mb-5 flex items-center justify-between gap-4">
-              <h3 className="font-serif text-3xl text-stone-50">{category.label}</h3>
+              <h3 className="text-xl font-semibold text-stone-50">{category.label}</h3>
               <div className="h-px flex-1 bg-gradient-to-r from-red-500/25 to-transparent" />
             </div>
 
@@ -110,9 +110,9 @@ const Skills = () => {
             <div className="space-y-4">
               {certificationsData.map((cert, i) => (
                 <div key={i} className="rounded-[24px] border border-white/6 bg-[rgba(18,10,10,0.68)] p-5">
-                  <h4 className="font-serif text-2xl text-stone-50">{cert.title}</h4>
+                  <h4 className="text-lg font-semibold leading-7 text-stone-50">{cert.title}</h4>
                   <p className="mt-2 text-sm text-stone-400">{cert.issuer}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-red-200/65">{cert.date}</p>
+                  <p className="mt-1 font-mono text-xs text-red-200/70">{cert.date}</p>
 
                   {cert.credentialUrl && cert.credentialUrl !== '#' && (
                     <a
@@ -147,9 +147,9 @@ const Skills = () => {
             <div className="space-y-4">
               {leadershipData.map((item, i) => (
                 <div key={i} className="rounded-[24px] border border-white/6 bg-[rgba(18,10,10,0.68)] p-5">
-                  <h4 className="font-serif text-2xl text-stone-50">{item.role}</h4>
+                  <h4 className="text-lg font-semibold leading-7 text-stone-50">{item.role}</h4>
                   <p className="mt-2 text-sm text-stone-400">{item.organization}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-red-200/65">{item.period}</p>
+                  <p className="mt-1 font-mono text-xs text-red-200/70">{item.period}</p>
                   <p className="mt-4 text-sm leading-7 text-stone-400">{item.description}</p>
                 </div>
               ))}

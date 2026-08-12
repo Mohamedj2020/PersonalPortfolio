@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { personalData } from '../data';
 
 const navItems = [
@@ -12,14 +12,6 @@ const navItems = [
 
 const Sidebar = () => {
   const [activeSection, setActiveSection] = useState('');
-
-  const roles = useMemo(
-    () => ['Software Engineer', 'Builder', 'Researcher', 'Mentor', 'Problem Solver'],
-    []
-  );
-  const [currentRoleIndex, setCurrentRoleIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,44 +31,11 @@ const Sidebar = () => {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const currentRole = roles[currentRoleIndex];
-    const typeSpeed = isDeleting ? 45 : 95;
-
-    if (!isDeleting && currentText === currentRole) {
-      const pause = setTimeout(() => setIsDeleting(true), 1800);
-      return () => clearTimeout(pause);
-    }
-
-    if (isDeleting && currentText === '') {
-      setIsDeleting(false);
-      setCurrentRoleIndex((prev) => (prev + 1) % roles.length);
-      return undefined;
-    }
-
-    const timeout = setTimeout(() => {
-      setCurrentText((prev) => {
-        if (isDeleting) {
-          return currentRole.substring(0, prev.length - 1);
-        }
-
-        return currentRole.substring(0, prev.length + 1);
-      });
-    }, typeSpeed);
-
-    return () => clearTimeout(timeout);
-  }, [currentRoleIndex, currentText, isDeleting, roles]);
-
   const resumeUrl = personalData.resumeUrl;
 
   return (
-    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[44%] lg:flex-col lg:justify-between lg:py-24">
+    <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[37%] lg:flex-col lg:justify-between lg:py-24 xl:w-[35%]">
       <div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-red-500/15 bg-red-500/10 px-4 py-2 text-[11px] uppercase tracking-[0.3em] text-red-100/80 shadow-[0_0_30px_rgba(193,18,31,0.08)]">
-          <span className="h-2 w-2 rounded-full bg-red-400 shadow-[0_0_14px_rgba(248,113,113,0.7)]" />
-          Based in {personalData.location}
-        </div>
-
         <div className="mt-8 flex items-start gap-5">
           <img
             src={personalData.profileImage}
@@ -85,38 +44,31 @@ const Sidebar = () => {
           />
 
           <div className="pt-1">
-            <p className="text-sm uppercase tracking-[0.32em] text-red-200/70">Forge Mode</p>
-            <h1 className="mt-3 font-serif text-5xl leading-none text-stone-50 sm:text-6xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.04em] text-stone-50 sm:text-5xl">
               {personalData.name}
             </h1>
+            <p className="mt-2 text-base text-stone-300">{personalData.title}</p>
           </div>
         </div>
 
-        <p className="mt-8 max-w-xl text-lg leading-8 text-stone-300">
-          I build thoughtful software, sharpen the systems behind it, and make room for the next
-          person coming up with me.
+        <p className="mt-8 max-w-xl text-[15px] leading-8 text-stone-300">
+          I study computer science at Ohio State and like building software that is practical,
+          reliable, and easy to maintain. Most of my recent work has been around full-stack apps,
+          backend systems, and developer tooling.
         </p>
-
-        <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-red-500/15 bg-black/35 px-4 py-2 text-sm text-stone-300 backdrop-blur-sm">
-          <span className="text-red-200/70">Currently forging as</span>
-          <span className="font-medium text-stone-50">
-            {currentText}
-            <span className="ml-0.5 animate-pulse text-red-300">|</span>
-          </span>
-        </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
           <div className="rounded-[28px] border border-red-500/12 bg-[rgba(17,10,10,0.72)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-            <p className="text-xs uppercase tracking-[0.28em] text-red-200/65">Current Build</p>
-            <h2 className="mt-3 font-serif text-3xl text-stone-50">{personalData.currentRole}</h2>
+            <p className="font-mono text-xs text-red-200/70">Current</p>
+            <h2 className="mt-3 text-xl font-semibold leading-7 text-stone-50">{personalData.currentRole}</h2>
             <p className="mt-3 text-sm leading-7 text-stone-400">
-              Focused on shipping solid engineering work with polish, reliability, and room to
-              scale.
+              Right now I&apos;m focused on learning how strong engineering teams build reliable
+              software and ship clean product work at scale.
             </p>
           </div>
 
           <div className="rounded-[28px] border border-white/6 bg-black/35 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-            <p className="text-xs uppercase tracking-[0.28em] text-stone-400">Built Through</p>
+            <p className="font-mono text-xs text-stone-500">Previous</p>
             <ul className="mt-4 flex flex-col gap-3 text-sm text-stone-300">
               {personalData.previousRoles.map((role, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -133,14 +85,14 @@ const Sidebar = () => {
             href="#contact"
             className="btn-gradient inline-flex items-center rounded-full px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(122,12,24,0.3)] transition-transform hover:-translate-y-0.5"
           >
-            Start a conversation
+            Contact me
           </a>
           <a
             href={resumeUrl}
             download
             className="inline-flex items-center rounded-full border border-red-500/18 bg-black/30 px-6 py-3 text-sm font-semibold text-stone-200 transition-colors hover:border-red-400/30 hover:bg-red-500/10 hover:text-stone-50"
           >
-            Download resume
+            Resume
           </a>
         </div>
 
@@ -150,7 +102,7 @@ const Sidebar = () => {
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className={`nav-active-indicator group flex w-fit items-center text-sm uppercase tracking-[0.24em] transition-all duration-300 ${
+                  className={`nav-active-indicator group flex w-fit items-center text-sm transition-all duration-300 ${
                     activeSection === item.href
                       ? 'active translate-x-1 text-stone-50'
                       : 'text-stone-500 hover:text-stone-300'

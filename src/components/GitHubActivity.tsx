@@ -1,229 +1,318 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { personalData } from '../data';
 
-type GitHubEvent = {
-  id: string;
-  type: string;
-  created_at: string;
-  repo: {
-    name: string;
-  };
-  payload?: {
-    action?: string;
-    ref_type?: string;
-    commits?: { sha: string; message: string }[];
-    pull_request?: { html_url: string; title: string };
-    issue?: { html_url: string; title: string };
-  };
-};
-
-type ActivityItem = {
-  id: string;
-  label: string;
-  title: string;
-  detail: string;
+type ContributionDay = {
   date: string;
-  url: string;
+  count: number;
+  level: number;
 };
 
-const formatRepoName = (repoName: string) => repoName.split('/')[1] || repoName;
+type ContributionsResponse = {
+  total: Record<string, number>;
+  contributions: ContributionDay[];
+};
 
-const toActivityItem = (event: GitHubEvent): ActivityItem | null => {
-  const repoName = formatRepoName(event.repo.name);
-  const date = new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-  }).format(new Date(event.created_at));
+const GRID_COLS = 53;
+const GRID_ROWS = 7;
+const MAX_CELL_SIZE = 16;
+const MIN_CELL_SIZE = 4;
+const CELL_GAP = 1;
+const WEEKDAY_MARKERS = [
+  { label: 'Mon', row: 2 },
+  { label: 'Wed', row: 4 },
+  { label: 'Fri', row: 6 },
+];
 
-  if (event.type === 'PushEvent') {
-    const commitCount = event.payload?.commits?.length ?? 0;
+const LEVEL_COLORS = ['#16171c', '#2d1020', '#5b0a12', '#c1121f', '#f87171'];
+const LEVEL_BORDERS = [
+  'rgba(255,255,255,0.06)',
+  'rgba(248,113,113,0.10)',
+  'rgba(248,113,113,0.18)',
+  'rgba(248,113,113,0.28)',
+  'rgba(248,113,113,0.36)',
+];
 
-    return {
-      id: event.id,
-      label: 'Push',
-      title: `Shipped code to ${repoName}`,
-      detail:
-        commitCount > 0
-          ? `${commitCount} new ${commitCount === 1 ? 'commit' : 'commits'} landed in this repository.`
-          : `Recent changes were pushed to ${repoName}.`,
-      date,
-      url: `https://github.com/${event.repo.name}/commits`,
-    };
+const startOfDay = (date: Date) => new Date(date.getFullYear(), date.getMonth(), date.getDate());
+const dateToKey = (date: Date) => date.toISOString().slice(0, 10);
+const monthName = (date: Date) => date.toLocaleDateString('en-US', { month: 'short' });
+
+const getColorForLevel = (level: number) => LEVEL_COLORS[Math.min(level, LEVEL_COLORS.length - 1)] ?? LEVEL_COLORS[0];
+
+const buildDateRange = () => {
+  const today = startOfDay(new Date());
+  const start = new Date(today);
+  start.setMonth(start.getMonth() - 12);
+  start.setDate(start.getDate() + 1 - start.getDay());
+
+  const days: Date[] = [];
+  for (let index = 0; index < GRID_COLS * GRID_ROWS; index += 1) {
+    const next = new Date(start);
+    next.setDate(start.getDate() + index);
+    days.push(next);
   }
 
-  if (event.type === 'PullRequestEvent') {
-    return {
-      id: event.id,
-      label: 'PR',
-      title: event.payload?.pull_request?.title || `Worked through a pull request in ${repoName}`,
-      detail: `Public pull request activity on ${repoName}.`,
-      date,
-      url: event.payload?.pull_request?.html_url || `https://github.com/${event.repo.name}/pulls`,
-    };
-  }
+  return days;
+};
 
-  if (event.type === 'CreateEvent') {
-    const refType = event.payload?.ref_type || 'branch';
+const mergeContributions = (responses: ContributionsResponse[]) => {
+  const merged = new Map<string, ContributionDay>();
 
-    return {
-      id: event.id,
-      label: 'Create',
-      title:
-        refType === 'repository'
-          ? `Started a new repository: ${repoName}`
-          : `Created a new ${refType} in ${repoName}`,
-      detail: `Fresh groundwork going into ${repoName}.`,
-      date,
-      url: `https://github.com/${event.repo.name}`,
-    };
-  }
+  responses.forEach((response) => {
+    response.contributions.forEach((day) => {
+      const existing = merged.get(day.date);
+      if (!existing) {
+        merged.set(day.date, day);
+        return;
+      }
 
-  if (event.type === 'IssuesEvent') {
-    return {
-      id: event.id,
-      label: 'Issue',
-      title: event.payload?.issue?.title || `Opened an issue in ${repoName}`,
-      detail: `Tracking work and follow-up in ${repoName}.`,
-      date,
-      url: event.payload?.issue?.html_url || `https://github.com/${event.repo.name}/issues`,
-    };
-  }
+      merged.set(day.date, {
+        ...day,
+        count: existing.count + day.count,
+        level: Math.max(existing.level, day.level),
+      });
+    });
+  });
 
-  return null;
+  return merged;
 };
 
 const GitHubActivity = () => {
   const username = personalData.socialLinks.github.split('github.com/')[1] || 'Mohamedj2020';
-  const [items, setItems] = useState<ActivityItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [contributions, setContributions] = useState<Map<string, ContributionDay>>(new Map());
+  const [cellSize, setCellSize] = useState(8);
+  const [gridWidth, setGridWidth] = useState(0);
+  const [weekdayLabelWidth, setWeekdayLabelWidth] = useState(28);
+  const gridFrameRef = useRef<HTMLDivElement | null>(null);
+
+  const days = useMemo(() => buildDateRange(), []);
+  const monthLabels = useMemo(() => {
+    const labels = Array.from({ length: GRID_COLS }, () => '');
+    const seen = new Set<string>();
+    const minimumLabelSpacing = cellSize < 7 ? 5 : cellSize < 10 ? 4 : 3;
+    let lastPlacedWeek = -minimumLabelSpacing;
+
+    days.forEach((day, index) => {
+      const weekIndex = Math.floor(index / GRID_ROWS);
+      const monthKey = `${day.getFullYear()}-${day.getMonth()}`;
+
+      if (!seen.has(monthKey) && weekIndex - lastPlacedWeek >= minimumLabelSpacing) {
+        labels[weekIndex] = monthName(day);
+        seen.add(monthKey);
+        lastPlacedWeek = weekIndex;
+      }
+    });
+
+    return labels;
+  }, [cellSize, days]);
+
+  const totalContributions = useMemo(
+    () => Array.from(contributions.values()).reduce((sum, day) => sum + day.count, 0),
+    [contributions]
+  );
 
   useEffect(() => {
     const controller = new AbortController();
 
-    const loadActivity = async () => {
+    const loadContributions = async () => {
       try {
-        setLoading(true);
-        setError(false);
+        const currentYear = new Date().getFullYear();
+        const previousYear = currentYear - 1;
 
-        const response = await fetch(`https://api.github.com/users/${username}/events/public?per_page=8`, {
-          signal: controller.signal,
-        });
+        const responses = await Promise.all(
+          [previousYear, currentYear].map(async (year) => {
+            const response = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}?y=${year}`, {
+              signal: controller.signal,
+            });
 
-        if (!response.ok) {
-          throw new Error('Failed to load GitHub activity');
-        }
+            if (!response.ok) {
+              throw new Error(`Failed to load contributions for ${year}`);
+            }
 
-        const events = (await response.json()) as GitHubEvent[];
-        const nextItems = events.map(toActivityItem).filter((item): item is ActivityItem => item !== null).slice(0, 6);
+            return (await response.json()) as ContributionsResponse;
+          })
+        );
 
-        setItems(nextItems);
+        setContributions(mergeContributions(responses));
       } catch (err) {
         if (!controller.signal.aborted) {
-          setError(true);
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setLoading(false);
+          setContributions(new Map());
         }
       }
     };
 
-    loadActivity();
+    loadContributions();
 
     return () => controller.abort();
   }, [username]);
 
+  useEffect(() => {
+    const frame = gridFrameRef.current;
+    if (!frame || typeof ResizeObserver === 'undefined') {
+      return undefined;
+    }
+
+    const updateGridMetrics = () => {
+      const frameWidth = frame.clientWidth;
+      if (!frameWidth) {
+        return;
+      }
+
+      const nextWeekdayLabelWidth = frameWidth < 420 ? 22 : frameWidth < 960 ? 28 : 38;
+      const weekdayGap = frameWidth < 960 ? 8 : 14;
+      const nextMaxCellSize =
+        frameWidth < 420 ? 5 : frameWidth < 768 ? 7 : frameWidth < 1200 ? 10 : MAX_CELL_SIZE;
+      const availableGridWidth = frameWidth - nextWeekdayLabelWidth - weekdayGap;
+      const nextCellSize = Math.max(
+        MIN_CELL_SIZE,
+        Math.min(nextMaxCellSize, (availableGridWidth - CELL_GAP * (GRID_COLS - 1)) / GRID_COLS)
+      );
+      const nextGridWidth = Math.max(
+        0,
+        nextCellSize * GRID_COLS + CELL_GAP * (GRID_COLS - 1)
+      );
+
+      setWeekdayLabelWidth((current) =>
+        current === nextWeekdayLabelWidth ? current : nextWeekdayLabelWidth
+      );
+      setCellSize((current) => (current === nextCellSize ? current : nextCellSize));
+      setGridWidth((current) => (current === nextGridWidth ? current : nextGridWidth));
+    };
+
+    const observer = new ResizeObserver(updateGridMetrics);
+    observer.observe(frame);
+    updateGridMetrics();
+
+    return () => observer.disconnect();
+  }, []);
+
+  const gridHeight = GRID_ROWS * cellSize + CELL_GAP * (GRID_ROWS - 1);
+
   return (
     <section id="github-activity" className="mb-16 scroll-mt-24 md:mb-24 lg:mb-32">
-      <h2 className="mb-10 text-2xl font-medium tracking-tight text-stone-50 scroll-fade">
-        <span className="section-heading">GitHub Activity</span>
-      </h2>
+      <h2 className="sr-only">GitHub Activity Heat Map</h2>
 
-      <div className="scroll-fade rounded-[34px] border border-red-500/12 bg-[rgba(17,10,10,0.72)] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-        <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.32em] text-red-200/70">Live GitHub Pulse</p>
-            <h3 className="mt-3 font-serif text-4xl text-stone-50">@{username}</h3>
-            <p className="mt-3 max-w-2xl text-sm leading-7 text-stone-400">
-              A live snapshot of recent public work pulled directly from GitHub, so the portfolio
-              reflects what I am actively shipping and exploring.
-            </p>
+      <div className="scroll-fade overflow-hidden rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(34,16,22,0.96)_0%,rgba(16,9,11,0.98)_100%)] px-5 py-5 shadow-[0_24px_70px_rgba(0,0,0,0.32)] backdrop-blur-sm md:px-6 md:py-6 xl:px-9 xl:py-8">
+        <div className="flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-stone-100">
+              <span className="font-mono text-[12px] uppercase tracking-[0.24em] text-red-100/75">GitHub</span>
+              <span className="text-[15px] font-medium leading-none text-white/92">Activity</span>
+              <span className="truncate text-[15px] font-medium leading-none text-white/35">@{username}</span>
+            </div>
           </div>
 
           <a
             href={personalData.socialLinks.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center rounded-full border border-red-500/16 bg-black/35 px-5 py-3 text-sm font-semibold text-stone-200 transition-colors hover:border-red-400/30 hover:bg-red-500/10 hover:text-stone-50"
+            className="group inline-flex shrink-0 items-center gap-2 text-[15px] font-semibold leading-none text-white/92 transition-colors hover:text-white"
           >
-            View profile
+            View Profile
+            <span className="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
+              &rarr;
+            </span>
           </a>
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <div className="rounded-full border border-red-500/12 bg-red-500/10 px-4 py-2 text-xs uppercase tracking-[0.24em] text-red-100/85">
-            Public events
+        <div className="mt-5 h-px bg-white/10" />
+
+        <div ref={gridFrameRef} className="mt-5 pb-1">
+          <div
+            className="mb-3 grid items-end md:mb-4"
+            style={{ gridTemplateColumns: `${weekdayLabelWidth}px minmax(0, 1fr)`, columnGap: '14px' }}
+          >
+            <span />
+            <div
+              className="grid gap-x-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-white/42 md:text-[10px] md:tracking-[0.18em] xl:text-[11px]"
+              style={{
+                width: `${gridWidth}px`,
+                gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))`,
+              }}
+            >
+              {monthLabels.map((label, index) => (
+                <span key={`${label}-${index}`} className="h-4 whitespace-nowrap text-left">
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-xs uppercase tracking-[0.24em] text-stone-400">
-            Auto-refreshes on load
+
+          <div
+            className="grid items-start"
+            style={{ gridTemplateColumns: `${weekdayLabelWidth}px minmax(0, 1fr)`, columnGap: '14px' }}
+          >
+            <div
+              className="grid shrink-0 items-center py-[1px] text-[9px] font-semibold uppercase tracking-[0.14em] text-white/42 md:text-[10px] md:tracking-[0.16em] xl:text-[11px]"
+              style={{
+                width: `${weekdayLabelWidth}px`,
+                height: `${gridHeight}px`,
+                gridTemplateRows: `repeat(${GRID_ROWS}, ${cellSize}px)`,
+                gap: `${CELL_GAP}px`,
+              }}
+            >
+              {WEEKDAY_MARKERS.map((marker) => (
+                <span
+                  key={marker.label}
+                  className="leading-none"
+                  style={{ gridRow: marker.row }}
+                >
+                  {marker.label}
+                </span>
+              ))}
+            </div>
+
+            <div
+              className="grid"
+              aria-label={`${username} GitHub contributions heat map`}
+              style={{
+                width: `${gridWidth}px`,
+                gridTemplateColumns: `repeat(${GRID_COLS}, minmax(0, 1fr))`,
+                gridTemplateRows: `repeat(${GRID_ROWS}, ${cellSize}px)`,
+                gap: `${CELL_GAP}px`,
+              }}
+            >
+              {days.map((day, index) => {
+                const column = Math.floor(index / GRID_ROWS) + 1;
+                const row = (index % GRID_ROWS) + 1;
+                const contribution = contributions.get(dateToKey(day));
+                const level = contribution?.level ?? 0;
+                const count = contribution?.count ?? 0;
+
+                return (
+                  <div
+                    key={dateToKey(day)}
+                    title={`${day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${count} contributions`}
+                    aria-label={`${day.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}: ${count} contributions`}
+                    className="rounded-[3px] transition-transform duration-200 hover:scale-110"
+                    style={{
+                      gridColumn: column,
+                      gridRow: row,
+                      width: '100%',
+                      height: `${cellSize}px`,
+                      backgroundColor: getColorForLevel(level),
+                      border: `1px solid ${LEVEL_BORDERS[level] ?? LEVEL_BORDERS[0]}`,
+                    }}
+                  />
+                );
+              })}
+            </div>
           </div>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {loading &&
-            [0, 1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className="rounded-[28px] border border-white/6 bg-black/30 p-5 animate-pulse"
-              >
-                <div className="h-3 w-20 rounded-full bg-red-500/12" />
-                <div className="mt-4 h-6 w-3/4 rounded-full bg-white/6" />
-                <div className="mt-3 h-4 w-full rounded-full bg-white/6" />
-                <div className="mt-2 h-4 w-2/3 rounded-full bg-white/6" />
-              </div>
-            ))}
+        <div className="mt-6 flex flex-col gap-4 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/50 sm:flex-row sm:items-center sm:justify-between xl:mt-7">
+          <p className="text-sm font-normal tracking-normal text-white/82 normal-case xl:text-[15px]">
+            <span className="font-semibold text-white">{totalContributions}</span> contributions in the past year
+          </p>
 
-          {!loading &&
-            !error &&
-            items.map((item) => (
-              <a
-                key={item.id}
-                href={item.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glow-card rounded-[28px] border border-white/6 bg-black/30 p-5 transition-colors hover:border-red-400/18"
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="rounded-full border border-red-500/12 bg-red-500/10 px-3 py-1 text-[11px] uppercase tracking-[0.24em] text-red-100/90">
-                    {item.label}
-                  </span>
-                  <span className="text-xs uppercase tracking-[0.2em] text-stone-500">{item.date}</span>
-                </div>
-
-                <h4 className="mt-4 font-serif text-2xl leading-tight text-stone-50">{item.title}</h4>
-                <p className="mt-3 text-sm leading-7 text-stone-400">{item.detail}</p>
-              </a>
-            ))}
-
-          {!loading && error && (
-            <div className="rounded-[28px] border border-white/6 bg-black/30 p-5 md:col-span-2">
-              <p className="text-sm font-medium text-stone-100">GitHub activity is temporarily unavailable.</p>
-              <p className="mt-2 text-sm leading-7 text-stone-400">
-                The section is wired up, but GitHub did not return public events right now. The
-                profile link above still takes visitors to the full activity feed.
-              </p>
-            </div>
-          )}
-
-          {!loading && !error && items.length === 0 && (
-            <div className="rounded-[28px] border border-white/6 bg-black/30 p-5 md:col-span-2">
-              <p className="text-sm font-medium text-stone-100">No recent public activity yet.</p>
-              <p className="mt-2 text-sm leading-7 text-stone-400">
-                Once new public events show up on GitHub, this panel will surface them here.
-              </p>
-            </div>
-          )}
+          <div className="flex items-center gap-2 xl:text-[11px]">
+            <span>Less</span>
+            <span className="h-3.5 w-3.5 rounded-[3px] bg-[#161b22] ring-1 ring-inset ring-white/10" />
+            <span className="h-3.5 w-3.5 rounded-[3px] bg-[#2d1020] ring-1 ring-inset ring-white/10" />
+            <span className="h-3.5 w-3.5 rounded-[3px] bg-[#5b0a12] ring-1 ring-inset ring-white/10" />
+            <span className="h-3.5 w-3.5 rounded-[3px] bg-[#c1121f] ring-1 ring-inset ring-white/10" />
+            <span className="h-3.5 w-3.5 rounded-[3px] bg-[#f87171] ring-1 ring-inset ring-white/10" />
+            <span>More</span>
+          </div>
         </div>
       </div>
     </section>

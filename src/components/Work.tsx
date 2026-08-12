@@ -35,8 +35,8 @@ const SingleRoleCard = ({ exp, index }: { exp: typeof experiencesData[number]; i
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-            <h3 className="font-serif text-3xl leading-none text-stone-50">{exp.title}</h3>
-            <span className="shrink-0 text-xs uppercase tracking-[0.24em] text-red-200/65">{exp.period}</span>
+            <h3 className="text-xl font-semibold leading-7 text-stone-50">{exp.title}</h3>
+            <span className="shrink-0 font-mono text-xs text-red-200/70">{exp.period}</span>
           </div>
           <p className="mt-2 text-sm text-stone-400">{exp.organization}</p>
         </div>
@@ -59,9 +59,7 @@ const SingleRoleCard = ({ exp, index }: { exp: typeof experiencesData[number]; i
 
           {exp.highlights.length > 0 && (
             <div className="mt-5">
-              <h4 className="mb-3 flex items-center gap-2 text-sm font-medium uppercase tracking-[0.18em] text-red-100/90">
-                Key Highlights
-              </h4>
+              <h4 className="mb-3 text-sm font-medium text-red-100/90">Highlights</h4>
               <div className="flex flex-col gap-2">
                 {exp.highlights.map((item, i) => (
                   <div key={i} className="flex items-center gap-3 rounded-2xl border border-white/5 bg-black/30 px-4 py-3">
@@ -75,9 +73,7 @@ const SingleRoleCard = ({ exp, index }: { exp: typeof experiencesData[number]; i
 
           {exp.skills.length > 0 && (
             <div className="mt-5">
-              <h4 className="mb-3 text-sm font-medium uppercase tracking-[0.18em] text-stone-400">
-                Technologies
-              </h4>
+              <h4 className="mb-3 text-sm font-medium text-stone-400">Technologies</h4>
               <ul className="flex flex-wrap gap-2">
                 {exp.skills.map((skill) => (
                   <li
@@ -123,8 +119,8 @@ const MultiRoleCard = ({ exp, index }: { exp: typeof experiencesData[number]; in
         <OrgLogo exp={exp} />
 
         <div className="min-w-0 flex-1">
-          <h3 className="font-serif text-3xl leading-none text-stone-50">{exp.organization}</h3>
-          <p className="mt-2 text-xs uppercase tracking-[0.22em] text-red-200/65">{exp.period}</p>
+          <h3 className="text-xl font-semibold leading-7 text-stone-50">{exp.organization}</h3>
+          <p className="mt-2 font-mono text-xs text-red-200/70">{exp.period}</p>
         </div>
 
         <svg
@@ -151,7 +147,7 @@ const MultiRoleCard = ({ exp, index }: { exp: typeof experiencesData[number]; in
               <button onClick={() => toggleRole(i)} className="flex w-full items-start justify-between gap-2 text-left">
                 <div>
                   <p className="text-base font-semibold text-stone-100">{role.title}</p>
-                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-red-200/65">{role.type}</p>
+                  <p className="mt-1 font-mono text-xs text-red-200/70">{role.type}</p>
                   <p className="mt-1 text-xs text-stone-500">{role.period}</p>
                   {role.location && <p className="mt-1 text-xs text-stone-600">{role.location}</p>}
                 </div>

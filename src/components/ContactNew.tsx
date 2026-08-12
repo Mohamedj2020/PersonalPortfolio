@@ -14,15 +14,17 @@ const ContactNew = () => {
 
       <div className="grid gap-6 lg:grid-cols-[0.76fr,1.24fr]">
         <div className="scroll-fade rounded-[32px] border border-red-500/12 bg-[rgba(17,10,10,0.72)] p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm">
-          <p className="text-xs uppercase tracking-[0.32em] text-red-200/70">Let&apos;s Build</p>
-          <h3 className="mt-4 font-serif text-4xl text-stone-50">Good work starts with a clear conversation.</h3>
+          <p className="font-mono text-xs text-red-200/70">Contact</p>
+          <h3 className="mt-4 text-2xl font-semibold leading-tight text-stone-50">
+            If you want to build something together, reach out.
+          </h3>
           <p className="mt-4 text-sm leading-7 text-stone-400">
-            I&apos;m always open to internships, software engineering opportunities, interesting
-            product work, and thoughtful conversations with other builders.
+            I&apos;m open to internships, software engineering roles, and projects where I can help
+            across both product thinking and implementation.
           </p>
 
           <div className="mt-8 rounded-[24px] border border-white/6 bg-black/30 p-4">
-            <p className="text-xs uppercase tracking-[0.24em] text-stone-500">Direct line</p>
+            <p className="font-mono text-xs text-stone-500">Email</p>
             <a
               href={`mailto:${personalData.email}`}
               className="mt-3 inline-flex text-sm font-semibold text-red-100/90 transition-colors hover:text-stone-50"
@@ -32,7 +34,10 @@ const ContactNew = () => {
           </div>
         </div>
 
-        <div className="scroll-fade rounded-[32px] border border-white/6 bg-black/30 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm" style={{ transitionDelay: '150ms' }}>
+        <div
+          className="scroll-fade rounded-[32px] border border-white/6 bg-black/30 p-6 shadow-[0_30px_90px_rgba(0,0,0,0.28)] backdrop-blur-sm"
+          style={{ transitionDelay: '150ms' }}
+        >
           {state.succeeded ? (
             <div className="rounded-[24px] border border-red-500/18 bg-red-500/10 p-5">
               <p className="text-sm font-semibold text-red-50">Message sent. I&apos;ll get back to you soon.</p>
@@ -79,7 +84,7 @@ const ContactNew = () => {
                   required
                   rows={5}
                   className="input-glow w-full resize-none rounded-[20px] border border-white/10 bg-[rgba(18,10,10,0.72)] px-4 py-3 text-sm text-stone-50 placeholder-stone-600 outline-none transition-all"
-                  placeholder="Tell me what you&apos;re building or what kind of role you&apos;re hiring for."
+                  placeholder="Tell me what you're building or what kind of role you're hiring for."
                 />
                 <ValidationError prefix="Message" field="message" errors={state.errors} className="mt-1 text-xs text-red-300" />
               </div>
