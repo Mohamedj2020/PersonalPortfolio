@@ -3,34 +3,34 @@ import { skillsData, courseworkData, certificationsData, leadershipData } from '
 
 const colorMap = {
   blue: {
-    bg: 'bg-blue-500/10',
-    text: 'text-blue-400',
-    ring: 'ring-blue-500/20',
-    hover: 'hover:bg-blue-500/20',
+    bg: 'bg-red-500/10',
+    text: 'text-red-100/90',
+    ring: 'ring-red-500/12',
+    hover: 'hover:bg-red-500/12',
   },
   emerald: {
-    bg: 'bg-emerald-500/10',
-    text: 'text-emerald-400',
-    ring: 'ring-emerald-500/20',
-    hover: 'hover:bg-emerald-500/20',
+    bg: 'bg-rose-500/10',
+    text: 'text-rose-100/90',
+    ring: 'ring-rose-500/12',
+    hover: 'hover:bg-rose-500/12',
   },
   purple: {
-    bg: 'bg-purple-500/10',
-    text: 'text-purple-400',
-    ring: 'ring-purple-500/20',
-    hover: 'hover:bg-purple-500/20',
+    bg: 'bg-orange-500/10',
+    text: 'text-orange-100/90',
+    ring: 'ring-orange-500/12',
+    hover: 'hover:bg-orange-500/12',
   },
   rose: {
-    bg: 'bg-rose-500/10',
-    text: 'text-rose-400',
-    ring: 'ring-rose-500/20',
-    hover: 'hover:bg-rose-500/20',
+    bg: 'bg-red-950/80',
+    text: 'text-red-50',
+    ring: 'ring-red-400/12',
+    hover: 'hover:bg-red-900/70',
   },
   amber: {
-    bg: 'bg-amber-500/10',
-    text: 'text-amber-500',
-    ring: 'ring-amber-500/20',
-    hover: 'hover:bg-amber-500/20',
+    bg: 'bg-stone-800/75',
+    text: 'text-stone-200',
+    ring: 'ring-stone-700/70',
+    hover: 'hover:bg-stone-700/80',
   },
 };
 
@@ -38,7 +38,7 @@ type CredentialTab = 'coursework' | 'certs' | 'leadership';
 
 const credentialTabs: { key: CredentialTab; label: string }[] = [
   { key: 'coursework', label: 'Coursework' },
-  { key: 'certs', label: 'Certs' },
+  { key: 'certs', label: 'Certifications' },
   { key: 'leadership', label: 'Leadership' },
 ];
 
@@ -47,17 +47,20 @@ const Skills = () => {
 
   return (
     <section id="skills" className="mb-16 scroll-mt-24 md:mb-24 lg:mb-32">
-      <h2 className="mb-10 text-xl font-medium tracking-tight text-white scroll-fade">
-        <span className="section-heading">Skills & Credentials</span>
+      <h2 className="mb-10 text-2xl font-medium tracking-tight text-stone-50 scroll-fade">
+        <span className="section-heading">Stack & Credentials</span>
       </h2>
 
-      {/* ── Technical Skills ── */}
       {Object.values(skillsData).map((category, idx) => {
         const colors = colorMap[category.color];
+
         return (
           <div key={category.label} className="mb-8 scroll-fade" style={{ transitionDelay: `${idx * 100}ms` }}>
-            <h3 className="mb-3 text-base text-zinc-200">{category.label}</h3>
-            <div className="h-px w-full bg-zinc-800/80 mb-5"></div>
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <h3 className="text-xl font-semibold text-stone-50">{category.label}</h3>
+              <div className="h-px flex-1 bg-gradient-to-r from-red-500/25 to-transparent" />
+            </div>
+
             <ul className="flex flex-wrap gap-2.5">
               {category.items.map((skill) => (
                 <li
@@ -72,34 +75,30 @@ const Skills = () => {
         );
       })}
 
-      {/* ── Credentials Tabs ── */}
-      <div className="mt-12 scroll-fade" style={{ transitionDelay: '500ms' }}>
-        <div className="flex gap-0 border-b border-zinc-800/80 mb-6">
+      <div className="mt-12 scroll-fade rounded-[32px] border border-white/6 bg-black/30 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] backdrop-blur-sm" style={{ transitionDelay: '500ms' }}>
+        <div className="mb-6 flex flex-wrap gap-2 border-b border-red-500/10 pb-4">
           {credentialTabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-4 py-2.5 text-sm font-medium transition-colors relative ${
+              className={`rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
                 activeTab === tab.key
-                  ? 'text-white'
-                  : 'text-zinc-500 hover:text-zinc-300'
+                  ? 'bg-red-500/12 text-stone-50 ring-1 ring-inset ring-red-500/18'
+                  : 'text-stone-500 hover:text-stone-300'
               }`}
             >
               {tab.label}
-              {activeTab === tab.key && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-white" />
-              )}
             </button>
           ))}
         </div>
 
         <div key={activeTab} className="animate-tab-fade">
           {activeTab === 'coursework' && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
               {courseworkData.map((course) => (
                 <div
                   key={course}
-                  className="rounded-md border border-zinc-800/60 bg-zinc-900/30 px-3 py-2.5 text-center text-sm text-zinc-400 transition-colors hover:border-zinc-700 hover:text-zinc-300"
+                  className="rounded-2xl border border-white/6 bg-[rgba(18,10,10,0.68)] px-3 py-3 text-center text-sm text-stone-300 transition-colors hover:border-red-400/14 hover:text-stone-100"
                 >
                   {course}
                 </div>
@@ -110,33 +109,30 @@ const Skills = () => {
           {activeTab === 'certs' && (
             <div className="space-y-4">
               {certificationsData.map((cert, i) => (
-                <div
-                  key={i}
-                  className="rounded-md border border-zinc-800/60 bg-zinc-900/30 p-4"
-                >
-                  <h4 className="text-sm font-medium text-white">{cert.title}</h4>
-                  <p className="mt-1 text-xs text-zinc-400">{cert.issuer}</p>
-                  <p className="mt-0.5 text-xs text-zinc-500">{cert.date}</p>
+                <div key={i} className="rounded-[24px] border border-white/6 bg-[rgba(18,10,10,0.68)] p-5">
+                  <h4 className="text-lg font-semibold leading-7 text-stone-50">{cert.title}</h4>
+                  <p className="mt-2 text-sm text-stone-400">{cert.issuer}</p>
+                  <p className="mt-1 font-mono text-xs text-red-200/70">{cert.date}</p>
 
                   {cert.credentialUrl && cert.credentialUrl !== '#' && (
                     <a
                       href={cert.credentialUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-2.5 inline-flex items-center gap-1.5 text-xs font-medium text-zinc-300 hover:text-white transition-colors"
+                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-red-100/90 transition-colors hover:text-stone-50"
                     >
                       <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
-                      Show Credential
+                      Show credential
                     </a>
                   )}
 
-                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                  <div className="mt-4 flex flex-wrap gap-2">
                     {cert.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="rounded-full bg-zinc-800/60 px-2.5 py-0.5 text-[11px] text-zinc-400"
+                        className="rounded-full border border-red-500/12 bg-red-500/10 px-2.5 py-1 text-[11px] text-red-50/90"
                       >
                         {skill}
                       </span>
@@ -150,16 +146,11 @@ const Skills = () => {
           {activeTab === 'leadership' && (
             <div className="space-y-4">
               {leadershipData.map((item, i) => (
-                <div
-                  key={i}
-                  className="rounded-md border border-zinc-800/60 bg-zinc-900/30 p-4"
-                >
-                  <h4 className="text-sm font-medium text-white">{item.role}</h4>
-                  <p className="mt-1 text-xs text-zinc-400">{item.organization}</p>
-                  <p className="mt-0.5 text-xs text-zinc-500">{item.period}</p>
-                  <p className="mt-2.5 text-xs leading-relaxed text-zinc-400">
-                    {item.description}
-                  </p>
+                <div key={i} className="rounded-[24px] border border-white/6 bg-[rgba(18,10,10,0.68)] p-5">
+                  <h4 className="text-lg font-semibold leading-7 text-stone-50">{item.role}</h4>
+                  <p className="mt-2 text-sm text-stone-400">{item.organization}</p>
+                  <p className="mt-1 font-mono text-xs text-red-200/70">{item.period}</p>
+                  <p className="mt-4 text-sm leading-7 text-stone-400">{item.description}</p>
                 </div>
               ))}
             </div>
