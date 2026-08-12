@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { aboutData } from '../data';
 
 const About = () => {
+  const [showPhotoCredit, setShowPhotoCredit] = useState(false);
+
   return (
     <section id="about" className="mb-16 scroll-mt-24 md:mb-24 lg:mb-32">
       <h2 className="mb-10 text-2xl font-medium tracking-tight text-stone-50 scroll-fade">
@@ -37,11 +39,33 @@ const About = () => {
           style={{ transitionDelay: '220ms' }}
         >
           <div className="flex flex-col gap-6">
-            <img
-              src="/images/aboutme2.0.jpg"
-              alt="Mohamed speaking at a panel"
-              className="aspect-[16/10] w-full rounded-[24px] object-cover object-[28%_34%] ring-1 ring-red-500/10 md:aspect-[16/9] xl:aspect-[5/4]"
-            />
+            <div className="overflow-hidden rounded-[24px] ring-1 ring-red-500/10">
+              <button
+                type="button"
+                onClick={() => setShowPhotoCredit((current) => !current)}
+                className="group block w-full text-left"
+              >
+                <img
+                  src="/images/aboutme2.0.jpg"
+                  alt="Mohamed speaking at a panel"
+                  className="aspect-[16/10] w-full object-cover object-[28%_34%] transition-transform duration-300 group-hover:scale-[1.01] md:aspect-[16/9] xl:aspect-[5/4]"
+                />
+              </button>
+
+              {showPhotoCredit && (
+                <div className="flex items-center justify-between gap-3 border-t border-white/6 bg-[rgba(12,8,8,0.92)] px-4 py-3 text-xs text-stone-300">
+                  <span className="font-mono uppercase tracking-[0.18em] text-stone-500">Photo</span>
+                  <a
+                    href="https://www.linkedin.com/in/sajjaad-khader/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BPBSVY7L7TzKGST1JjLry%2FA%3D%3D"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-right text-red-100/90 underline decoration-red-400/40 underline-offset-4 transition-colors hover:text-red-50"
+                  >
+                    @ Sajjaad Khader
+                  </a>
+                </div>
+              )}
+            </div>
 
             <div>
               <p className="font-mono text-xs text-stone-500">About me</p>
