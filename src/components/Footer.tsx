@@ -7,7 +7,7 @@ const Footer = () => (
 
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-sm text-stone-500">Designed and developed by {personalData.name}.</p>
-      <span className="text-sm uppercase tracking-[0.2em] text-red-200/60">Forge edition</span>
+      <span className="font-mono text-xs text-stone-600">React / TypeScript / Tailwind</span>
     </div>
   </footer>
 );
