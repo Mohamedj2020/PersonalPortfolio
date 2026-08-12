@@ -44,8 +44,7 @@ const Sidebar = () => {
           />
 
           <div className="pt-1">
-            <p className="font-mono text-xs text-red-200/70">{personalData.location}</p>
-            <h1 className="mt-2 text-4xl font-semibold tracking-[-0.04em] text-stone-50 sm:text-5xl">
+            <h1 className="text-4xl font-semibold tracking-[-0.04em] text-stone-50 sm:text-5xl">
               {personalData.name}
             </h1>
             <p className="mt-2 text-base text-stone-300">{personalData.title}</p>
@@ -53,9 +52,9 @@ const Sidebar = () => {
         </div>
 
         <p className="mt-8 max-w-xl text-[15px] leading-8 text-stone-300">
-          I'm a computer science student at Ohio State building software across product, systems,
-          and tooling. I care about clean execution, strong fundamentals, and work that feels useful
-          to real people.
+          I study computer science at Ohio State and like building software that is practical,
+          reliable, and easy to maintain. Most of my recent work has been around full-stack apps,
+          backend systems, and developer tooling.
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
@@ -63,8 +62,8 @@ const Sidebar = () => {
             <p className="font-mono text-xs text-red-200/70">Current</p>
             <h2 className="mt-3 text-xl font-semibold leading-7 text-stone-50">{personalData.currentRole}</h2>
             <p className="mt-3 text-sm leading-7 text-stone-400">
-              Interested in backend systems, full-stack product work, and the kind of engineering
-              that gets stronger as the requirements get messier.
+              Right now I&apos;m focused on learning how strong engineering teams build reliable
+              software and ship clean product work at scale.
             </p>
           </div>
 
