@@ -1,0 +1,57 @@
+---
+title: "Introduction"
+description: "Overview of Mohamed Jirac's personal portfolio website — a React, TypeScript, and Tailwind CSS application deployed on Vercel."
+---
+
+# Portfolio documentation
+
+This is the documentation for [mohamedjirac.dev](https://mohamedjirac.dev), a modern single-page portfolio website built with **React 19**, **TypeScript**, and **Tailwind CSS**.
+
+The site showcases professional experience, technical projects, skills, certifications, and a contact form — all driven by a single data file and rendered through modular React components.
+
+## What the portfolio includes
+
+<CardGroup cols={2}>
+  <Card title="About & education" icon="user">
+    Bio, education details, and a personal photo section.
+  </Card>
+  <Card title="Work experience" icon="briefcase">
+    Expandable cards for each role with highlights, skills, and multi-role support.
+  </Card>
+  <Card title="Projects" icon="code">
+    Project showcase with thumbnails, descriptions, and technology tags linking to GitHub.
+  </Card>
+  <Card title="Skills & credentials" icon="graduation-cap">
+    Technical skills organized by category, plus tabbed views for coursework, certifications, and leadership.
+  </Card>
+</CardGroup>
+
+## Tech stack
+
+| Layer        | Technology                          |
+| ------------ | ----------------------------------- |
+| Framework    | React 19 with TypeScript            |
+| Styling      | Tailwind CSS 3.4                    |
+| Animations   | Framer Motion, CSS scroll animations |
+| Contact form | Formspree (`@formspree/react`)      |
+| Icons        | React Icons                         |
+| Analytics    | Vercel Analytics & Speed Insights   |
+| Deployment   | Vercel                              |
+
+## Key design decisions
+
+- **Single data source** — All content lives in `src/data.ts`. Update text, experience, and projects without touching components.
+- **Scroll-triggered animations** — Sections fade in as they enter the viewport using an `IntersectionObserver`.
+- **Dark theme** — A zinc-based dark palette with emerald accents, designed for readability.
+- **Responsive layout** — Sidebar-plus-content layout on desktop, stacked on mobile.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Getting started" icon="rocket" href="/getting-started">
+    Clone the repo, install dependencies, and run the dev server.
+  </Card>
+  <Card title="Project structure" icon="folder-tree" href="/project-structure">
+    Understand how files and folders are organized.
+  </Card>
+</CardGroup>

@@ -1,0 +1,151 @@
+---
+title: "Components"
+description: "A guide to each React component that makes up the portfolio, including props, behavior, and how they connect."
+---
+
+The portfolio is composed of focused, single-responsibility components. Each renders one section of the page and pulls its data from `src/data.ts`.
+
+## App
+
+The root component in `App.tsx` handles two things:
+
+1. **Scroll animation setup** — Creates an `IntersectionObserver` that adds a `visible` class to elements with the `scroll-fade` class when they enter the viewport.
+2. **Layout** — Renders a two-column layout: `Sidebar` on the left and all content sections on the right.
+
+```tsx
+<div className="lg:flex lg:justify-between lg:gap-12">
+  <Sidebar />
+  <main>
+    <About />
+    <Experience />
+    <ProjectsNew />
+    <Skills />
+    <ContactNew />
+    <Footer />
+  </main>
+</div>
+```
+
+## Sidebar
+
+**File:** `src/components/Sidebar.tsx`
+
+A sticky sidebar (on desktop) that contains:
+
+- **Profile image and name** from `personalData`
+- **Typing animation** — Cycles through roles like "Developer", "Student", "Designer" with a typewriter effect
+- **Navigation links** — Smooth-scrolling anchor links to each section
+- **Active section indicator** — Highlights the current section using an `IntersectionObserver`
+- **Social links and resume button**
+
+The typing animation uses `useState` and `useEffect` to progressively type and delete role strings with configurable speeds:
+
+| Parameter  | Value |
+| ---------- | ----- |
+| Type speed | 100ms per character |
+| Delete speed | 50ms per character |
+| Pause between roles | 2000ms |
+
+## About
+
+**File:** `src/components/About.tsx`
+
+Renders two subsections from `aboutData`:
+
+1. **Education** — Degree, school, and expected graduation date
+2. **About me** — A photo and bio paragraph
+
+## Work (experience)
+
+**File:** `src/components/Work.tsx`
+
+Displays work experience cards with two variants:
+
+<Tabs>
+  <Tab title="Single-role card">
+    For positions with one role (most entries). Click to expand and see:
+    - Description
+    - Bullet-point highlights
+    - Skill tags
+  </Tab>
+  <Tab title="Multi-role card">
+    For organizations where you held multiple roles (like JPMorgan Chase). Expands to show a timeline of roles, each with its own description, highlights, and skills.
+  </Tab>
+</Tabs>
+
+Each card includes:
+- Organization logo with a fallback to initials if the image fails to load
+- Role title, period, and organization name
+- Expand/collapse toggle with a chevron animation
+
+## ProjectsNew
+
+**File:** `src/components/ProjectsNew.tsx`
+
+A vertically stacked list of project cards. Each card links to the GitHub repository and displays:
+
+- Thumbnail image
+- Project title with an external link arrow
+- Description
+- Technology tags as colored pills
+
+Projects are rendered from the `projectsData` array with staggered fade-in animations (100ms delay between each).
+
+## Skills
+
+**File:** `src/components/Skills.tsx`
+
+Two distinct sections:
+
+### Technical skills
+
+Renders `skillsData` as categorized tag groups. Each category (Languages, Frontend, Backend, Database, Tools) has a color theme applied to its tags:
+
+| Category | Color   |
+| -------- | ------- |
+| Languages | Blue   |
+| Frontend | Emerald |
+| Backend  | Purple  |
+| Database | Rose    |
+| Tools    | Amber   |
+
+### Credentials tabs
+
+A tabbed interface with three views:
+
+- **Coursework** — A grid of completed course names
+- **Certs** — Certification cards with issuer, date, and credential links
+- **Leadership** — Organization memberships with role descriptions
+
+## ContactNew
+
+**File:** `src/components/ContactNew.tsx`
+
+A contact form powered by [Formspree](https://formspree.io/). Fields include name, email, and message, all with validation errors displayed inline. On successful submission, shows a confirmation message.
+
+The form ID is read from the `REACT_APP_FORMSPREE_ID` environment variable with a fallback default.
+
+## Footer
+
+**File:** `src/components/Footer.tsx`
+
+A simple footer at the bottom of the page.
+
+## Scroll animations
+
+All sections use the `scroll-fade` CSS class, which starts elements as invisible and translated. The `IntersectionObserver` in `App.tsx` adds a `visible` class to trigger a CSS transition:
+
+```css
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+```
+
+Individual elements use `transitionDelay` inline styles to create staggered reveal effects within a section.

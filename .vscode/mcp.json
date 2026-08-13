@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "mintlify": {
+      "type": "sse",
+      "url": "https://mintlify.com/docs/mcp"
+    }
+  }
+}
